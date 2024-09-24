@@ -5,8 +5,12 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
+  imageUrl: string;
   role: string;
   isVerified : boolean;
+  servers : mongoose.Schema.Types.ObjectId[];
+  members : mongoose.Schema.Types.ObjectId[];
+  channels : mongoose.Schema.Types.ObjectId[];
 }
 
 const UserSchema : Schema<User> = new Schema({
@@ -30,6 +34,9 @@ const UserSchema : Schema<User> = new Schema({
     type: String,
     required: [true, "Password is required..!"],
   },
+  imageUrl: {
+    type : String,
+  },
   role: {
     type: String,
     enum: ["user", "admin"],
@@ -38,7 +45,19 @@ const UserSchema : Schema<User> = new Schema({
   isVerified : {
     type : Boolean,
     default : false
-  }
+  },
+  servers : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Server"
+  }],
+  members : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Member"
+  }],
+  channels : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Channel"
+  }]
 }, {timestamps : true});
 
 const UserModel = mongoose.models.User as mongoose.Model<User> || mongoose.model<User>("User", UserSchema);
