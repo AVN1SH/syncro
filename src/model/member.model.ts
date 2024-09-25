@@ -3,7 +3,7 @@ import mongoose, {Schema, Document} from "mongoose";
 interface Member extends Document {
   role : "admin" | "moderator" | "guest";
   user : mongoose.Schema.Types.ObjectId;
-  server : mongoose.Schema.Types.ObjectId;
+  connection : mongoose.Schema.Types.ObjectId;
 }
 
 const MemberSchema : Schema<Member> = new Schema({
@@ -17,9 +17,9 @@ const MemberSchema : Schema<Member> = new Schema({
     ref : "User",
     required : true
   },
-  server : {
+  connection : {
     type : mongoose.Schema.Types.ObjectId,
-    ref : "Server",
+    ref : "Connection",
     required : true
   },
 }, {timestamps : true});

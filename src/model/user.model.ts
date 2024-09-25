@@ -8,9 +8,9 @@ export interface User extends Document {
   imageUrl: string;
   role: string;
   isVerified : boolean;
-  servers : mongoose.Schema.Types.ObjectId[];
+  connections : mongoose.Schema.Types.ObjectId[];
   members : mongoose.Schema.Types.ObjectId[];
-  channels : mongoose.Schema.Types.ObjectId[];
+  threads : mongoose.Schema.Types.ObjectId[];
 }
 
 const UserSchema : Schema<User> = new Schema({
@@ -46,17 +46,17 @@ const UserSchema : Schema<User> = new Schema({
     type : Boolean,
     default : false
   },
-  servers : [{
+  connections : [{
     type : mongoose.Schema.Types.ObjectId,
-    ref : "Server"
+    ref : "Connections"
   }],
   members : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "Member"
   }],
-  channels : [{
+  threads : [{
     type : mongoose.Schema.Types.ObjectId,
-    ref : "Channel"
+    ref : "Thread"
   }]
 }, {timestamps : true});
 

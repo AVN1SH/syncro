@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface Server extends Document {
+export interface Connection extends Document {
   name : string;
   description ?: string;
   imageUrl : string;
@@ -8,13 +8,13 @@ export interface Server extends Document {
   isPrivate: boolean;
   user : mongoose.Schema.Types.ObjectId;
   members : mongoose.Schema.Types.ObjectId[];
-  channels: mongoose.Schema.Types.ObjectId[];
+  threads: mongoose.Schema.Types.ObjectId[];
 }
 
-const ServerSchema : Schema<Server> = new Schema({
+const ConnectionSchema : Schema<Connection> = new Schema({
   name : {
     type : String,
-    required : [true, "Server name is required..!"]
+    required : [true, "Connection name is required..!"]
   },
   description : {
     type : String,
@@ -32,9 +32,9 @@ const ServerSchema : Schema<Server> = new Schema({
     ref : "User",
     required : true
   },
-  channels : [{
+  threads : [{
     type : mongoose.Schema.Types.ObjectId,
-    ref : "Channel"
+    ref : "Thread"
   }],
   isPrivate : {
     type : Boolean,
@@ -46,6 +46,6 @@ const ServerSchema : Schema<Server> = new Schema({
   }]
 }, {timestamps : true});
 
-const ServerModel = mongoose.models.Server || mongoose.model<Server>("Server", ServerSchema); 
+const ConnectionModel = mongoose.models.Connection || mongoose.model<Connection>("Connection", ConnectionSchema); 
 
-export default ServerModel;
+export default ConnectionModel;
