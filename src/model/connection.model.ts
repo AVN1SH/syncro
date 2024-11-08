@@ -3,7 +3,8 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface Connection extends Document {
   name : string;
   description ?: string;
-  imageUrl : string;
+  profilePhotoUrl : string;
+  bannerPhotoUrl : string;
   inviteCode : string;
   isPrivate: boolean;
   user : mongoose.Schema.Types.ObjectId;
@@ -19,13 +20,20 @@ const ConnectionSchema : Schema<Connection> = new Schema({
   description : {
     type : String,
   },
-  imageUrl : {
+  profilePhotoUrl : {
+    type : String,
+  },
+  bannerPhotoUrl : {
     type : String,
   },
   inviteCode : {
     type : String,
     required : true,
     unique : true
+  },
+  isPrivate : {
+    type : Boolean,
+    default : false
   },
   user : {
     type : mongoose.Schema.Types.ObjectId,
@@ -36,10 +44,6 @@ const ConnectionSchema : Schema<Connection> = new Schema({
     type : mongoose.Schema.Types.ObjectId,
     ref : "Thread"
   }],
-  isPrivate : {
-    type : Boolean,
-    default : false
-  },
   members : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "Member"
