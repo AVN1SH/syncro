@@ -10,6 +10,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import SideNavigationItems from './SideNavigationItems';
 import { connection } from 'mongoose';
 import { ConnectionType } from '@/types/modelTypes';
+import StoreProvider from '@/store/StoreProvider';
 
 const NavigationSidebar = async () => {
   await dbConnect();
@@ -24,7 +25,9 @@ const NavigationSidebar = async () => {
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1e1f22] bg-[#F2F3F5] py-3">
-      <NavigationAction />
+      <StoreProvider>
+        <NavigationAction />
+      </StoreProvider>
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       {connections.length === 0 && <InitialConnection  />}
       
