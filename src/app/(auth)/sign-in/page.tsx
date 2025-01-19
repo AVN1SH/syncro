@@ -24,6 +24,7 @@ import { faEye, faEyeSlash, faGraduationCap, faMessage, faRotate } from "@fortaw
 import { toast } from "sonner"
 import { signIn, useSession } from "next-auth/react"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
+import { currentUser } from "@/lib/currentUser"
 
 
 const page = () => {
@@ -64,7 +65,7 @@ const page = () => {
               onClick: () => console.log(''),
             },
           })
-          router.push("/dashboard");
+          router.push("/connections");
         }
       })
       setIsSubmitting(false);
@@ -86,7 +87,7 @@ const page = () => {
         if(res?.error) {
           setError(res.error);
         } else {
-          router.push("/dashboard");
+          router.push("/connections");
         }
       })
       setGoogleSubmitting(false);
@@ -169,7 +170,9 @@ const page = () => {
       </div>
       <div className="w-100px">
         <div className="p-[2px] rounded-full overflow-hidden">
-          <button className="relative bg-slate-200 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 before:absolute before:w-[230px] before:h-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:-z-10 before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-200 duration-500" ><img className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-slate-600 font-bold text-[16px] ">Sign-In with Google</span></button>
+          <button className="relative bg-slate-200 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 before:absolute before:w-[230px] before:h-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:-z-10 before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-200 duration-500" 
+          onClick={googleSubmit}
+          ><img className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-slate-600 font-bold text-[16px] ">Sign-In with Google</span></button>
         </div>
       </div>
     </div>

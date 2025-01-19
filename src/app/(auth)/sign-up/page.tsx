@@ -20,7 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEye, faEyeSlash, faGraduationCap, faMessage, faRotate } from "@fortawesome/free-solid-svg-icons"
+import { faEye, faEyeSlash, faRotate } from "@fortawesome/free-solid-svg-icons"
 import { toast } from "sonner"
 import axios from "axios";
 
@@ -59,8 +59,8 @@ const page = () => {
     defaultValues: {
       name : '',
       username : '',
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   })
 
@@ -75,7 +75,7 @@ const page = () => {
         confirmPassword : values.confirmPassword
       });
       if(response) {
-        router.push("/log-in");
+        router.push("/sign-in");
         setError('');
         toast("Registred Successfully..!", {
           description : "Login to Continue access your dashboard.",
@@ -94,10 +94,6 @@ const page = () => {
       setIsSubmitting(false);
     }
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen">
