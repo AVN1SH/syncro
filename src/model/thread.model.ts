@@ -1,9 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { Connection } from "./connection.model";
+import { User } from "./user.model";
 
-interface Thread extends Document {
+export interface Thread extends Document {
   name : string;
-  user: mongoose.Schema.Types.ObjectId;
-  connection: mongoose.Schema.Types.ObjectId;
+  user: User;
+  connection: Connection;
   type: "text" | "voice" | "video";
 }
 

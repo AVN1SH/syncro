@@ -1,4 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { Thread } from "./thread.model";
+import { Member } from "./member.model";
+import { User } from "./user.model";
 
 export interface Connection extends Document {
   name : string;
@@ -7,9 +10,9 @@ export interface Connection extends Document {
   bannerPhotoUrl : string;
   inviteCode : string;
   isPrivate: boolean;
-  user : mongoose.Schema.Types.ObjectId;
-  members : mongoose.Schema.Types.ObjectId[];
-  threads: mongoose.Schema.Types.ObjectId[];
+  user : User;
+  members : Member[];
+  threads: Thread[];
 }
 
 const ConnectionSchema : Schema<Connection> = new Schema({
@@ -38,7 +41,7 @@ const ConnectionSchema : Schema<Connection> = new Schema({
   user : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "User",
-    required : true
+    required : true,
   },
   threads : [{
     type : mongoose.Schema.Types.ObjectId,

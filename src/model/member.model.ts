@@ -1,9 +1,11 @@
 import mongoose, {Schema, Document} from "mongoose";
+import { User } from "./user.model";
+import { Connection } from "./connection.model";
 
-interface Member extends Document {
+export interface Member extends Document {
   role : "admin" | "moderator" | "guest";
-  user : mongoose.Schema.Types.ObjectId;
-  connection : mongoose.Schema.Types.ObjectId;
+  user : User;
+  connection : Connection;
 }
 
 const MemberSchema : Schema<Member> = new Schema({

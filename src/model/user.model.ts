@@ -1,4 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { Connection } from "./connection.model";
+import { Member } from "./member.model";
+import { Thread } from "./thread.model";
 
 export interface User extends Document {
   name: string;
@@ -8,9 +11,9 @@ export interface User extends Document {
   imageUrl: string;
   role: string;
   isVerified : boolean;
-  connections : mongoose.Schema.Types.ObjectId[];
-  members : mongoose.Schema.Types.ObjectId[];
-  threads : mongoose.Schema.Types.ObjectId[];
+  connections : Connection[];
+  members : Member[];
+  threads : Thread[];
 }
 
 const UserSchema : Schema<User> = new Schema({
