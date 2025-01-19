@@ -6,6 +6,8 @@ type ConnectionType = "createConnection" | "invite" | "editConnection" | "";
 interface ConnectionData {
   connectionId ?: string;
   inviteCode ?: string;
+  profilePhotoUrl ?: string;
+  connectionName ?: string;
 }
 
 export interface CreateConnection {

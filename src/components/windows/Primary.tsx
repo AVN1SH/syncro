@@ -72,6 +72,7 @@ const Primary = async ({connectionId} : Props) => {
           role={role}
           inviteCode={connection.inviteCode}
           connectionId={connectionId}
+          profilePhotoUrl={connection.profilePhotoUrl}
         />
       </StoreProvider>
       {/* <div className="border-solid border-zinc-900 border-b-[2px] h-[50px] w-full"> */}

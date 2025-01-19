@@ -15,6 +15,7 @@ interface Props {
   role ?: Member["role"];
   inviteCode : string;
   connectionId : string;
+  profilePhotoUrl : string;
 }
 
 const PrimaryWindowHeader = ({
@@ -22,6 +23,7 @@ const PrimaryWindowHeader = ({
   role,
   inviteCode,
   connectionId,
+  profilePhotoUrl
 } : Props) => {
 
   const dispatch = useDispatch();
@@ -71,10 +73,22 @@ const PrimaryWindowHeader = ({
               </DropdownMenuItem>
             )}
 
-            {isAdmin && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group">
-              <FontAwesomeIcon icon={faGears} className="mr-4 group-hover:mr-5 group-hover:text-lg transition-[2s_ease-in-out]" />
-              Connection Settings
-            </DropdownMenuItem>}
+            {isAdmin && (
+              <DropdownMenuItem 
+                onClick={() => dispatch(onOpen({
+                  type : "editConnection",
+                  data : {
+                    connectionId,
+                    connectionName,
+                    profilePhotoUrl
+                  }
+                }))}
+                className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group"
+              >
+                <FontAwesomeIcon icon={faGears} className="mr-4 group-hover:mr-5 group-hover:text-lg transition-[2s_ease-in-out]" />
+                Connection Settings
+              </DropdownMenuItem>
+            )}
 
             {isAdmin && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group">
               <FontAwesomeIcon icon={faUserGroup} className="mr-4 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />

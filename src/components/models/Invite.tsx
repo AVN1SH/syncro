@@ -57,7 +57,7 @@ const Invite = () => {
   }
 
   useEffect(() => {
-    if(isOpen) {
+    if(isOpen && type === "invite") {
       setModelOpen(true);
     }
   }, [isOpen]);

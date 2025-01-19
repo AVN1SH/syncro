@@ -4,7 +4,8 @@ import CreateConnection from "@/components/models/CreateConnection";
 import StoreProvider from "@/store/StoreProvider";
 import { useEffect, useState } from "react";
 import Layout from "@/app/layout"
-import Invite from "../models/Invite";
+import Invite from "@/components/models/Invite";
+import EditConnection from "@/components/models/EditConnection";
 
 const ModelProvider = () => {
 
@@ -23,6 +24,7 @@ const ModelProvider = () => {
       <StoreProvider>
         <CreateConnection />
         <Invite />
+        <EditConnection />
       </StoreProvider>
     </div>
   )

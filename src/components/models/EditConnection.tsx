@@ -24,7 +24,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import FileUpload from "../FileUpload"
 import { Loader2 } from "lucide-react"
@@ -36,16 +36,15 @@ import { onClose } from "@/features/modelSlice"
 import { useRouter } from "next/navigation"
 // import { useAppSelector } from "@/hooks/storeHooks"
 
-interface Props {
-  children? : React.ReactNode;
-}
 
-const CreateConnection = ({children} : Props) => {
+const EditConnection = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const session = useSession();
-  const { isOpen, type } = useSelector((state : RootState) => state.createConnectionSlice);
-  const isModelOpen = isOpen && type === "createConnection";
+  const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
+  const isModelOpen = isOpen && type === "editConnection";
+  const [modelOpen, setModelOpen] = useState(isModelOpen);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -58,11 +57,19 @@ const CreateConnection = ({children} : Props) => {
     }
   });
 
+  useEffect(() => {
+    console.log(data);
+    if(data){
+      form.setValue("name", data.connectionName || "");
+      form.setValue("profilePhotoUrl", data.profilePhotoUrl);
+    }
+  }, [data, form])
+
   const onSubmit = async (values: z.infer<typeof newConnection>) => {
     setIsSubmitting(true);
     try {
       console.log(session)
-      const response = await axios.post("/api/new-connection", {
+      const response = await axios.patch(`/api/connections/${data.connectionId}`, {
         name: values.name,
         profilePhotoUrl: values.profilePhotoUrl
       });
@@ -93,11 +100,18 @@ const CreateConnection = ({children} : Props) => {
   const handleClose = () => {
     form.reset();
     dispatch(onClose());
-    console.log(isModelOpen)
+    setModelOpen(false);
   }
+
+  useEffect(() => {
+    if(isOpen && type === "editConnection") {
+      setModelOpen(true);
+    }
+  }, [isOpen]);
+
   return (
     <div>
-      <Dialog open={isModelOpen} onOpenChange={handleClose}>
+      <Dialog open={modelOpen} onOpenChange={handleClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Customize your connection</DialogTitle>
@@ -161,7 +175,7 @@ const CreateConnection = ({children} : Props) => {
                 isSubmiting ? (
                   <><Loader2 className="mr-2 h4 w4 animate-spin"/> Please wait</>
                 ) : (
-                  "Create Connection"
+                  "Save Connection"
                 )
               }
             </Button>
@@ -172,4 +186,4 @@ const CreateConnection = ({children} : Props) => {
   )
 }
 
-export default CreateConnection;
+export default EditConnection;
