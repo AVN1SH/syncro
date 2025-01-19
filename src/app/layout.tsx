@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import ModelProvider from "@/components/providers/ModelProvider";
 import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
@@ -15,6 +17,8 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+const inter = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Syncro (The Chat App)",
@@ -30,7 +34,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <AuthProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${inter.className} dark:bg-[#313338]`}
         >
           <ThemeProvider
             attribute="class"
@@ -38,6 +42,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="syncro-theme"
           >
+            <ModelProvider />
             {children}
             <Toaster />
           </ThemeProvider>

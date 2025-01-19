@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import createConnectionSlice, { onOpen, onClose, CreateConnection } from "@/features/createConnectionSlice";
+import createConnectionSlice, { onOpen, onClose, CreateConnection } from "@/features/modelSlice";
 
 export interface RootState {
   createConnectionSlice : CreateConnection;

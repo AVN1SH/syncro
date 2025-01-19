@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { currentUser } from '@/lib/currentUser';
 import { redirect } from 'next/navigation';
 import dbConnect from '@/lib/dbConnect';
@@ -8,11 +8,12 @@ import ConnectionModel from '@/model/connection.model';
 import InitialConnection from '../models/InitialConnection';
 import { ScrollArea } from '../ui/scroll-area';
 import SideNavigationItems from './SideNavigationItems';
-import { connection } from 'mongoose';
+import mongoose, { connection } from 'mongoose';
 import { ConnectionType } from '@/types/modelTypes';
 import StoreProvider from '@/store/StoreProvider';
 
 const NavigationSidebar = async () => {
+
   await dbConnect();
 
   const user = await currentUser();
@@ -21,7 +22,31 @@ const NavigationSidebar = async () => {
     return redirect("/sign-in");
   }
   
-  const connections : ConnectionType[] = await ConnectionModel.find({members : user._id}).lean<ConnectionType[]>().exec();
+  // const connections : ConnectionType[] = await ConnectionModel.find({members : user._id}).lean<ConnectionType[]>().exec();
+
+  // const connections : ConnectionType[] = await ConnectionModel.find().populate({
+  //   path : "members",
+  //   match : {user : new mongoose.Types.ObjectId(user._id as string)}
+  // })
+
+  // const filteredConnections = connections.filter((connection) => connection.members.length > 0);
+
+  const connections = await ConnectionModel.aggregate([
+    {
+      $lookup: {
+        from: "members",
+        localField: "members",
+        foreignField: "_id",
+        as: "members",
+      },
+    },
+    {
+      $match: {
+        "members.user": new mongoose.Types.ObjectId(user._id as string),
+      },
+    },
+  ]);
+  console.log("connections agg", connections)
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1e1f22] bg-[#F2F3F5] py-3">
@@ -32,12 +57,13 @@ const NavigationSidebar = async () => {
       {connections.length === 0 && <InitialConnection  />}
       
       <ScrollArea className="flex-1 w-full">
-        {connections.map((connection) => (
+        {connections && connections.map((connection) => (
           <div key={connection._id.toString()} className="mb-4">
             <SideNavigationItems 
               id={connection._id.toString()}
               imageUrl={connection.profilePhotoUrl}
               name={connection.name}
+              active={connections[0] ? true : false}
             />
           </div>
         ))}

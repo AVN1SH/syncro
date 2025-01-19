@@ -5,15 +5,17 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils"
 import ActionTooltip from '../action-tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   id : string;
   imageUrl : string;
   name : string;
+  active : boolean;
 }
 
 const SideNavigationItems = ({id, imageUrl, name} : Props) => {
-
   const params = useParams();
   const router = useRouter();
 
@@ -34,8 +36,8 @@ const SideNavigationItems = ({id, imageUrl, name} : Props) => {
       >
         <div className={`
         absolute left-0 bg-primary rounded-r-full transition-all w-[4px]
-        ${params?.connectionId !== id && "group-hover:h-[20px]"}
-        ${params?.connectionId === id ? "h-[36px]" : "h-[8px]"}
+        ${params?.id !== id && "group-hover:h-[20px]"}
+        ${params?.id === id ? "h-[36px]" : "h-[8px]"}
         `} />
 
         <div
@@ -43,7 +45,10 @@ const SideNavigationItems = ({id, imageUrl, name} : Props) => {
           ${params?.connectionId === id && "bg-primary/10 text-primary rounded-[16px]"}
           `}
         >
-          <img src={imageUrl} className="object-cover" alt="Channel" />
+          { imageUrl 
+            ? <img src={imageUrl} className="object-cover" alt="Channel" />
+            : <FontAwesomeIcon icon={faUser} size="2xl" className='bg-zinc-700 p-2'/> 
+          }
           
         </div>
       </button>

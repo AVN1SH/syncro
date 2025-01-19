@@ -1,13 +1,25 @@
+import { Connection } from "@/model/connection.model";
 import { createSlice } from "@reduxjs/toolkit";
+
+type ConnectionType = "createConnection" | "invite" | "editConnection" | "";
+
+interface ConnectionData {
+  connectionId ?: string;
+  inviteCode ?: string;
+}
 
 export interface CreateConnection {
   isOpen : boolean;
-  type : string;
+  type : ConnectionType;
+  data  : ConnectionData;
+  onOpen ?: (type : ConnectionType, data? : ConnectionData) => void; 
+  onClose ?: () => void; 
 }
 
 const initialState : CreateConnection = {
   isOpen : false,
   type : '',
+  data : {}
 }
 
 const createConnectionSlice = createSlice({
@@ -16,12 +28,13 @@ const createConnectionSlice = createSlice({
   reducers : {
     onOpen : (state, action) => {
       state.isOpen = true;
-      state.type = action.payload;
+      state.type = action.payload.type;
+      state.data = action.payload.data;
     },
     onClose : (state) => {
-      console.log("hello2")
       state.isOpen = false;
       state.type = '';
+      state.data = {};
     }
   }
 });
