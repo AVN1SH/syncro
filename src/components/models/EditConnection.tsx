@@ -58,7 +58,6 @@ const EditConnection = () => {
   });
 
   useEffect(() => {
-    console.log(data);
     if(data){
       form.setValue("name", data.connectionName || "");
       form.setValue("profilePhotoUrl", data.profilePhotoUrl);
@@ -68,7 +67,6 @@ const EditConnection = () => {
   const onSubmit = async (values: z.infer<typeof newConnection>) => {
     setIsSubmitting(true);
     try {
-      console.log(session)
       const response = await axios.patch(`/api/connections/${data.connectionId}`, {
         name: values.name,
         profilePhotoUrl: values.profilePhotoUrl

@@ -15,6 +15,8 @@ import ThreadModel, { Thread } from "@/model/thread.model"
 import MemberModel, { Member } from "@/model/member.model"
 import PrimaryWindowHeader from "../connections/PrimaryWindowHeader"
 import StoreProvider from "@/store/StoreProvider"
+import { ConnectionThreadMemberUser, ConnectionWithMembersWithUsers, MemberWithUser } from "@/types"
+import { serializeData } from "@/lib/serialized"
 
 interface Props {
   connectionId : string;
@@ -35,18 +37,21 @@ const Primary = async ({connectionId} : Props) => {
   // })
 
   
-  const connection : Connection = await ConnectionModel.findById(connectionId)
+  const connection : ConnectionThreadMemberUser | null = serializeData(await ConnectionModel.findById(connectionId)
   .populate({
     path : "threads",
     options : {sort : {createdAt : "asc"}}
   })
   .populate({
     path : "members",
-    options : {sort : {role : "asc"}}
-  })
+    options : {sort : {role : "asc"}},
+    populate: {
+      path: "user",
+      select: "name email imageUrl",
+    }
+  }).lean() as ConnectionThreadMemberUser | null);
 
-
-  const textThreads = connection?.threads.filter((thread) => thread.type === "text");
+  const textThreads = connection?.threads.filter((thread : Thread) => thread.type === "text");
   const voiceThreads = connection?.threads.filter((thread : Thread) => thread.type === "voice");
 
   const videoThreads = connection?.threads.filter((thread : Thread) => thread.type === "video");
@@ -58,7 +63,7 @@ const Primary = async ({connectionId} : Props) => {
     return redirect("/connections"); 
   }
 
-  const role = connection.members.find((member : Member) =>String(member.user) === user?._id)?.role;
+  const role = connection.members.find((member : MemberWithUser) =>String(member.user._id) === user?._id)?.role;
   // console.log(connection)
 
 
@@ -73,6 +78,8 @@ const Primary = async ({connectionId} : Props) => {
           inviteCode={connection.inviteCode}
           connectionId={connectionId}
           profilePhotoUrl={connection.profilePhotoUrl}
+          connectionMembers={connection.members}
+          connectionUserId={connection.user}
         />
       </StoreProvider>
       {/* <div className="border-solid border-zinc-900 border-b-[2px] h-[50px] w-full"> */}

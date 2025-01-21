@@ -4,6 +4,8 @@ import { apiResponse } from "@/utils/apiResponse";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import UserModel from "@/model/user.model";
+import MemberModel from "@/model/member.model";
+import { DBConnection, DBMember } from "@/types";
 
 export const generateInviteCode = () : string => {
   const inviteCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -32,7 +34,7 @@ export async function POST(request : Request) {
     const inviteCode = generateInviteCode();
 
     //creating new connection in database.
-    const connection = await ConnectionModel.create({
+    const connection : DBConnection= await ConnectionModel.create({
       name,
       description : description || '',
       profilePhotoUrl,
@@ -41,20 +43,29 @@ export async function POST(request : Request) {
       isPrivate : false,
       user: session.user._id,
       threads : [],
-      members : [session.user._id]
+      members : []
     });
+
+    //creating first member as admin
+    
+    const member : DBMember = await MemberModel.create({
+      role : "admin",
+      user : session.user._id,
+      connection : connection._id
+    })
 
     //adding connection to user connections.
     await UserModel.findByIdAndUpdate(session.user._id, {
       $push : {
-        connections : connection._id
+        connections : connection._id,
+        members : member._id
       }
     });
 
     //adding user to connection members.
     await ConnectionModel.findByIdAndUpdate(connection._id, {
       $push : {
-        members : session.user._id
+        members : member._id
       }
     });
 

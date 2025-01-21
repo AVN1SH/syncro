@@ -8,7 +8,7 @@ import ConnectionModel from '@/model/connection.model';
 import InitialConnection from '../models/InitialConnection';
 import { ScrollArea } from '../ui/scroll-area';
 import SideNavigationItems from './SideNavigationItems';
-import mongoose, { connection } from 'mongoose';
+import mongoose from 'mongoose';
 import { ConnectionType } from '@/types/modelTypes';
 import StoreProvider from '@/store/StoreProvider';
 
@@ -46,7 +46,6 @@ const NavigationSidebar = async () => {
       },
     },
   ]);
-  console.log("connections agg", connections)
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1e1f22] bg-[#F2F3F5] py-3">

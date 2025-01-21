@@ -1,13 +1,18 @@
 import { Connection } from "@/model/connection.model";
+import { Member } from "@/model/member.model";
+import { ConnectionThreadMemberUser, DBMember, DBUser, MemberWithUser } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
+import mongoose, { Types } from "mongoose";
 
-type ConnectionType = "createConnection" | "invite" | "editConnection" | "";
+type ConnectionType = "createConnection" | "invite" | "editConnection" | "members" | "";
 
 interface ConnectionData {
   connectionId ?: string;
   inviteCode ?: string;
   profilePhotoUrl ?: string;
   connectionName ?: string;
+  connectionMembers ?: MemberWithUser[];
+  connectionUserId ?: mongoose.Schema.Types.ObjectId;
 }
 
 export interface CreateConnection {

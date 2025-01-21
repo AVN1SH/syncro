@@ -4,8 +4,8 @@ import { User } from "./user.model";
 
 export interface Thread extends Document {
   name : string;
-  user: User;
-  connection: Connection;
+  user: mongoose.Schema.Types.ObjectId;
+  connection: mongoose.Schema.Types.ObjectId;
   type: "text" | "voice" | "video";
 }
 

@@ -1,11 +1,12 @@
 import mongoose, {Schema, Document} from "mongoose";
 import { User } from "./user.model";
 import { Connection } from "./connection.model";
+import { deleteMemeberMiddleware } from "@/middleware/deleteMember.middleware";
 
 export interface Member extends Document {
   role : "admin" | "moderator" | "guest";
-  user : User;
-  connection : Connection;
+  user : mongoose.Schema.Types.ObjectId;
+  connection : mongoose.Schema.Types.ObjectId;
 }
 
 const MemberSchema : Schema<Member> = new Schema({

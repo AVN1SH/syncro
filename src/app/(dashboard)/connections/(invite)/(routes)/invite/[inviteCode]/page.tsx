@@ -65,9 +65,8 @@ const InviteCodePage = async ({
 
   const connection = await ConnectionModel.findOne({ inviteCode: params.inviteCode });
 
-  console.log("connection", connection);
   if(!connection) return redirect("/connections")
-  console.log("hello")
+  
   const newMember = await MemberModel.create({
     user: user._id,
     role: "guest",

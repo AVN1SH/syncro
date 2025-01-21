@@ -2,13 +2,14 @@
 import React, { ReactNode, useEffect } from 'react'
 import { faBolt, faCommentDots, faCommentSms, faFile, faGears, faHandshakeAngle, faIdBadge, faMessage, faPlusCircle, faSadCry, faShareNodes, faSignOut, faSmile, faTrash, faUserGroup, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { ConnectionWithMembersWithUsers } from '@/types'
+import { ConnectionWithMembersWithUsers, DBMember } from '@/types'
 import { Member } from '@/model/member.model'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { ChevronDown } from 'lucide-react'
 import { faThreads } from '@fortawesome/free-brands-svg-icons'
 import { useDispatch } from 'react-redux'
 import { onOpen } from '@/features/modelSlice'
+import mongoose, { Types } from 'mongoose'
 
 interface Props {
   connectionName : string;
@@ -16,6 +17,8 @@ interface Props {
   inviteCode : string;
   connectionId : string;
   profilePhotoUrl : string;
+  connectionMembers : DBMember[];
+  connectionUserId : mongoose.Schema.Types.ObjectId;
 }
 
 const PrimaryWindowHeader = ({
@@ -23,7 +26,9 @@ const PrimaryWindowHeader = ({
   role,
   inviteCode,
   connectionId,
-  profilePhotoUrl
+  profilePhotoUrl,
+  connectionMembers,
+  connectionUserId
 } : Props) => {
 
   const dispatch = useDispatch();
@@ -90,10 +95,22 @@ const PrimaryWindowHeader = ({
               </DropdownMenuItem>
             )}
 
-            {isAdmin && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group">
-              <FontAwesomeIcon icon={faUserGroup} className="mr-4 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />
-              Manage Members
-            </DropdownMenuItem>}
+            {isAdmin && (
+              <DropdownMenuItem 
+                onClick={() => dispatch(onOpen({
+                  type : "members",
+                  data : {
+                    connectionId,
+                    connectionMembers,
+                    connectionUserId
+                  }
+                }))}
+                className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group"
+              >
+                <FontAwesomeIcon icon={faUserGroup} className="mr-4 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />
+                Manage Members
+              </DropdownMenuItem>
+            )}
 
             {isModerator && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group">
               <FontAwesomeIcon icon={faPlusCircle} className="mr-5 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />

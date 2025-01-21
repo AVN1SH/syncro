@@ -8,7 +8,6 @@ export async function GET(request : Request) {
 
   const session = await getServerSession(authOptions);
   const user = session?.user;
-  console.log("current user",user);
 
   if(!session || !user) {
     return apiResponse(401, "Unauthorized");

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import { Thread } from "./thread.model";
 import { Member } from "./member.model";
 import { User } from "./user.model";
@@ -10,9 +10,9 @@ export interface Connection extends Document {
   bannerPhotoUrl : string;
   inviteCode : string;
   isPrivate: boolean;
-  user : User;
-  members : Member[];
-  threads: Thread[];
+  user : mongoose.Schema.Types.ObjectId;
+  members : mongoose.Schema.Types.ObjectId[];
+  threads: mongoose.Schema.Types.ObjectId[];
 }
 
 const ConnectionSchema : Schema<Connection> = new Schema({

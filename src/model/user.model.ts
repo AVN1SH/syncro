@@ -11,9 +11,9 @@ export interface User extends Document {
   imageUrl: string;
   role: string;
   isVerified : boolean;
-  connections : Connection[];
-  members : Member[];
-  threads : Thread[];
+  connections : mongoose.Schema.Types.ObjectId[];
+  members : mongoose.Schema.Types.ObjectId[];
+  threads : mongoose.Schema.Types.ObjectId[];
 }
 
 const UserSchema : Schema<User> = new Schema({
