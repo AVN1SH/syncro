@@ -110,10 +110,10 @@ const EditConnection = () => {
   return (
     <div>
       <Dialog open={modelOpen} onOpenChange={handleClose}>
-        <DialogContent className="bg-white text-black p-0 overflow-hidden">
+        <DialogContent className="bg-white text-black p-0 overflow-hidden dark:bg-neutral-800 dark:text-white">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Customize your connection</DialogTitle>
-            <DialogDescription className="text-center text-zinc-500">
+            <DialogDescription className="text-center text-zinc-500 dark:text-zinc-400">
               Give you connection a name and a profile picture. You can always change it later.
             </DialogDescription>
           </DialogHeader>
@@ -143,13 +143,15 @@ const EditConnection = () => {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-bold text-zinc-600">CONNECTION NAME<span className="text-red-600">*</span></FormLabel>
+                    <FormLabel className="font-bold text-zinc-600 dark:text-zinc-300">
+                      CONNECTION NAME<span className="text-red-600">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input 
                         type="text" 
                         placeholder="Name For Your Connection" 
                         {...field} 
-                        className="border-0 bg-zinc-200"
+                        className="border-0 bg-zinc-200 dark:bg-zinc-700"
                       />
                     </FormControl>
                     <FormDescription className="text-xs">
@@ -161,7 +163,7 @@ const EditConnection = () => {
               />
             </form>
           </Form>
-          <DialogFooter className="bg-slate-200 px-6 py-4">
+          <DialogFooter className="bg-slate-200 px-6 py-4 dark:bg-zinc-700">
           {error && <div className="text-red-500 font-bold ">{error}</div>}
           <Button 
             type="submit" 
