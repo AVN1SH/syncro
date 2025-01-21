@@ -8,7 +8,7 @@ interface Props {
 
 const Banner = ({bannerImage} : Props) => {
   return (
-    <div className="bg-zinc-600 h-[100px] object-cover object-center flex items-center justify-center">
+    <div className="dark:bg-zinc-600 bg-zinc-400 h-[100px] object-cover object-center flex items-center justify-center">
       {bannerImage 
       ? <img src={bannerImage} />
       :<div className="relative w-full h-full">

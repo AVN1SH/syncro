@@ -3,7 +3,7 @@ import NavigationSidebar from "@/components/navigation/NavigationSidebar"
 const page = ({children} : {children : React.ReactNode}) => {
   return (
     <div>
-      <div className="fixed w-[60px] bottom-0 top-[60px]">
+      <div className="fixed w-[60px] bottom-0 top-[40px]">
         <NavigationSidebar />
       </div>
       {children}

@@ -54,7 +54,7 @@ const PrimaryWindowHeader = ({
           <DropdownMenuTrigger
             className="focus:outline-none w-full"
           >
-            <div className="w-full text-md font-semibold flex items-center justify-center h-[50px] border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/100 dark:hover:bg-zinc-700/50 transition px-2 gap-2">
+            <div className="w-full text-md font-semibold flex items-center justify-center h-[50px] border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-300/100 dark:hover:bg-zinc-700/50 transition px-2 gap-2">
               <div>
                 <span className="text-yellow-500 text-2xl font-bold">{connectionName[0].toUpperCase()}</span>
                 <span className="font-thin text-xl">{connectionName.slice(1)}</span>
@@ -63,7 +63,7 @@ const PrimaryWindowHeader = ({
             </div>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="w-[250px] bg-[#2b2d31ce] rounded-none rounded-b-lg  relative -top-1 text-black dark:text-neutral-400 hover-bg-none backdrop-blur-sm">
+          <DropdownMenuContent className="w-[250px] bg-[#ddddddce] dark:bg-[#2b2d31ce] rounded-none rounded-b-lg  relative -top-1 text-black dark:text-neutral-400 hover-bg-none backdrop-blur-sm">
 
             {isModerator && (
               <DropdownMenuItem 

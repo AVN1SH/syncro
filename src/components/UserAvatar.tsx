@@ -8,7 +8,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 interface Props {
   src ?: string;
   className ?: string;
-  user : DBMember;
+  user ?: DBMember;
 }
 
 const UserAvatar = ({src, className, user} : Props) => {
@@ -19,7 +19,7 @@ const UserAvatar = ({src, className, user} : Props) => {
     )}>
       {src 
         ? <AvatarImage src={src} className={className} />
-        : <FontAwesomeIcon icon={faUser} className="bg-zinc-300 w-full h-full pt-1 text-zinc-600" />
+        : <FontAwesomeIcon icon={faUser} className="dark:bg-zinc-300 w-full h-full pt-1 dark:text-zinc-600 text-zinc-300 bg-zinc-600" />
       }
     </Avatar>
   )
