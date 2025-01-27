@@ -14,23 +14,17 @@ import {
   FormMessage 
 } from "../ui/form"
 import { Input } from "@/components/ui/input"
-import { newConnection } from "@/schemas/connection"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
-import FileUpload from "../FileUpload"
 import { Loader2 } from "lucide-react"
 import axios from "axios"
-import { useSession } from "next-auth/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
@@ -43,18 +37,13 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { newThread, threadType } from "@/schemas/thread"
-import ThreadModel from "@/model/thread.model"
 
-interface Props {
-  children? : React.ReactNode;
-}
-
-const CreateThread = ({children} : Props) => {
+const CreateThread = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const session = useSession();
   const { isOpen, type } = useSelector((state : RootState) => state.createConnectionSlice);
   const isModelOpen = isOpen && type === "createThread";
+  const [modelOpen, setModelOpen] = useState(isModelOpen);
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useParams();
@@ -97,6 +86,7 @@ const CreateThread = ({children} : Props) => {
       form.reset();
       router.refresh();
       dispatch(onClose());
+      setModelOpen(false);
     } catch (error : any) {
       if(Number(error.message) >= 400) {
         if(error.message === '409') setError("Connection Already Exists");
@@ -106,14 +96,20 @@ const CreateThread = ({children} : Props) => {
     }
   }
 
+  useEffect(() => {
+    if(isOpen && type === "createThread") {
+      setModelOpen(true);
+    }
+  }, [isOpen]);
+
   const handleClose = () => {
     form.reset();
     dispatch(onClose());
-    console.log(isModelOpen)
+    setModelOpen(false);
   }
   return (
     <div>
-      <Dialog open={isModelOpen} onOpenChange={handleClose}>
+      <Dialog open={modelOpen} onOpenChange={handleClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden dark:bg-neutral-800 dark:text-white">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Create New Thread</DialogTitle>

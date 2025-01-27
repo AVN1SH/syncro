@@ -10,11 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose, onOpen } from "@/features/modelSlice"
-import { Label } from "@radix-ui/react-label"
-import { Input } from "../ui/input"
 import { Button } from "../ui/button"
-import { Check, Copy, RefreshCw } from "lucide-react"
-import useOrigin from "@/hooks/useOrigin"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -23,10 +19,8 @@ const DeleteConnection = () => {
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
   const isModelOpen = isOpen && type === "deleteConnection";
   const [modelOpen, setModelOpen] = useState(isModelOpen);
-  const connectionId = data?.connectionId;
   const dispatch = useDispatch();
   
-  const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 

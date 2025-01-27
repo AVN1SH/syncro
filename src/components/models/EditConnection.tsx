@@ -86,6 +86,7 @@ const EditConnection = () => {
       form.reset();
       router.refresh();
       dispatch(onClose());
+      setModelOpen(false);
     } catch (error : any) {
       if(Number(error.message) >= 400) {
         if(error.message === '409') setError("Connection Already Exists");
