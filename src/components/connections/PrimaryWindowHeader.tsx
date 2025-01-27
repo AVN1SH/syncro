@@ -126,7 +126,17 @@ const PrimaryWindowHeader = ({
 
             {isModerator && <DropdownMenuSeparator className="bg-yellow-500" />}
 
-            {isAdmin && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-red-600 text-[16px] transition-[2s_ease-in-out] text-red-500 group">
+            {isAdmin && 
+              <DropdownMenuItem 
+                onClick={() => dispatch(onOpen({
+                  type : "deleteConnection",
+                  data : {
+                    connectionId,
+                    connectionName
+                  }
+                }))}
+                className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-red-600 text-[16px] transition-[2s_ease-in-out] text-red-500 group"
+              >
               <FontAwesomeIcon icon={faTrash} className="mr-5 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />
               Delete Connection
             </DropdownMenuItem>}

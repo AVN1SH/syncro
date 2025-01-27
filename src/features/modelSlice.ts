@@ -4,7 +4,7 @@ import { ConnectionThreadMemberUser, DBMember, DBUser, MemberWithUser } from "@/
 import { createSlice } from "@reduxjs/toolkit";
 import mongoose, { Types } from "mongoose";
 
-type ConnectionType = "createConnection" | "invite" | "editConnection" | "members" | "createThread" | "leaveConnection" | "";
+type ConnectionType = "createConnection" | "invite" | "editConnection" | "members" | "createThread" | "leaveConnection" | "deleteConnection" | "";
 
 interface ConnectionData {
   connectionId ?: string;
