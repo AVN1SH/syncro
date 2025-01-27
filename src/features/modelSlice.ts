@@ -1,6 +1,6 @@
 import { Connection } from "@/model/connection.model";
 import { Member } from "@/model/member.model";
-import { ConnectionThreadMemberUser, DBMember, DBUser, MemberWithUser } from "@/types";
+import { ConnectionThreadMemberUser, DBMember, DBThread, DBUser, MemberWithUser } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import mongoose, { Types } from "mongoose";
 
@@ -13,6 +13,7 @@ interface ConnectionData {
   connectionName ?: string;
   connectionMembers ?: MemberWithUser[];
   connectionUserId ?: mongoose.Schema.Types.ObjectId;
+  threadType ?: DBThread["type"];
 }
 
 export interface CreateConnection {

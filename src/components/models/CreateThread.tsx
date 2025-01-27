@@ -41,7 +41,7 @@ import { newThread, threadType } from "@/schemas/thread"
 const CreateThread = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const { isOpen, type } = useSelector((state : RootState) => state.createConnectionSlice);
+  const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
   const isModelOpen = isOpen && type === "createThread";
   const [modelOpen, setModelOpen] = useState(isModelOpen);
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const CreateThread = () => {
     resolver: zodResolver(newThread),
     defaultValues: {
       name: '',
-      type: "text"
+      type: data?.threadType || "text"
     }
   });
 
@@ -101,6 +101,14 @@ const CreateThread = () => {
       setModelOpen(true);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if(data?.threadType) {
+      form.setValue("type", data.threadType);
+    } else {
+      form.setValue("type", "text")
+    }
+  }, [data?.threadType, form]);
 
   const handleClose = () => {
     form.reset();

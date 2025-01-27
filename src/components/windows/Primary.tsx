@@ -1,9 +1,9 @@
 import ActionTooltip from "@/components/action-tooltip"
 import Single from "@/components/skeletons/Single"
 import { Separator } from "@/components/ui/separator"
-import { faBolt, faCommentDots, faCommentSms, faFile, faHandshakeAngle, faIdBadge, faMessage, faSadCry, faSmile, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
+import { faBolt, faCommentDots, faCommentSms, faFile, faHandshakeAngle, faHashtag, faIdBadge, faMessage, faMicrophone, faSadCry, faShield, faShieldDog, faSmile, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Plus } from "lucide-react"
+import { Hash, Plus } from "lucide-react"
 import PrimaryNav from "../navigation/PrimaryNav"
 import { redirect, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -15,11 +15,28 @@ import ThreadModel, { Thread } from "@/model/thread.model"
 import MemberModel, { Member } from "@/model/member.model"
 import PrimaryWindowHeader from "../connections/PrimaryWindowHeader"
 import StoreProvider from "@/store/StoreProvider"
-import { ConnectionThreadMemberUser, ConnectionWithMembersWithUsers, MemberWithUser } from "@/types"
+import { ConnectionThreadMemberUser, ConnectionWithMembersWithUsers, DBMember, DBThread, MemberWithUser } from "@/types"
 import { serializeData } from "@/lib/serialized"
+import { ScrollArea } from "../ui/scroll-area"
+import ConnectionSearch from "../connections/ConnectionSearch"
+import ConnectionSection from "../connections/ConnectionSection"
+import ConnectionThread from "../connections/ConnectionThread"
+import ConnectionMember from "../connections/ConnectionMember"
 
 interface Props {
   connectionId : string;
+}
+
+const iconMap = {
+  "text" : <FontAwesomeIcon icon={faHashtag} className="mr-2 h-4 w-4" />,
+  "voice" : <FontAwesomeIcon icon={faMicrophone} className="mr-2 h-4 w-4" />,
+  "video" : <FontAwesomeIcon icon={faVideo} className="mr-2 h-4 w-4" />,
+}
+
+const roleIconMap = {
+  "admin" : <FontAwesomeIcon icon={faShieldDog} className="h-4 w-4 mr-2 text-rose-500" />,
+  "moderator" : <FontAwesomeIcon icon={faShield} className="h-4 w-4 mr-2 text-yellow-500" />,
+  "guest" : null
 }
 
 const Primary = async ({connectionId} : Props) => {
@@ -56,16 +73,15 @@ const Primary = async ({connectionId} : Props) => {
 
   const videoThreads = connection?.threads.filter((thread : Thread) => thread.type === "video");
 
-  const members = connection?.members.filter((member : Member) => member.user !== user?._id);
+  const members = connection?.members.filter((member : MemberWithUser) => member.user._id !== user?._id);
 
+  console.log(textThreads, voiceThreads, videoThreads);
 
   if(!connection) {
     return redirect("/connections"); 
   }
 
-  const role = connection.members.find((member : MemberWithUser) =>String(member.user._id) === user?._id)?.role;
-  // console.log(connection)
-
+  const role = connection.members.find((member : MemberWithUser) =>String(member.user) === user?._id)?.role;
 
   // const url = usePathname();
   // const [activeUrl, setActiveUrl] = useState(url);
@@ -82,53 +98,143 @@ const Primary = async ({connectionId} : Props) => {
           connectionUserId={connection.user}
         />
       </StoreProvider>
-      {/* <div className="border-solid border-zinc-900 border-b-[2px] h-[50px] w-full"> */}
-        {/* {activeUrl === "/chat" && <div className="relative py-2 text-center h-full w-full">
-          <div className="absolute w-full h-full top-0 left-0 -z-10 opacity-10">
-            <FontAwesomeIcon icon={faMessage} color="yellow" size="xs" bounce className="absolute top-[20px] left-2"/>
-            <FontAwesomeIcon icon={faSmile} spin className="absolute top-1 left-[30px]" />
-            <FontAwesomeIcon icon={faSmile} color="yellow" spin className="absolute bottom-1 right-[100px]" />
-            <FontAwesomeIcon icon={faMessage} className="absolute top-[19px] right-3 animate-pulse"/>
-            <FontAwesomeIcon icon={faSmile} size="xs" className="absolute bottom-3 left-[100px] animate-pulse" />
-            <FontAwesomeIcon icon={faCommentSms} color="yellow" size="xs" className="absolute bottom-2 left-[70px]" />
-            <FontAwesomeIcon icon={faCommentDots} className="absolute bottom-2 right-[70px] animate-bounce" />
-            <FontAwesomeIcon icon={faSadCry} size="xs" className="absolute bottom-1 left-[45px] animate-bounce" />
-            <FontAwesomeIcon icon={faFile} color="yellow" size="xs" bounce className="absolute bottom-5 right-[45px]" />
-          </div>
-          <span className="text-yellow-500 text-2xl font-bold">D</span>
-          <span className="font-thin text-xl">irect Chat</span>
-        </div>} */}
-
-        {/* {<div className="relative py-2 text-center h-full w-full">
-          <div className="absolute w-full h-full top-0 left-0 -z-10 opacity-10">
-            <FontAwesomeIcon icon={faBolt} color="yellow" size="xs" bounce className="absolute top-[20px] left-2"/>
-            <FontAwesomeIcon icon={faSmile} spin className="absolute top-1 left-[30px]" />
-            <FontAwesomeIcon icon={faSmile} color="yellow" spin className="absolute bottom-1 right-[100px]" />
-            <FontAwesomeIcon icon={faWifi3} className="absolute top-[19px] right-3 animate-pulse"/>
-            <FontAwesomeIcon icon={faSmile} size="xs" className="absolute bottom-3 left-[100px] animate-pulse" />
-            <FontAwesomeIcon icon={faCommentSms} color="yellow" size="xs" className="absolute bottom-2 left-[70px]" />
-            <FontAwesomeIcon icon={faCommentDots} className="absolute bottom-2 right-[70px] animate-bounce" />
-            <FontAwesomeIcon icon={faWifi} size="xs" className="absolute bottom-1 left-[45px] animate-bounce" />
-            <FontAwesomeIcon icon={faVideo} color="yellow" size="xs" bounce className="absolute bottom-5 right-[45px]" />
-          </div>
-          <span className="text-yellow-500 text-2xl font-bold">T</span>
-          <span className="font-thin text-xl">hreads</span>
-        </div>} */}
-      {/* </div> */}
       <Banner />
+      <ScrollArea className="flex-1 px-3">
+        <div className="mt-2">
+          <ConnectionSearch 
+            data={[
+              {
+                label : "Text Threads",
+                type : "thread",
+                data : textThreads?.map((thread : DBThread) => ({
+                  id : thread._id,
+                  name : thread.name,
+                  icon : iconMap[thread.type]
+                }))
+              },
+              {
+                label : "Voice Threads",
+                type : "thread",
+                data : voiceThreads?.map((thread : DBThread) => ({
+                  id : thread._id,
+                  name : thread.name,
+                  icon : iconMap[thread.type]
+                }))
+              },
+              {
+                label : "Video Threads",
+                type : "thread",
+                data : videoThreads?.map((thread : DBThread) => ({
+                  id : thread._id,
+                  name : thread.name,
+                  icon : iconMap[thread.type]
+                }))
+              },
+              {
+                label : "Members",
+                type : "member",
+                data : members?.map((member : MemberWithUser) => ({
+                  id : member._id,
+                  name : member.user.name,
+                  icon : roleIconMap[member.role]
+                }))
+              }
+            ]}
+          />
+        </div>
+      </ScrollArea>
       
-      {/* {activeUrl === "/chat" && <PrimaryNav data={[
+      {/* <PrimaryNav data={[
         {icon: faHandshakeAngle, label: "Friends"},
         {icon: faIdBadge, label : "By Username"}
-      ]}/>} */}
-
+      ]}/> */}
       
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-[calc(100%-10px)] mx-auto my-2"/>
 
+      {!!textThreads?.length && (
+        <StoreProvider>
+          <div className="mt-2">
+            <ConnectionSection 
+              sectionType="threads"
+              threadType="text"
+              role={role}
+              label="Text Threads"
+            />
+          </div>
+          {textThreads?.map((thread) => (
+            <ConnectionThread 
+              key={String(thread._id)}
+              thread={thread}
+              connection={connection}
+              role={role}
+            />
+          ))}
+        </StoreProvider>
+      )}
+      {!!voiceThreads?.length && (
+        <StoreProvider>
+          <div className="mt-2">
+            <ConnectionSection 
+              sectionType="threads"
+              threadType="voice"
+              role={role}
+              label="Voice Threads"
+            />
+          </div>
+          {voiceThreads?.map((thread) => (
+            <ConnectionThread 
+              key={String(thread._id)}
+              thread={thread}
+              connection={connection}
+              role={role}
+            />
+          ))}
+        </StoreProvider>
+      )}
+      {!!videoThreads?.length && (
+        <StoreProvider>
+          <div className="mt-2">
+            <ConnectionSection 
+              sectionType="threads"
+              threadType="video"
+              role={role}
+              label="Video Threads"
+            />
+          </div>
+          {videoThreads?.map((thread) => (
+            <ConnectionThread 
+              key={String(thread._id)}
+              thread={thread}
+              connection={connection}
+              role={role}
+            />
+          ))}
+        </StoreProvider>
+      )}
+      {!!members?.length && (
+        <StoreProvider>
+          <div className="mt-2">
+            <ConnectionSection 
+              sectionType="members"
+              role={role}
+              label="Members"
+              connection={connection}
+            />
+          </div>
+          {members?.map((member) => (
+            <ConnectionMember 
+              key={String(member._id)}
+              member={member}
+              connection={connection}
+            />
+          ))}
+        </StoreProvider>
+      )}
+
       <div>
-        {/* {activeUrl === "/chat" && <PlusIconAction name="Direct Messages" label="Create new DM"/>}
-        {activeUrl.includes("/connections") && <PlusIconAction name="Text Threads" label="New thread"/>}
-        {activeUrl.includes("/connections") && <PlusIconAction name="Voice Threads" label="New thread"/>} */}
+        {/* {activeUrl === "/chat" && <PlusIconAction name="Direct Messages" label="Create new DM"/>} */}
+        {/* <PlusIconAction name="Text Threads" label="New thread"/>
+        <PlusIconAction name="Voice Threads" label="New thread"/> */}
         <div className="p-2 space-y-3">
           {[...Array(8)].map((_, index) => {
             return <Single key={index}/>

@@ -3,7 +3,8 @@ import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
 import ThreadModel from "@/model/thread.model";
-import { DBUser } from "@/types";
+import UserModel from "@/model/user.model";
+import { DBThread, DBUser } from "@/types";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -58,9 +59,28 @@ export async function POST(
       type,
       user : user._id,
       connection :new mongoose.Types.ObjectId(connectionId)
-    }, {new : true})
+    });
+
 
     if(!createThread) return new NextResponse("Thread Creation Failed", {status : 500});
+
+    //UPDATING OTHER REFERENCE MODELS
+
+    const updatedConnection = await ConnectionModel.findByIdAndUpdate(new mongoose.Types.ObjectId(connectionId),{
+      $push : {
+        threads : createThread._id
+      }
+    })
+
+    if(!updatedConnection) return new NextResponse("Connection Update Failed", {status : 500});
+
+    const updatedUser = await UserModel.findByIdAndUpdate(user._id, {
+      $push : {
+        threads : createThread._id
+      }
+    })
+
+    if(!updatedConnection) return new NextResponse("User Update Failed", {status : 500});
 
     return NextResponse.json(createThread);
 
