@@ -155,9 +155,9 @@ const CreateThread = () => {
                           <SelectValue placeholder="Select a channel type" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="dark:bg-zinc-800 bg-zinc-200">
                         {Object.values(threadType).map((type) => (
-                            <SelectItem key={type} value={type} className="capitalize">
+                            <SelectItem key={type} value={type} className="capitalize dark:hover:bg-zinc-900 hover:bg-zinc-400 cursor-pointer">
                               {type.toLowerCase()}
                             </SelectItem>
                           ))}
@@ -181,7 +181,7 @@ const CreateThread = () => {
                 isSubmiting ? (
                   <><Loader2 className="mr-2 h4 w4 animate-spin"/> Please wait</>
                 ) : (
-                  "Create Connection"
+                  "Create Thread"
                 )
               }
             </Button>
