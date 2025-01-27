@@ -65,7 +65,7 @@ const LeaveConnection = () => {
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Leave Connection</DialogTitle>
             <DialogDescription className="text-center text-zinc-500">
-              Are you sure You want to leave <span className=" font-semibold text-red-500">{data.connectionName}</span>
+              Are you sure You want to leave <span className=" font-semibold text-red-500">{data?.connectionName}</span>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="dark:bg-neutral-900 bg-gray-100 px-6 py-4">
