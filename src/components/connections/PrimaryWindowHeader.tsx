@@ -112,9 +112,18 @@ const PrimaryWindowHeader = ({
               </DropdownMenuItem>
             )}
 
-            {isModerator && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group">
-              <FontAwesomeIcon icon={faPlusCircle} className="mr-5 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />
-              Create Thread
+            {isModerator && 
+            <DropdownMenuItem 
+              onClick={() => dispatch(onOpen({
+                type : "createThread",
+                data : {
+                  
+                }
+              }))}
+              className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group"
+            >
+                <FontAwesomeIcon icon={faPlusCircle} className="mr-5 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />
+                Create Thread
             </DropdownMenuItem>}
 
             {isModerator && <DropdownMenuSeparator className="bg-yellow-500" />}

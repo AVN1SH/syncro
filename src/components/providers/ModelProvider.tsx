@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Invite from "@/components/models/Invite";
 import EditConnection from "@/components/models/EditConnection";
 import Members from "@/components/models/Members";
+import CreateThread from "@/components/models/CreateThread";
 
 const ModelProvider = () => {
 
@@ -26,6 +27,7 @@ const ModelProvider = () => {
         <Invite />
         <EditConnection />
         <Members />
+        <CreateThread />
       </StoreProvider>
     </div>
   )
