@@ -116,9 +116,7 @@ const PrimaryWindowHeader = ({
             <DropdownMenuItem 
               onClick={() => dispatch(onOpen({
                 type : "createThread",
-                data : {
-                  
-                }
+                data : {}
               }))}
               className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-neutral-300 text-[16px] transition-[2s_ease-in-out] group"
             >
@@ -133,7 +131,17 @@ const PrimaryWindowHeader = ({
               Delete Connection
             </DropdownMenuItem>}
             
-            {!isAdmin && <DropdownMenuItem className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-red-600 text-[16px] transition-[2s_ease-in-out] text-red-500 group">
+            {!isAdmin && 
+            <DropdownMenuItem 
+              onClick={() => dispatch(onOpen({
+                type : "leaveConnection",
+                data : {
+                  connectionId,
+                  connectionName
+                }
+              }))}
+              className="cursor-pointer font-semibold focus:bg-[#16171a5a] focus:text-red-600 text-[16px] transition-[2s_ease-in-out] text-red-500 group"
+            >
               <FontAwesomeIcon icon={faSignOut} className="mr-5 group-hover:mr-6 group-hover:text-lg transition-[2s_ease-in-out]" />
               Leave Connection
             </DropdownMenuItem>}

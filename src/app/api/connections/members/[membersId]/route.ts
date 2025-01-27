@@ -156,17 +156,18 @@ export async function DELETE(
 
     if(!checkingConnection.length) return new NextResponse("Connection Matched failed", {status : 500});
 
-    const updatedConnection = await MemberModel.findByIdAndDelete(params.membersId);
+    const deleteMember = await MemberModel.findByIdAndDelete(params.membersId);
 
-    const updateConnection = await ConnectionModel.findByIdAndUpdate(connectionId, {
+    const updatedConnection = await ConnectionModel.findByIdAndUpdate(connectionId, {
       $pull : {
         members : new mongoose.Types.ObjectId(params.membersId)
       }
     })
 
-    console.log(updateConnection)
-
     if(!updatedConnection) return new NextResponse("Error while updating connection", {status : 500});
+
+
+    if(!deleteMember) return new NextResponse("Error while updating connection", {status : 500});
 
     const connection : ConnectionThreadMemberUser | null = serializeData(await ConnectionModel.findById(new mongoose.Types.ObjectId(connectionId))
     .populate({
