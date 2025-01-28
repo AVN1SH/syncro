@@ -12,7 +12,7 @@ export async function POST(
   req: Request
 ) {
   try {
-    const user : DBUser = await currentUser();
+    const user = await currentUser();
     const { name, type } = await req.json();
     const { searchParams } = new URL(req.url);
     
@@ -46,7 +46,7 @@ export async function POST(
       },
       {
         $match : {
-          "members.user" : {$ne : user._id},
+          "members.user" : new mongoose.Types.ObjectId(user._id as string),
           "members.role" : {$in : ["admin", "moderator"]}
         }
       }

@@ -7,6 +7,8 @@ import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 import ActionTooltip from '../action-tooltip';
 import { Edit, Hash, Lock, Mic, Trash, Video } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { onOpen } from '@/features/modelSlice';
 
 interface Props {
   thread : DBThread;
@@ -21,9 +23,10 @@ const iconMap = {
 }
 
 const ConnectionThread = ({ thread, connection, role } : Props) => {
-
   const params = useParams();
   const router = useRouter();
+  
+  const dispatch = useDispatch();
 
   const Icon = iconMap[thread.type];
 
@@ -45,7 +48,12 @@ const ConnectionThread = ({ thread, connection, role } : Props) => {
               <Edit className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
             </ActionTooltip>
             <ActionTooltip label="Delete">
-              <Trash className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
+              <Trash 
+                onClick={() => dispatch(onOpen({
+                  type : "deleteThread",
+                  data : { thread, connectionId : connection._id }
+                }))}
+              className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
             </ActionTooltip>
           </div>
         )}

@@ -75,13 +75,11 @@ const Primary = async ({connectionId} : Props) => {
 
   const members = connection?.members.filter((member : MemberWithUser) => member.user._id !== user?._id);
 
-  console.log(textThreads, voiceThreads, videoThreads);
-
   if(!connection) {
     return redirect("/connections"); 
   }
 
-  const role = connection.members.find((member : MemberWithUser) =>String(member.user) === user?._id)?.role;
+  const role = connection?.members.find((member : MemberWithUser) => String(member.user._id) === user?._id)?.role;
 
   // const url = usePathname();
   // const [activeUrl, setActiveUrl] = useState(url);

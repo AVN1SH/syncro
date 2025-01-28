@@ -9,6 +9,7 @@ import Members from "@/components/models/Members";
 import CreateThread from "@/components/models/CreateThread";
 import LeaveConnection from "@/components/models/LeaveConnection";
 import DeleteConnection from "@/components/models/DeleteConnection";
+import DeleteThread from "@/components/models/DeleteThread";
 
 const ModelProvider = () => {
 
@@ -32,6 +33,7 @@ const ModelProvider = () => {
         <CreateThread />
         <LeaveConnection />
         <DeleteConnection />
+        <DeleteThread />
       </StoreProvider>
     </div>
   )
