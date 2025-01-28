@@ -95,8 +95,12 @@ const Primary = async ({connectionId} : Props) => {
           connectionMembers={connection.members}
           connectionUserId={connection.user}
         />
+        <Banner 
+          connectionId={connection._id}
+          connectionBannerPhotoUrl={connection.bannerPhotoUrl}
+          role={role}
+        />
       </StoreProvider>
-      <Banner />
       <ScrollArea className="flex-1 px-3">
         <div className="mt-2">
           <ConnectionSearch 
@@ -233,11 +237,11 @@ const Primary = async ({connectionId} : Props) => {
         {/* {activeUrl === "/chat" && <PlusIconAction name="Direct Messages" label="Create new DM"/>} */}
         {/* <PlusIconAction name="Text Threads" label="New thread"/>
         <PlusIconAction name="Voice Threads" label="New thread"/> */}
-        <div className="p-2 space-y-3">
+        {/* <div className="p-2 space-y-3">
           {[...Array(8)].map((_, index) => {
             return <Single key={index}/>
           })}
-        </div>
+        </div> */}
       </div>
     </div>
   )

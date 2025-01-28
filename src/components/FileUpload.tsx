@@ -6,24 +6,26 @@ import Image from "next/image";
 import { UploadDropzone } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
 import { error } from "console";
+import { cn } from "@/lib/utils";
 
 interface Props {
   onChange: (url?: string) => void;
   value?: string;
-  endpoint : "messageFile" | "connectionImage"
+  endpoint : "messageFile" | "connectionImage";
+  banner ?: boolean;
 }
-const FileUpload = ({onChange, value, endpoint}: Props) => {
+const FileUpload = ({onChange, value, endpoint, banner}: Props) => {
   const fileType = value?.split(".").pop();
 
   if (value && fileType !== "pdf") {
     return (
-      <div className="relative h-20 w-20 left-1/2 transform -translate-x-1/2">
+      <div className={cn("relative left-1/2 transform -translate-x-1/2", banner ? "h-20 w-40" : "h-20 w-20")}>
         <Image 
           fill
           sizes="100%"
           src={value}
           alt="Upload"
-          className="rounded-full object-cover"
+          className={cn("object-cover", banner ? "rounded-sm" : "rounded-full")}
         />
         <button
           onClick={() => onChange('')}

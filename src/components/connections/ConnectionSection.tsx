@@ -39,7 +39,7 @@ const ConnectionSection = ({
             onClick={() => dispatch(onOpen({type : "createThread", data : {
               threadType
             }}))}
-            className="text-zinc-500 hover:text-yellow-600 dark:text-yellow-400 dark:hover:text-zinc-300 transition"
+            className="hover:text-zinc-700 text-yellow-500 dark:text-yellow-400 dark:hover:text-zinc-300 transition"
           >
             <Plus size={16} />
           </button>

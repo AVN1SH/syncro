@@ -10,6 +10,8 @@ import CreateThread from "@/components/models/CreateThread";
 import LeaveConnection from "@/components/models/LeaveConnection";
 import DeleteConnection from "@/components/models/DeleteConnection";
 import DeleteThread from "@/components/models/DeleteThread";
+import EditThread from "@/components/models/EditThread";
+import UploadBanner from "@/components/models/UploadBanner";
 
 const ModelProvider = () => {
 
@@ -34,6 +36,8 @@ const ModelProvider = () => {
         <LeaveConnection />
         <DeleteConnection />
         <DeleteThread />
+        <EditThread />
+        <UploadBanner />
       </StoreProvider>
     </div>
   )

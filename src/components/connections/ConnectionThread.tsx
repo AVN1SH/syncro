@@ -45,7 +45,12 @@ const ConnectionThread = ({ thread, connection, role } : Props) => {
         {thread.name !== "general" && role !== "guest" && (
           <div className="ml-auto flex item-center gap-x-2">
             <ActionTooltip label="Edit">
-              <Edit className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
+              <Edit
+                onClick={() => dispatch(onOpen({
+                  type : "editThread",
+                  data : { connectionId : connection._id, thread }
+                }))} 
+                className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
             </ActionTooltip>
             <ActionTooltip label="Delete">
               <Trash 
