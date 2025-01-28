@@ -59,7 +59,6 @@ const CreateThread = () => {
 
   const onSubmit = async (values: z.infer<typeof newThread>) => {
     setIsSubmitting(true);
-    console.log(params)
     try {
       const url = qs.stringifyUrl({
         url: "/api/threads/new-thread",

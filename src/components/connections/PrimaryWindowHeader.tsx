@@ -1,15 +1,14 @@
 "use client"
 import React, { ReactNode, useEffect } from 'react'
-import { faBolt, faCommentDots, faCommentSms, faFile, faGears, faHandshakeAngle, faIdBadge, faMessage, faPlusCircle, faSadCry, faShareNodes, faSignOut, faSmile, faTrash, faUserGroup, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
+import { faBolt, faCommentDots, faCommentSms, faGears, faPlusCircle, faShareNodes, faSignOut, faSmile, faTrash, faUserGroup, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { ConnectionWithMembersWithUsers, DBMember } from '@/types'
+import { DBMember } from '@/types'
 import { Member } from '@/model/member.model'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { ChevronDown } from 'lucide-react'
-import { faThreads } from '@fortawesome/free-brands-svg-icons'
 import { useDispatch } from 'react-redux'
 import { onOpen } from '@/features/modelSlice'
-import mongoose, { Types } from 'mongoose'
+import mongoose from 'mongoose'
 
 interface Props {
   connectionName : string;

@@ -1,10 +1,8 @@
 "use client";
 import { Plus } from 'lucide-react';
 import ActionTooltip from '@/components/action-tooltip';
-import InitialConnection from '../models/InitialConnection';
 import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
-// import { useAppDispatch } from '@/hooks/storeHooks';
 
 const NavigationAction = () => {
   const dispatch = useDispatch();

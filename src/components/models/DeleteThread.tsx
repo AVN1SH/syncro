@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { onClose, onOpen } from "@/features/modelSlice"
+import { onClose } from "@/features/modelSlice"
 import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -47,7 +47,6 @@ const DeleteThread = () => {
       })
 
       await axios.delete(url)
-      console.log("hello data")
       dispatch(onClose());
       router.push(`/connections/${data?.connectionId}`);
       router.refresh();

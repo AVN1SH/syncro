@@ -1,12 +1,10 @@
 "use client"
 
 import React from 'react';
-import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { cn } from "@/lib/utils"
 import ActionTooltip from '../action-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNodes, faCloud, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   id : string;

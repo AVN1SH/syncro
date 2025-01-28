@@ -23,7 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import FileUpload from "../FileUpload"
@@ -34,7 +33,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
 import { useRouter } from "next/navigation"
-// import { useAppSelector } from "@/hooks/storeHooks"
 
 
 const EditConnection = () => {

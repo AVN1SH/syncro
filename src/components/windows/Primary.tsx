@@ -8,7 +8,6 @@ import PrimaryNav from "../navigation/PrimaryNav"
 import { redirect, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Banner from "@/components/connections/Banner"
-import PlusIconAction from "../models/PlusIconAction"
 import { currentUser } from "@/lib/currentUser"
 import ConnectionModel, { Connection } from "@/model/connection.model"
 import ThreadModel, { Thread } from "@/model/thread.model"
@@ -46,13 +45,6 @@ const Primary = async ({connectionId} : Props) => {
   if(!user) {
     return redirect("/sign-in");
   }
-
-  // await MemberModel.create({
-  //   role : "admin",
-  //   user : user._id,
-  //   connection : connectionId,
-  // })
-
   
   const connection : ConnectionThreadMemberUser | null = serializeData(await ConnectionModel.findById(connectionId)
   .populate({

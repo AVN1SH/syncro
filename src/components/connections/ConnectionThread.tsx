@@ -1,8 +1,6 @@
 "use client";
 import { cn } from '@/lib/utils';
 import { DBConnection, DBMember, DBThread } from '@/types';
-import { faHashtag, faMicrophone, faPenToSquare, faTrash, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 import ActionTooltip from '../action-tooltip';

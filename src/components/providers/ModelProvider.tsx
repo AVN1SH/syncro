@@ -1,5 +1,4 @@
 "use client"
-
 import CreateConnection from "@/components/models/CreateConnection";
 import StoreProvider from "@/store/StoreProvider";
 import { useEffect, useState } from "react";

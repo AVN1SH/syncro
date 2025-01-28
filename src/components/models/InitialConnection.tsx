@@ -23,7 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { toast } from "sonner"
 import FileUpload from "../FileUpload"
@@ -31,11 +30,7 @@ import { Loader2 } from "lucide-react"
 import axios from "axios"
 import { useSession } from "next-auth/react"
 
-interface Props {
-  children? : React.ReactNode;
-}
-
-const InitialConnection = ({children} : Props) => {
+const InitialConnection = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const session = useSession();
@@ -53,7 +48,6 @@ const InitialConnection = ({children} : Props) => {
   const onSubmit = async (values: z.infer<typeof newConnection>) => {
     setIsSubmitting(true);
     try {
-      console.log(session)
       const response = await axios.post("/api/new-connection", {
         name: values.name,
         profilePhotoUrl: values.profilePhotoUrl

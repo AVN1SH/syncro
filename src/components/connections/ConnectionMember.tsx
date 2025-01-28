@@ -1,6 +1,6 @@
 "use client";
 import { cn } from '@/lib/utils';
-import { ConnectionThreadMemberUser, DBMember, MemberWithUser } from '@/types';
+import { ConnectionThreadMemberUser, MemberWithUser } from '@/types';
 import { faShield, faShieldDog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useRouter } from 'next/navigation';

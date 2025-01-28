@@ -2,14 +2,10 @@
 
 import { ConnectionThreadMemberUser, DBMember, DBThread } from '@/types';
 import React from 'react'
-import PlusIconAction from '../models/PlusIconAction';
 import ActionTooltip from '../action-tooltip';
 import { Plus, Settings } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   label : string;

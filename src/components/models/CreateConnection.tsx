@@ -21,9 +21,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { toast } from "sonner"
 import FileUpload from "../FileUpload"
@@ -34,13 +32,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
 import { useRouter } from "next/navigation"
-// import { useAppSelector } from "@/hooks/storeHooks"
 
-interface Props {
-  children? : React.ReactNode;
-}
-
-const CreateConnection = ({children} : Props) => {
+const CreateConnection = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const session = useSession();
@@ -61,7 +54,6 @@ const CreateConnection = ({children} : Props) => {
   const onSubmit = async (values: z.infer<typeof newConnection>) => {
     setIsSubmitting(true);
     try {
-      console.log(session)
       const response = await axios.post("/api/new-connection", {
         name: values.name,
         profilePhotoUrl: values.profilePhotoUrl
@@ -93,7 +85,6 @@ const CreateConnection = ({children} : Props) => {
   const handleClose = () => {
     form.reset();
     dispatch(onClose());
-    console.log(isModelOpen)
   }
   return (
     <div>

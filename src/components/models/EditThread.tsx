@@ -28,7 +28,7 @@ import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
   Select,
   SelectContent,
@@ -46,7 +46,6 @@ const EditThread = () => {
   const [modelOpen, setModelOpen] = useState(isModelOpen);
   const dispatch = useDispatch();
   const router = useRouter();
-  const params = useParams();
 
 
   const form = useForm<z.infer<typeof newThread>>({
@@ -59,7 +58,6 @@ const EditThread = () => {
 
   const onSubmit = async (values: z.infer<typeof newThread>) => {
     setIsSubmitting(true);
-    console.log(params)
     try {
       const url = qs.stringifyUrl({
         url: `/api/threads/${data?.thread?._id}`,

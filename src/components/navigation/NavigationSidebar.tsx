@@ -21,15 +21,6 @@ const NavigationSidebar = async () => {
   if(!user) {
     return redirect("/sign-in");
   }
-  
-  // const connections : ConnectionType[] = await ConnectionModel.find({members : user._id}).lean<ConnectionType[]>().exec();
-
-  // const connections : ConnectionType[] = await ConnectionModel.find().populate({
-  //   path : "members",
-  //   match : {user : new mongoose.Types.ObjectId(user._id as string)}
-  // })
-
-  // const filteredConnections = connections.filter((connection) => connection.members.length > 0);
 
   const connections = await ConnectionModel.aggregate([
     {
