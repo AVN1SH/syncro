@@ -1,12 +1,13 @@
 "use client"
 import { faComments, faRightLeft, faServer, faSync } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ActionTooltip from "../action-tooltip"
 import { usePathname, useRouter } from "next/navigation"
 import UserAvatar from "../UserAvatar"
 import { ModeToggle } from "../themeToggle"
 import { Separator } from "../ui/separator"
+import { useSession } from "next-auth/react"
 
 const NavigationBar = () => {
 
@@ -14,6 +15,7 @@ const NavigationBar = () => {
   const url = usePathname();
   const [active, setActive] = useState(url);
   const router = useRouter();
+  const { data: session } = useSession();
 
   return (
     <div className="size-full flex items-center justify-between">
@@ -77,9 +79,12 @@ const NavigationBar = () => {
         <ModeToggle />
         <Separator className="bg-zinc-600 -rotate-90 w-6 h-[1px] mt-5 rounded-full" />
         <div className="overflow-hidden p-2 h-[40px]">
-          <ActionTooltip label="Profile" side="left">
-            <UserAvatar  className="!h-7 !w-7 cursor-pointer hover:opacity-80 transition-[2s]"/>
-          </ActionTooltip>
+          {/* <ActionTooltip label="Profile" side="left"> */}
+            <UserAvatar  
+              src={session?.user?.imageUrl}
+              className="!size-[28px] cursor-pointer hover:opacity-80 transition-[2s]"
+            />
+          {/* </ActionTooltip> */}
         </div>
       </div>
     </div>

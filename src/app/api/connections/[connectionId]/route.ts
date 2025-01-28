@@ -85,7 +85,7 @@ export async function DELETE(
     const removeFromUser = await UserModel.findByIdAndUpdate({
       _id : user._id
     }, {
-      $Pull : { connections : new mongoose.Types.ObjectId(params.connectionId)}
+      $pull : { connections : new mongoose.Types.ObjectId(params.connectionId)}
     });
 
     if(!removeFromUser) return new NextResponse("Error while removing connection from user", { status : 500 });

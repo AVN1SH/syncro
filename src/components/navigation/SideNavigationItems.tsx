@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import ActionTooltip from '../action-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,7 +21,6 @@ const SideNavigationItems = ({id, imageUrl, name} : Props) => {
     router.push(`/connections/${id}`);
   }
 
-
   return (
     <ActionTooltip 
       side="right"
@@ -39,8 +38,9 @@ const SideNavigationItems = ({id, imageUrl, name} : Props) => {
         `} />
 
         <div
-          className={`relative group flex mx-2 h-[46px] rounded-[23px] group-hover:rounded-[16px] transition-all overflow-hidden
-          ${params?.connectionId === id && "bg-primary/10 text-primary rounded-[16px]"}
+          className={`relative group flex mx-2 size-[46px] group-hover:rounded-[16px] transition-all overflow-hidden
+          ${params?.id !== id && "rounded-[23px]"}
+          ${params?.id === id && "bg-primary/10 text-primary rounded-[16px]"}
           `}
         >
           { imageUrl 

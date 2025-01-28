@@ -41,7 +41,7 @@ const ConnectionSection = ({
           </button>
         </ActionTooltip>
       )}
-      {role !== "admin" && sectionType === "members" && (
+      {role === "admin" && sectionType === "members" && (
         <ActionTooltip label="Manage Members">
           <button 
             onClick={() => dispatch(onOpen({
@@ -52,7 +52,7 @@ const ConnectionSection = ({
                 connectionUserId : connection?.user
               }
             }))}
-            className="text-zinc-500 hover:text-yellow-600 dark:text-yellow-400 dark:hover:text-zinc-300 transition"
+            className="text-zinc-500 hover:text-yellow-600 dark:text-yellow-400 dark:hover:text-zinc-300 transition hover:rotate-45 duration-300"
           >
             <Settings className="h-4 w-4" />
           </button>
