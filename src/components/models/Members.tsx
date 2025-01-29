@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose, onOpen } from "@/features/modelSlice"
-import { Check, Loader2, MoreVertical, Shield } from "lucide-react"
+import { Check, Crown, Loader2, MoreVertical, Shield, Skull, User, UserRound, UserRoundPen, UserRoundX } from "lucide-react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { ScrollArea } from "../ui/scroll-area"
@@ -33,8 +33,8 @@ import { useRouter } from "next/navigation";
 
 const roleIconMap = {
   "guest" : null,
-  "moderator" : <FontAwesomeIcon icon={faShield} className="h-4 w-4 ml-2 text-yellow-500" />,
-  "admin" : <FontAwesomeIcon icon={faShieldDog} className="h-4 w-4 ml-2 text-rose-500" />,
+  "moderator" : <Skull className="h-4 w-4 ml-2 text-yellow-500" />,
+  "admin" : <Crown className="h-4 w-4 ml-2 text-rose-500" />,
 }
 
 const Members = () => {
@@ -139,25 +139,27 @@ const Members = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent side="left" align="end" forceMount className="dark:bg-neutral-900">
                         <DropdownMenuSub>
-                          <DropdownMenuSubTrigger className="flex items-center">
-                            <FontAwesomeIcon icon={faUserShield} className="h-4 w-4 mr-2" />
+                          <DropdownMenuSubTrigger className="flex items-center hover:cursor-pointer">
+                            <UserRoundPen className="h-4 w-4 mr-2" />
                             <span>Role</span>
                           </DropdownMenuSubTrigger>
                           <DropdownMenuPortal>
                             <DropdownMenuSubContent className="dark:bg-neutral-900 focus:bg-neutral-950">
                               <DropdownMenuItem
+                                className="hover:cursor-pointer"
                                 onClick={() => onRoleChange(String(member._id), "guest")}
                               >
-                                <Shield className="h-4 w-4 mr-2" />
+                                <UserRound className="h-4 w-4 mr-2" />
                                 Guest
                                 {member.role === "guest" && (
                                   <Check className="h-4 w-4 ml-auto text-yellow-500" />
                                 )}
                               </DropdownMenuItem>
                               <DropdownMenuItem 
+                                className="hover:cursor-pointer"
                                 onClick={() => onRoleChange(String(member._id), "moderator")}
                               >  
-                                <FontAwesomeIcon icon={faShield} className="mr-2 text-xl"/>
+                                <Skull className="mr-2 text-xl"/>
                                 Moderator
                                 {member.role === "moderator" && (
                                   <Check className="h-4 w-4 ml-auto text-yellow-500" />
@@ -167,8 +169,11 @@ const Members = () => {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => onKick(String(member._id))}>
-                          <FontAwesomeIcon icon={faGavel} className="h-4 w-4 mr-2" />
+                        <DropdownMenuItem 
+                          className="hover:cursor-pointer"
+                          onClick={() => onKick(String(member._id))}
+                        >
+                          <UserRoundX className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
                       </DropdownMenuContent>

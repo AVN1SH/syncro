@@ -8,6 +8,7 @@ import UserAvatar from "../UserAvatar"
 import { ModeToggle } from "../themeToggle"
 import { Separator } from "../ui/separator"
 import { useSession } from "next-auth/react"
+import { ArrowLeftRight, MessagesSquare, RefreshCw, Server } from "lucide-react"
 
 const NavigationBar = () => {
 
@@ -22,9 +23,8 @@ const NavigationBar = () => {
       <div className="relative overflow-hidden flex w-full h-full">
         <div className="absolute pl-3 py-1">
           <ActionTooltip label="See Features" side="right">
-            <FontAwesomeIcon 
-              icon={faSync} 
-              className={`${toRotate ? "rotate-[180deg]" :"rotate-0"} size-[20px] duration-300 bg-yellow-500 p-2 rounded-full hover:cursor-pointer hover:bg-yellow-600 absolute z-10`} 
+            <RefreshCw
+              className={`${toRotate ? "rotate-[180deg]" :"rotate-0"} size-[36px] duration-300 bg-yellow-500 p-[6px] rounded-full hover:cursor-pointer hover:bg-yellow-600 absolute z-10`} 
               onClick={() => setToRotate(!toRotate)} 
             />
           </ActionTooltip>
@@ -36,9 +36,8 @@ const NavigationBar = () => {
             onClick={() => {router.push("/chat"); setActive("/chat")}}
           >
             <span className="flex gap-2 items-baseline justify-center">
-              <FontAwesomeIcon 
-                icon={faComments} 
-                className={`duration-100  ${active.includes("/chat") ? "text-2xl text-yellow-500 hover:placeholder-opacity-90" : "group-hover:text-2xl group-hover:text-yellow-500 text-sm"}`}
+              <MessagesSquare 
+                className={`duration-100  ${active.includes("/chat") ? "text-2xl text-yellow-500 hover:placeholder-opacity-90" : "group-hover:size-[24px] group-hover:text-yellow-500 size-[16px]"}`}
               />
               <div className={`${active === "/chat" 
                 ? "text-zinc-600 dark:text-zinc-300 text-sm opacity-90" 
@@ -50,11 +49,10 @@ const NavigationBar = () => {
             onClick={() => {router.push("/connections"); setActive("/connections")}}
           >
             <span className="flex gap-2 items-baseline justify-center">
-              <FontAwesomeIcon 
-                icon={faServer} 
-                className={`duration-100  ${active.includes("/connections") ? "text-2xl text-yellow-500 hover:placeholder-opacity-90" : "group-hover:text-2xl group-hover:text-yellow-500 text-sm"}`}
+              <Server
+                className={`duration-100  ${active.includes("/connections") ? "text-2xl text-yellow-500 hover:placeholder-opacity-90" : "group-hover:size-[24px] group-hover:text-yellow-500 size-[16px]"}`}
               />
-              <div className={`${active === "/connections" 
+              <div className={`${active.includes("/connections") 
                 ? "text-zinc-600 dark:text-zinc-300 text-sm opacity-90" 
                 : "group-hover:text-zinc-600 dark:group-hover:text-zinc-300 group-hover:text-sm"} duration-100`}>Connections</div>
             </span>
@@ -64,9 +62,8 @@ const NavigationBar = () => {
             onClick={() => {router.push("/transfer"); setActive("/transfer")}}
           >
             <span className="flex gap-2 items-baseline justify-center">
-              <FontAwesomeIcon 
-                icon={faRightLeft} 
-                className={`duration-100  ${active.includes("/transfer") ? "text-2xl text-yellow-500 hover:placeholder-opacity-90" : "group-hover:text-2xl group-hover:text-yellow-500 text-sm"}`}
+              <ArrowLeftRight
+                className={`duration-100  ${active.includes("/transfer") ? "text-2xl text-yellow-500 hover:placeholder-opacity-90" : "group-hover:size-[24px] group-hover:text-yellow-500 size-[16px]"}`}
               />
               <div className={`${active === "/transfer" 
                 ? "text-zinc-600 dark:text-zinc-300 text-sm opacity-90" 

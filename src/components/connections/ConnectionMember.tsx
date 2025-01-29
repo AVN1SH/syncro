@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 import UserAvatar from '../UserAvatar';
+import { Crown, Skull } from 'lucide-react';
 
 interface Props {
   member : MemberWithUser;
@@ -13,8 +14,8 @@ interface Props {
 }
 
 const roleIconMap = {
-  "admin" : <FontAwesomeIcon icon={faShieldDog} className="h-4 w-4 text-rose-500" />,
-  "moderator" : <FontAwesomeIcon icon={faShield} className="h-4 w-4 text-yellow-500" />,
+  "admin" : <Crown className="h-4 w-4 text-rose-500" />,
+  "moderator" : <Skull className="h-4 w-4 text-yellow-500" />,
   "guest" : null
 }
 
