@@ -6,28 +6,25 @@ import { User } from "./user.model";
 export interface Conversation extends Document {
   memberOne : mongoose.Schema.Types.ObjectId;
   memberTwo : mongoose.Schema.Types.ObjectId;
-  directMessage : mongoose.Schema.Types.ObjectId;
+  directMessages : mongoose.Schema.Types.ObjectId[];
 }
 
 const ConversationSchema : Schema<Conversation> = new Schema({
   memberOne : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "Member",
-    required : true,
-    unique : true
   },
   memberTwo : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "Member",
-    required : true,
-    unique : true
   },
-  directMessage : {
+  directMessages : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "DirectMessage",
-    required : true
-  }
+  }]
 }, {timestamps : true});
+
+ConversationSchema.index({ memberOne: 1, memberTwo: 1 }, { unique: true });
 
 const ConversationModel = mongoose.models.Conversation || mongoose.model<Conversation>("Conversation", ConversationSchema); 
 

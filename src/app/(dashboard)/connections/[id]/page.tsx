@@ -59,8 +59,6 @@ const page = async({ params } : Props) => {
     }
   ]);
 
-  console.log("conne",checkingConnection[0]);
-
   if(!checkingConnection.length) return null
 
   const initialThread = checkingConnection[0]?.threads?._id;

@@ -12,24 +12,37 @@ import mongoose from "mongoose";
 import { DBMember, DBThread } from "@/types";
 
 interface Props {
-  thread ?: DBThread;
-  member ?: DBMember;
+  connectionId : string;
+  name : string;
+  imageUrl ?: string;
+  type : "thread" | "conversation";
 }
 
-const Secondary = async({thread, member} : Props) => {
+const Secondary = async({
+    connectionId,
+    name,
+    imageUrl,
+    type
+  } : Props) => {
   // const [active, setActive] = useState("online");
   // const url = usePathname();
   // const [activeUrl, setActiveUrl] = useState(url);
 
-  if(!member || !thread) redirect("/connections");
+  // if() redirect("/connections");
 
   return (
     <div>
-      <SecondaryWindowHeader 
-        name = {thread.name}
-        connectionId={String(thread.connection)}
-        type="thread"
-      />
+      {type === "thread" && <SecondaryWindowHeader 
+        name = {name}
+        connectionId={connectionId}
+        type={type}
+      />}
+      {type === "conversation" && <SecondaryWindowHeader
+        imageUrl={imageUrl}
+        name={name}
+        connectionId={connectionId}
+        type={type}
+      />}
       {/* <div className="border-solid border-zinc-800 border-b-[2px] h-[50px] flex justify-between">
         {activeUrl === "/chat" && <FriendsTopNav active={(data : string) => setActive(data)} />}
 
