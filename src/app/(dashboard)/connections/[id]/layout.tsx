@@ -47,13 +47,9 @@ const layout = async ({children, params} : {children : React.ReactNode; params :
     },
   ])
 
-  console.log("connection", connection);
-  console.log("user : " , user._id)
-
   if(!connection.length) {
     return redirect("/connections");
   }
-
 
   return (
     <div className="flex h-full w-[250px] z-30 flex-col fixed inset-y-0 top-[40px] left-[60px] dark:bg-[#2b2d31] bg-zinc-100">
