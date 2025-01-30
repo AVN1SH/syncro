@@ -1,4 +1,7 @@
-import "./connection.model"; // Register Connection model
-import "./thread.model";     // Register Thread model
-import "./user.model";       // Register User model
-import "./member.model";     // Register Member model
+import "./connection.model";
+import "./thread.model";
+import "./user.model";
+import "./member.model";
+import "./message.model"
+import "./conversation.model"
+import "./directMessage.model"

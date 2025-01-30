@@ -6,6 +6,7 @@ export interface Thread extends Document {
   name : string;
   user: mongoose.Schema.Types.ObjectId;
   connection: mongoose.Schema.Types.ObjectId;
+  messages : mongoose.Schema.Types.ObjectId[];
   type: "text" | "voice" | "video";
 }
 
@@ -28,7 +29,11 @@ const ThreadSchema : Schema<Thread> = new Schema({
     type : String,
     enum : ["text", "voice", "video"],
     default : "text"
-  }
+  },
+  messages : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Message"
+  }]
 }, {timestamps : true});
 
 const ThreadModel = mongoose.models.Thread || mongoose.model<Thread>("Thread", ThreadSchema);
