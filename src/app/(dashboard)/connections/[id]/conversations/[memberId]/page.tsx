@@ -42,7 +42,7 @@ const page = async({params} : Props) => {
     <div className="fixed left-[310px] top-[40px] right-0 bottom-0">
       <Secondary
         imageUrl={otherMember.user.imageUrl}
-        name={otherMember.user.name}
+        threadName={otherMember.user.name}
         connectionId={params.id}
         type="conversation"
       />

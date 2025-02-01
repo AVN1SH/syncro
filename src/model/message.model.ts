@@ -22,16 +22,16 @@ const MessageSchema : Schema<Message> = new Schema({
     type : Boolean,
     default : false
   },
-  thread : [{
+  thread : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "Thread",
     required : true
-  }],
-  member : [{
+  },
+  member : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "Member",
     required : true
-  }]
+  }
 }, {timestamps : true});
 
 const MessageModel = mongoose.models.Message || mongoose.model<Message>("Message", MessageSchema); 

@@ -10,17 +10,20 @@ import ThreadModel from "@/model/thread.model";
 import MemberModel from "@/model/member.model";
 import mongoose from "mongoose";
 import { DBMember, DBThread } from "@/types";
+import ChatInput from "../chat/ChatInput";
 
 interface Props {
   connectionId : string;
-  name : string;
+  threadName : string;
+  threadId ?: string;
   imageUrl ?: string;
   type : "thread" | "conversation";
 }
 
 const Secondary = async({
     connectionId,
-    name,
+    threadName,
+    threadId,
     imageUrl,
     type
   } : Props) => {
@@ -31,18 +34,30 @@ const Secondary = async({
   // if() redirect("/connections");
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       {type === "thread" && <SecondaryWindowHeader 
-        name = {name}
+        name = {threadName}
         connectionId={connectionId}
         type={type}
       />}
       {type === "conversation" && <SecondaryWindowHeader
         imageUrl={imageUrl}
-        name={name}
+        name={threadName}
         connectionId={connectionId}
         type={type}
       />}
+
+      <div className="flex-1">Future Messages</div>
+      <ChatInput 
+        name={threadName}
+        type="thread"
+        apiUrl="/api/socket/messages"
+        query={{
+          threadId : threadId,
+          connectionId : connectionId
+        }}
+
+      />
       {/* <div className="border-solid border-zinc-800 border-b-[2px] h-[50px] flex justify-between">
         {activeUrl === "/chat" && <FriendsTopNav active={(data : string) => setActive(data)} />}
 
