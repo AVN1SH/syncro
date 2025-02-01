@@ -46,7 +46,7 @@ export async function POST(
       },
       {
         $match : {
-          "members.user" : new mongoose.Types.ObjectId(user._id as string),
+          "members.user" : new mongoose.Types.ObjectId(user._id),
           "members.role" : {$in : ["admin", "moderator"]}
         }
       }
@@ -74,7 +74,7 @@ export async function POST(
 
     if(!updatedConnection) return new NextResponse("Connection Update Failed", {status : 500});
 
-    const updatedUser = await UserModel.findByIdAndUpdate(user._id, {
+    const updatedUser = await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(user._id), {
       $push : {
         threads : createThread._id
       }

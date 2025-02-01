@@ -11,7 +11,7 @@ export async function PATCH(
   { params } : { params : { connectionId : string}}
 ) {
   try {
-    const user : DBUser = await currentUser();
+    const user = await currentUser();
 
     if(!user) return new NextResponse("Unauthorized", { status: 401 });
 
@@ -23,7 +23,7 @@ export async function PATCH(
       {
         $match : {
           _id : new mongoose.Types.ObjectId(params.connectionId),
-          user : {$ne : user._id}
+          user : {$ne : new mongoose.Types.ObjectId(user._id)}
         }
       }
     ])
@@ -31,7 +31,7 @@ export async function PATCH(
     if(!checkConnection.length) return new NextResponse("You may have admin of this connection", { status : 400});
 
     const deleteMember = await MemberModel.findOneAndDelete({
-      user : user._id,
+      user : new mongoose.Types.ObjectId(user._id),
       connection : new mongoose.Types.ObjectId(params.connectionId)
     });
 

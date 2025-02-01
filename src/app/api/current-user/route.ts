@@ -1,8 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { apiResponse } from "@/utils/apiResponse";
-import UserModel, { User } from "@/model/user.model";
-import dbConnect from "@/lib/dbConnect";
 
 export async function GET(request : Request) {
 

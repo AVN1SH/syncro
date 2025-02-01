@@ -23,8 +23,8 @@ export async function PATCH(
 
     const updatedConnection = await ConnectionModel.findByIdAndUpdate(
       {
-        _id : params.connectionId,
-        user : user._id,
+        _id : new mongoose.Types.ObjectId(params.connectionId),
+        user : new mongoose.Types.ObjectId(user._id),
       }, 
       {
         $set : {
@@ -57,8 +57,8 @@ export async function DELETE(
 
     const deletedConnection = await ConnectionModel.findByIdAndDelete(
       {
-        _id : params.connectionId,
-        user : user._id,
+        _id : new mongoose.Types.ObjectId(params.connectionId),
+        user : new mongoose.Types.ObjectId(user._id),
       }, 
     );
 
@@ -83,7 +83,7 @@ export async function DELETE(
     //removing connection from user
 
     const removeFromUser = await UserModel.findByIdAndUpdate({
-      _id : user._id
+      _id : new mongoose.Types.ObjectId(user._id)
     }, {
       $pull : { connections : new mongoose.Types.ObjectId(params.connectionId)}
     });

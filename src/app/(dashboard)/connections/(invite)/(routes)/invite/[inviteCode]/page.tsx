@@ -17,8 +17,7 @@ const InviteCodePage = async ({
   params
 }: InviteCodePageProps) => {
 
-  const user : User = await currentUser();
-  console.log("type : ", typeof(user._id))
+  const user = await currentUser();
 
   if(!user) {
     return redirect("/sign-in");
@@ -53,7 +52,7 @@ const InviteCodePage = async ({
     },
     {
       $match: {
-        "members.user": new mongoose.Types.ObjectId(user._id as string)
+        "members.user": new mongoose.Types.ObjectId(user._id)
       }
     }
   ]);

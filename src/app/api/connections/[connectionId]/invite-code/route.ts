@@ -3,6 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
 import { NextResponse } from "next/server";
 import { generateInviteCode } from "../../../new-connection/route";
+import mongoose from "mongoose";
 
 export async function PATCH(
   req : Request,
@@ -24,7 +25,7 @@ export async function PATCH(
     const connection = await ConnectionModel.findOneAndUpdate(
       {
         _id : params.connectionId,
-        user : user._id
+        user : new mongoose.Types.ObjectId(user._id)
       },
       {
         $set : {

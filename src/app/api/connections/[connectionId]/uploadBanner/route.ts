@@ -39,7 +39,7 @@ export async function PATCH(
       { $unwind : "$members" },
       {
         $match : {
-          "members.user" : new mongoose.Types.ObjectId(user._id as string),
+          "members.user" : new mongoose.Types.ObjectId(user._id),
           "members.role" : {$in : ["admin", "moderator"]}
         }
       }

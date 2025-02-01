@@ -37,7 +37,7 @@ const page = async({ params } : Props) => {
     { $unwind : "$members" },
     {
       $match : {
-        "members.user" : new mongoose.Types.ObjectId(user._id as string)
+        "members.user" : new mongoose.Types.ObjectId(user._id)
       }
     },
     {

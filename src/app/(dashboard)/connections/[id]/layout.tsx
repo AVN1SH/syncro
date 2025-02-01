@@ -12,7 +12,7 @@ const layout = async ({children, params} : {children : React.ReactNode; params :
   console.log("params : ", params)
   await dbConnect();
   
-  const user : User = await currentUser();
+  const user = await currentUser();
 
   if(!user) {
     return redirect("/sign-in");
@@ -42,7 +42,7 @@ const layout = async ({children, params} : {children : React.ReactNode; params :
     },
     {
       $match: {
-        "members.user": new mongoose.Types.ObjectId(user._id as string),
+        "members.user": new mongoose.Types.ObjectId(user._id),
       },
     },
   ])
