@@ -1,9 +1,7 @@
 import ActionTooltip from "@/components/action-tooltip"
 import Single from "@/components/skeletons/Single"
 import { Separator } from "@/components/ui/separator"
-import { faBolt, faCommentDots, faCommentSms, faFile, faHandshakeAngle, faHashtag, faIdBadge, faMessage, faMicrophone, faSadCry, faShield, faShieldDog, faSmile, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Hash, Plus } from "lucide-react"
+import { Crown, Hash, Mic, Plus, Skull, Video } from "lucide-react"
 import PrimaryNav from "../navigation/PrimaryNav"
 import { redirect, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -27,14 +25,14 @@ interface Props {
 }
 
 const iconMap = {
-  "text" : <FontAwesomeIcon icon={faHashtag} className="mr-2 h-4 w-4" />,
-  "voice" : <FontAwesomeIcon icon={faMicrophone} className="mr-2 h-4 w-4" />,
-  "video" : <FontAwesomeIcon icon={faVideo} className="mr-2 h-4 w-4" />,
+  "text" : <Hash className="mr-2 h-4 w-4" />,
+  "voice" : <Mic className="mr-2 h-4 w-4" />,
+  "video" : <Video className="mr-2 h-4 w-4" />,
 }
 
 const roleIconMap = {
-  "admin" : <FontAwesomeIcon icon={faShieldDog} className="h-4 w-4 mr-2 text-rose-500" />,
-  "moderator" : <FontAwesomeIcon icon={faShield} className="h-4 w-4 mr-2 text-yellow-500" />,
+  "admin" : <Crown className="h-4 w-4 mr-2 text-rose-500" />,
+  "moderator" : <Skull className="h-4 w-4 mr-2 text-yellow-500" />,
   "guest" : null
 }
 
@@ -65,7 +63,7 @@ const Primary = async ({connectionId} : Props) => {
 
   const videoThreads = connection?.threads.filter((thread : Thread) => thread.type === "video");
 
-  const members = connection?.members.filter((member : MemberWithUser) => member.user._id !== user?._id);
+  const members = connection?.members.filter((member : MemberWithUser) => String(member.user._id) !== user?._id);
 
   if(!connection) {
     return redirect("/connections"); 

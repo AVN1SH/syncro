@@ -6,6 +6,10 @@ import { Thread } from "./model/thread.model";
 import { Message } from "./model/message.model";
 import { Conversation } from "./model/conversation.model";
 import { DirectMessage } from "./model/directMessage.model";
+import { NextApiResponse } from "next";
+import { Socket } from "net";
+import { NextServer } from "next/dist/server/next";
+import { Server as SocketIOServer } from "socket.io";
 
 export type SessionUser = {
   _id : string;
@@ -59,4 +63,15 @@ export type ConversationWithMembersWithUsers = DBConversation & {
   memberTwo : DBMember & {
     user : DBUser;
   };
+}
+
+
+//Socket.io
+
+export type NextApiResponseServerIo = NextApiResponse & {
+  socket: Socket & {
+    server : NextServer & {
+      io : SocketIOServer
+    }
+  }
 }
