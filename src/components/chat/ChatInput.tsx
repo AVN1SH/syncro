@@ -17,6 +17,8 @@ import axios from 'axios';
 import qs from "query-string"
 import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
+import EmojiPicker from '../EmojiPicker';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   apiUrl : string;
@@ -28,7 +30,7 @@ interface Props {
 const ChatInput = ({apiUrl, query, name, type} : Props) => {
 
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof chat>>({
     resolver: zodResolver(chat),
     defaultValues : {
@@ -46,6 +48,8 @@ const ChatInput = ({apiUrl, query, name, type} : Props) => {
       })
 
       await axios.post(url, values);
+      form.reset();
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +84,9 @@ const ChatInput = ({apiUrl, query, name, type} : Props) => {
                     {...field}
                   />
                   <div className="absolute top-7 right-8">
-                   <SmilePlus />
+                   <EmojiPicker
+                    onChange={(emoji : string) => field.onChange(`${field.value}${emoji}`)}
+                   />
                   </div>
                 </div>
               </FormControl>
