@@ -11,6 +11,7 @@ import MemberModel from "@/model/member.model";
 import mongoose from "mongoose";
 import { DBMember, DBThread } from "@/types";
 import ChatInput from "../chat/ChatInput";
+import StoreProvider from "@/store/StoreProvider";
 
 interface Props {
   connectionId : string;
@@ -48,16 +49,17 @@ const Secondary = async({
       />}
 
       <div className="flex-1">Future Messages</div>
-      <ChatInput 
-        name={threadName}
-        type="thread"
-        apiUrl="/api/socket/messages"
-        query={{
-          threadId : threadId,
-          connectionId : connectionId
-        }}
-
-      />
+      <StoreProvider>
+        <ChatInput 
+          name={threadName}
+          type="thread"
+          apiUrl="/api/socket/messages"
+          query={{
+            threadId : threadId,
+            connectionId : connectionId
+          }}
+        />
+      </StoreProvider>
       {/* <div className="border-solid border-zinc-800 border-b-[2px] h-[50px] flex justify-between">
         {activeUrl === "/chat" && <FriendsTopNav active={(data : string) => setActive(data)} />}
 

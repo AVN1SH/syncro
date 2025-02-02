@@ -3,9 +3,10 @@ import localFont from "next/font/local";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import ModelProvider from "@/components/providers/ModelProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { SocketProvider } from "@/components/providers/SocketProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,8 +43,10 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="syncro-theme"
           >
-            <ModelProvider />
-            {children}
+            <SocketProvider>
+              <ModelProvider />
+              {children}
+            </SocketProvider>
             <Toaster />
           </ThemeProvider>
         </body>

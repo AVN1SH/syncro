@@ -15,6 +15,8 @@ import { Input } from '../ui/input';
 import { Plus, SmilePlus } from 'lucide-react';
 import axios from 'axios';
 import qs from "query-string"
+import { useDispatch } from 'react-redux';
+import { onOpen } from '@/features/modelSlice';
 
 interface Props {
   apiUrl : string;
@@ -24,6 +26,8 @@ interface Props {
 }
 
 const ChatInput = ({apiUrl, query, name, type} : Props) => {
+
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof chat>>({
     resolver: zodResolver(chat),
@@ -58,7 +62,13 @@ const ChatInput = ({apiUrl, query, name, type} : Props) => {
                 <div className="relative p-4 pb-6">
                   <button
                     type="button"
-                    onClick={() => {}}
+                    onClick={() => dispatch(onOpen({
+                      type : "messageFile",
+                      data : {
+                        apiUrl,
+                        query
+                      }
+                    }))}
                     className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 rounded-md p-1 flex items-center justify-center cursor-pointer"
                   >
                     <Plus className="text-white dark:text-[#313338]" />
