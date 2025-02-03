@@ -12,6 +12,7 @@ import mongoose from "mongoose";
 import { DBMember, DBThread } from "@/types";
 import ChatInput from "../chat/ChatInput";
 import StoreProvider from "@/store/StoreProvider";
+import ChatMessages from "../chat/ChatMessages";
 
 interface Props {
   connectionId : string;
@@ -19,6 +20,7 @@ interface Props {
   threadId ?: string;
   imageUrl ?: string;
   type : "thread" | "conversation";
+  member ?: DBMember;
 }
 
 const Secondary = async({
@@ -26,7 +28,8 @@ const Secondary = async({
     threadName,
     threadId,
     imageUrl,
-    type
+    type,
+    member
   } : Props) => {
   // const [active, setActive] = useState("online");
   // const url = usePathname();
@@ -48,7 +51,21 @@ const Secondary = async({
         type={type}
       />}
 
-      <div className="flex-1">Future Messages</div>
+      <ChatMessages 
+        name={threadName}
+        member={member}
+        chatId={threadId}
+        type="thread"
+        apiUrl="/api/messages"
+        socketurl="/api/socket/messages"
+        socketQuery={{
+          threadId : threadId ? threadId : '',
+          connectionId : connectionId
+        }}
+        paramKey="threadId"
+        paramValue={threadId}
+      />
+
       <StoreProvider>
         <ChatInput 
           name={threadName}

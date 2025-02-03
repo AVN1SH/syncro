@@ -34,6 +34,8 @@ export type DBUser = User & {
 }
 export type DBMessage = Message & {
   _id : mongoose.Schema.Types.ObjectId;
+  createdAt : Date;
+  updatedAt : Date;
 }
 export type DBConversation = Conversation & {
   _id : mongoose.Schema.Types.ObjectId;
@@ -63,6 +65,12 @@ export type ConversationWithMembersWithUsers = DBConversation & {
   memberTwo : DBMember & {
     user : DBUser;
   };
+}
+
+export type MessageWithMemberWithUser = DBMessage & {
+  member : DBMember & {
+    user : DBUser;
+  }
 }
 
 

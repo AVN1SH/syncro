@@ -24,7 +24,7 @@ const page = async({params} : Props) => {
 
   const member = await MemberModel.findOne({
     connection : new mongoose.Types.ObjectId(params.id),
-    user : new mongoose.Types.ObjectId(user._id as string)
+    user : new mongoose.Types.ObjectId(user._id)
   }).lean() as DBMember
 
   if(!member || !thread) redirect("/connections");
@@ -36,6 +36,7 @@ const page = async({params} : Props) => {
           connectionId={String(thread.connection)}
           type="thread"
           threadId={String(thread._id)}
+          member={member}
         />
     </div>
   )
