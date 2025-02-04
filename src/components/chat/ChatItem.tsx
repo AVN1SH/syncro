@@ -7,6 +7,20 @@ import { Crown, Edit, FileIcon, Skull, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { getContentType } from '@/lib/fileType';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { chat } from '@/schemas/chat';
+import { z } from 'zod';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import qs from "query-string";
+import axios from 'axios';
 
 interface Props {
   id : string;
@@ -49,8 +63,49 @@ const ChatItem = ({
   const canEditMessage = !deleted && isOwner && !fileUrl;
   const [fileType, setFileType] = useState('');
 
-  const isPDF = fileType.includes("pdf")
-  const isImage = fileType.includes("jpeg" || "jpg" || "png" || "gif")
+  const isPDF = fileType.includes("pdf");
+  const isImage = fileType.includes("jpeg" || "jpg" || "png" || "gif");
+
+  const form = useForm<z.infer<typeof chat>>({
+    resolver: zodResolver(chat),
+    defaultValues: {
+      content: content
+    }
+  })
+
+  const isLoading = form.formState.isSubmitting;
+
+  const onSubmit = async(values : z.infer<typeof chat>) => {
+    try {
+      const url = qs.stringifyUrl({
+        url : `${socketUrl}/${id}`,
+        query : socketQuery
+      })
+
+      await axios.patch(url, values);
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event : any) => {
+      if(event.key === "Enter" || event.keyCode === 27) {
+        setIsEditing(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    form.reset({
+      content : content
+    })
+  }, [content]);
 
   useEffect(() => {
     const getFileType = async () => {
@@ -125,17 +180,51 @@ const ChatItem = ({
               )}
             </p>
           )}
+          {!fileUrl && isEditing && (
+            <Form {...form}>
+              <form
+                className="flex items-center w-full gap-x-2 pt-2"
+                onSubmit={form.handleSubmit(onSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name="content"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormControl>
+                        <div className="relative w-full">
+                          <Input 
+                            disabled={isLoading}
+                            className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200" placeholder="Edited message"
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <Button disabled={isLoading} size="sm" className="bg-yellow-500 hover:bg-yellow-600 text-black dark:text-white transition duration-300">
+                  Save
+                </Button>
+              </form>
+              <span className="text-[10px] mt-1 text-zinc-400">
+                Press escape to cancel, Enter to save
+              </span>
+            </Form>
+          )}
         </div>
       </div>
       {canDeleteMessage && (
         <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
           {canEditMessage && (
             <ActionTooltip label="Edit">
-              <Edit className="size-4 ml-2 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition cursor-pointer" />
+              <Edit 
+                onClick={() => setIsEditing(true)}
+              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
-            <Trash className="size-4 ml-2 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition cursor-pointer" />
+            <Trash className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
           </ActionTooltip>
         </div>
       )}
