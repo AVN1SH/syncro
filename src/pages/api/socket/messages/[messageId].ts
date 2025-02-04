@@ -1,11 +1,10 @@
-import { currentUser } from "@/lib/currentUser";
 import { currentUserPage } from "@/lib/currentUserPages";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
 import MessageModel from "@/model/message.model";
 import ThreadModel from "@/model/thread.model";
-import { ConnectionWithMembersWithUsers, DBMember, DBThread, MemberWithUser, MessageWithMemberWithUser } from "@/types";
+import { ConnectionWithMembersWithUsers, DBMember, DBThread } from "@/types";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -29,10 +28,7 @@ export default async function handler(
     if(!connectionId) return res.status(400).json({error : "Connection ID missing"});
     
     if(!threadId) return res.status(400).json({error : "Thread ID missing"});
-    
-    if(!content) return res.status(400).json({error : "Content missing"});
-    
-    console.log("connection", user, messageId, connectionId, threadId, content);
+        
     await dbConnect();
 
     const connection : ConnectionWithMembersWithUsers[] = await ConnectionModel.aggregate([

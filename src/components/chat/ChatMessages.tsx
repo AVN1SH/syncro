@@ -6,6 +6,7 @@ import { useChatQuery } from '@/hooks/useChatQuery';
 import { Loader2, ServerCrash } from 'lucide-react';
 import ChatItem from './ChatItem';
 import { format } from "date-fns";
+import StoreProvider from '@/store/StoreProvider';
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
@@ -73,27 +74,29 @@ const ChatMessages = ({
           type={type}
           name={name}
         />
-        <div className="flex flex-col-reverse mt-auto w-full">
-          {data?.pages?.map((group, i) => (
-            <Fragment key={i}>
-              {group.items.map((message : MessageWithMemberWithUser) => (
-                <ChatItem
-                  key={String(message._id)}
-                  id={String(message._id)}
-                  currentMember={member}
-                  member={message.member}
-                  content={message.content}
-                  fileUrl={message.fileUrl}
-                  deleted={message.deleted}
-                  timeStamp={format(new Date(message.createdAt), DATE_FORMAT)}
-                  isUpdated={message.updatedAt !== message.createdAt}
-                  socketUrl={socketurl}
-                  socketQuery={socketQuery}
-                />
-              ))}
-            </Fragment>
-          ))}
-        </div>
+        <StoreProvider>
+          <div className="flex flex-col-reverse mt-auto w-full">
+            {data?.pages?.map((group, i) => (
+              <Fragment key={i}>
+                {group.items.map((message : MessageWithMemberWithUser) => (
+                  <ChatItem
+                    key={String(message._id)}
+                    id={String(message._id)}
+                    currentMember={member}
+                    member={message.member}
+                    content={message.content}
+                    fileUrl={message.fileUrl}
+                    deleted={message.deleted}
+                    timeStamp={format(new Date(message.createdAt), DATE_FORMAT)}
+                    isUpdated={message.updatedAt !== message.createdAt}
+                    socketUrl={socketurl}
+                    socketQuery={socketQuery}
+                  />
+                ))}
+              </Fragment>
+            ))}
+          </div>
+        </StoreProvider>
       </div>
     </div>
   )

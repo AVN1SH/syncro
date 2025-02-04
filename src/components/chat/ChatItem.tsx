@@ -21,6 +21,8 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import qs from "query-string";
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { onOpen } from '@/features/modelSlice';
 
 interface Props {
   id : string;
@@ -54,7 +56,6 @@ const ChatItem = ({
   socketQuery,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const isAdmin = currentMember?.role === "admin"
   const isModerator = currentMember?.role === "moderator"
@@ -65,6 +66,8 @@ const ChatItem = ({
 
   const isPDF = fileType.includes("pdf");
   const isImage = fileType.includes("jpeg" || "jpg" || "png" || "gif");
+
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof chat>>({
     resolver: zodResolver(chat),
@@ -81,6 +84,9 @@ const ChatItem = ({
         url : `${socketUrl}/${id}`,
         query : socketQuery
       })
+
+      form.reset();
+      setIsEditing(false);
 
       await axios.patch(url, values);
     } catch (error) {
@@ -224,7 +230,15 @@ const ChatItem = ({
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
-            <Trash className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+            <Trash
+              onClick={() => dispatch(onOpen({
+                type : "deleteMessage",
+                data : {
+                  apiUrl : `${socketUrl}/${id}`,
+                  query : socketQuery
+                }
+              }))}
+              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
           </ActionTooltip>
         </div>
       )}

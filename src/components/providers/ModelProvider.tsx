@@ -12,6 +12,7 @@ import DeleteThread from "@/components/models/DeleteThread";
 import EditThread from "@/components/models/EditThread";
 import UploadBanner from "@/components/models/UploadBanner";
 import MessageFile from "@/components/models/MessageFile";
+import DeleteMessage from "@/components/models/DeleteMessage";
 
 const ModelProvider = () => {
 
@@ -39,6 +40,7 @@ const ModelProvider = () => {
         <EditThread />
         <UploadBanner />
         <MessageFile />
+        <DeleteMessage />
       </StoreProvider>
     </div>
   )
