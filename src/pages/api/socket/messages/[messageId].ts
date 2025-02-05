@@ -158,7 +158,7 @@ export default async function handler(
     const updateKey = `chat:${threadId}:messages:update`;
 
     if (res.socket && 'server' in res.socket) {
-      (res.socket as any).server?.io?.emit(updateKey, message);
+      (res.socket as any).server?.io?.emit(updateKey, message[0]);
     }
 
     return res.status(200).json(message[0]);

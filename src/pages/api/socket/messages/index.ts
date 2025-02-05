@@ -5,7 +5,7 @@ import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
 import MessageModel from "@/model/message.model";
 import ThreadModel from "@/model/thread.model";
-import { ConnectionWithMembersWithUsers, DBMember, DBThread } from "@/types";
+import { ConnectionWithMembersWithUsers, DBMember, DBMessage, DBThread, MessageWithMemberWithUser } from "@/types";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -45,10 +45,15 @@ export default async function handler(
           as : "members"
         }
       },
-      {$unwind : "$members"},
       {
-        $match : {
-          "members.user" : new mongoose.Types.ObjectId(user._id)
+        $addFields: {
+          members: {
+            $filter: {
+              input: "$members",
+              as: "member",
+              cond: { $eq: ["$$member.user", new mongoose.Types.ObjectId(user._id)] }
+            }
+          }
         }
       }
     ]).exec()
@@ -68,14 +73,43 @@ export default async function handler(
 
     if(!member) return res.status(404).json({error : "Member not found"});
 
-    const message = await MessageModel.create({
+    const message : DBMessage = await MessageModel.create({
       content,
       fileUrl,
       member : member._id,
       thread : thread._id
     });
 
+
     if(!message) return res.status(500).json({error : "Message not created"});
+
+    const updatedMessage : MessageWithMemberWithUser[] = await MessageModel.aggregate([
+      {
+        $match : {
+          _id : message._id
+        }
+      },
+      {
+        $lookup : {
+          from : "members",
+          localField : "member",
+          foreignField : "_id",
+          as : "member"
+        }
+      },
+      { $unwind : "$member" },
+      {
+        $lookup : {
+          from : "users",
+          localField : "member.user",
+          foreignField : "_id",
+          as : "member.user"
+        }
+      },
+      { $unwind : "$member.user" }
+    ])
+
+    if(!updatedMessage) return res.status(500).json({error : "Message with member and user not found."})
 
     const updatedThread = await ThreadModel.findByIdAndUpdate(threadId, {
       $push : {
@@ -96,10 +130,12 @@ export default async function handler(
     const threadKey = `chat:${threadId}:messages`;
 
     if (res.socket && 'server' in res.socket) {
-      (res.socket as any).server?.io?.emit(threadKey, message);
+      (res.socket as any).server?.io?.emit(threadKey, updatedMessage[0]);
     }
 
-    return res.status(200).json(message);
+    console.log("message" , updatedMessage[0]);
+
+    return res.status(200).json(updatedMessage[0]);
   } catch(error) {
     console.log("[MESSAGES POST]", error);
     return res.status(500).json({error : "Internal Server Error"});
