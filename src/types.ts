@@ -77,6 +77,11 @@ export type MessageWithMemberWithUser = DBMessage & {
     user : DBUser;
   }
 }
+export type directmessagewithmemberwithUser = DBDirectMessage & {
+  member : DBMember & {
+    user : DBUser;
+  }
+}
 // plain object type;
 
 export type PlainMember = Member & {

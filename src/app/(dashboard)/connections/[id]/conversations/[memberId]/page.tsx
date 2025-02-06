@@ -33,9 +33,9 @@ const page = async({params} : Props) => {
   if(!currentMember.user._id) return redirect("/connections");
 
   const conversation = await getOrCreateConversation(String(currentMember._id), params.memberId);
-
+  
   if(!conversation) return redirect(`/connections/${params.id}`);
-
+  
   const { memberOne, memberTwo } = conversation;
 
   const otherMember = String(memberOne.user._id) === user._id ? memberTwo : memberOne;

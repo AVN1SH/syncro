@@ -2,7 +2,7 @@ import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import DirectMessageModel from "@/model/directMessage.model";
 import MessageModel, { Message } from "@/model/message.model";
-import { DBDirectMessage } from "@/types";
+import { DBDirectMessage, directmessagewithmemberwithUser } from "@/types";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -20,18 +20,18 @@ export async function  GET(
 
     if(!user) return new NextResponse("Unauthorized", { status: 401 });
 
-    if(!conversationId) return new NextResponse("Thread ID missing", { status: 400 });
+    if(!conversationId) return new NextResponse("Conversation ID missing", { status: 400 });
 
     await dbConnect();
 
-    let messages : DBDirectMessage[] = [];
+    let messages : directmessagewithmemberwithUser[] = [];
 
     if(cursor) {
       messages = await DirectMessageModel.aggregate([
         {
           $match : {
             _id : { $lt : new mongoose.Types.ObjectId(cursor) },
-            thread : new mongoose.Types.ObjectId(conversationId)
+            conversation : new mongoose.Types.ObjectId(conversationId)
           }
         }, 
         {
@@ -59,7 +59,7 @@ export async function  GET(
       messages = await DirectMessageModel.aggregate([
         {
           $match : {
-            thread : new mongoose.Types.ObjectId(conversationId)
+            conversation : new mongoose.Types.ObjectId(conversationId)
           }
         }, 
         {

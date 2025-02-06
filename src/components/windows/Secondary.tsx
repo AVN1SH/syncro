@@ -73,12 +73,11 @@ const Secondary = async({
         name={memberName}
         member={member}
         chatId={conversationId}
-        type="thread"
+        type="conversation"
         apiUrl="/api/directMessages"
         socketurl="/api/socket/directMessages"
         socketQuery={{
-          conversationId : conversationId ? conversationId : '',
-          connectionId : connectionId
+          conversationId : conversationId ? conversationId : ''
         }}
         paramKey="conversationId"
         paramValue={conversationId}
