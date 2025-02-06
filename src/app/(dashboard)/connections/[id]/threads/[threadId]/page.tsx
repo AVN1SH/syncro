@@ -1,8 +1,9 @@
 import Secondary from '@/components/windows/Secondary'
 import { currentUser } from '@/lib/currentUser';
+import { serializeData } from '@/lib/serialized';
 import MemberModel from '@/model/member.model';
 import ThreadModel from '@/model/thread.model';
-import { DBMember, DBThread } from '@/types';
+import { DBMember, DBThread, PlainMember } from '@/types';
 import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
 import React from 'react'
@@ -29,6 +30,8 @@ const page = async({params} : Props) => {
 
   if(!member || !thread) redirect("/connections");
 
+  const plainMember : PlainMember = serializeData(member);
+
   return (
     <div className="fixed left-[310px] top-[40px] right-0 bottom-0">
         <Secondary 
@@ -36,7 +39,7 @@ const page = async({params} : Props) => {
           connectionId={String(thread.connection)}
           type="thread"
           threadId={String(thread._id)}
-          member={member}
+          member={plainMember}
         />
     </div>
   )

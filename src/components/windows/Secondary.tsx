@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import ThreadModel from "@/model/thread.model";
 import MemberModel from "@/model/member.model";
 import mongoose from "mongoose";
-import { DBMember, DBThread } from "@/types";
+import { DBMember, DBThread, PlainMember } from "@/types";
 import ChatInput from "../chat/ChatInput";
 import StoreProvider from "@/store/StoreProvider";
 import ChatMessages from "../chat/ChatMessages";
@@ -20,7 +20,7 @@ interface Props {
   threadId ?: string;
   imageUrl ?: string;
   type : "thread" | "conversation";
-  member ?: DBMember;
+  member ?: PlainMember;
 }
 
 const Secondary = async({

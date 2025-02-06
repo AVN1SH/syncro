@@ -50,24 +50,6 @@ export const useChatQuery = ({
     initialPageParam: undefined
   });
 
-  // const plainData = {
-  //   ...data,
-  //   data : data?.pages.map((items) => ({
-  //   ...items,
-  //   items: items.items.map((msg : MessageWithMemberWithUser) => ({
-  //     ...msg,
-  //     _id: msg._id.toString(),
-  //     member: {
-  //       ...msg.member,
-  //       _id: msg.member._id?.toString(),
-  //       user: {
-  //         ...msg.member.user,
-  //         _id: msg.member.user._id.toString()
-  //       }
-  //     }
-  //   }))
-  // }))}
-
   return {
     data,
     fetchNextPage,

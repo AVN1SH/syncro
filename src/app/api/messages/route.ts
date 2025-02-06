@@ -28,8 +28,8 @@ export async function  GET(
       messages = await MessageModel.aggregate([
         {
           $match : {
-            _id : { $lt : cursor },
-            thread : threadId
+            _id : { $lt : new mongoose.Types.ObjectId(cursor) },
+            thread : new mongoose.Types.ObjectId(threadId)
           }
         }, 
         {
@@ -82,16 +82,16 @@ export async function  GET(
         { $limit : MESSAGE_BATCH + 1 }
       ]).exec();
     }
-        
-    let nextCursor: string | null = null;
-    // if (messages.length > MESSAGE_BATCH) {
-    //   const nextItem = messages.pop();
-    //   nextCursor = nextItem?._id.toString() || null;
-    // }
 
-    if(messages.length === MESSAGE_BATCH) {
-      nextCursor = messages[MESSAGE_BATCH - 1]._id.toString();
+    let nextCursor: string | null = null;
+    if (messages.length > MESSAGE_BATCH) {
+      const nextItem = messages.pop();
+      nextCursor = nextItem?._id.toString() || null;
     }
+
+    // if(messages.length === MESSAGE_BATCH) {
+    //   nextCursor = messages[MESSAGE_BATCH - 1]._id.toString();
+    // }
 
     return NextResponse.json({
       items: messages,

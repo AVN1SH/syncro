@@ -133,8 +133,6 @@ export default async function handler(
       (res.socket as any).server?.io?.emit(threadKey, updatedMessage[0]);
     }
 
-    console.log("message" , updatedMessage[0]);
-
     return res.status(200).json(updatedMessage[0]);
   } catch(error) {
     console.log("[MESSAGES POST]", error);

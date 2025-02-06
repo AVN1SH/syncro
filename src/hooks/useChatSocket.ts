@@ -14,7 +14,6 @@ export const useChatSocket = ({
   updateKey,
   queryKey
 } : Props) => {
-  console.log(addKey, updateKey, queryKey);
   const { socket } = useSocket();
   const queryClient = useQueryClient();
 

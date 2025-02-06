@@ -1,5 +1,5 @@
 "use client";
-import { DBMember, MemberWithUser } from '@/types';
+import { DBMember, MemberWithUser, PlainMember } from '@/types';
 import React, { useEffect, useState } from 'react'
 import UserAvatar from '../UserAvatar';
 import ActionTooltip from '../action-tooltip';
@@ -32,7 +32,7 @@ interface Props {
   timeStamp : string;
   fileUrl : string;
   deleted : boolean;
-  currentMember ?: DBMember;
+  currentMember ?: PlainMember;
   isUpdated : boolean;
   socketUrl : string;
   socketQuery : Record<string, string>;
@@ -60,7 +60,7 @@ const ChatItem = ({
 
   const isAdmin = currentMember?.role === "admin"
   const isModerator = currentMember?.role === "moderator"
-  const isOwner = String(currentMember?._id) === String(member._id);
+  const isOwner = currentMember?._id === String(member._id);
   const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
   const canEditMessage = !deleted && isOwner && !fileUrl;
   const [fileType, setFileType] = useState('');
@@ -73,7 +73,7 @@ const ChatItem = ({
   const params = useParams();
   
   const onMemberClick = () => {
-    if(String(member._id) === String(currentMember?._id)) {
+    if(String(member._id) === currentMember?._id) {
       return;
     }
 

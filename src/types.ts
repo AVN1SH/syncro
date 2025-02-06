@@ -72,7 +72,11 @@ export type MessageWithMemberWithUser = DBMessage & {
     user : DBUser;
   }
 }
+// plain object type;
 
+export type PlainMember = Member & {
+  _id : string;
+}
 
 //Socket.io
 
