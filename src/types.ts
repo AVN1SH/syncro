@@ -58,6 +58,11 @@ export type ConnectionWithMembersWithUsers = Connection & {
   members: (DBMember & {user : DBUser})[];
 }
 
+export type ConversationWithMembers = DBConversation & {
+  memberOne : DBMember,
+  memberTwo : DBMember
+}
+
 export type ConversationWithMembersWithUsers = DBConversation & {
   memberOne : DBMember & {
     user : DBUser
@@ -76,6 +81,13 @@ export type MessageWithMemberWithUser = DBMessage & {
 
 export type PlainMember = Member & {
   _id : string;
+}
+
+export type PlainMemberWithUser = Member & {
+  _id : string;
+  user : User & {
+    _id : string;
+  }
 }
 
 //Socket.io

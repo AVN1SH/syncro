@@ -23,7 +23,7 @@ import { useRouter } from 'next/navigation';
 interface Props {
   apiUrl : string;
   query : Record<string, any>;
-  name : string;
+  name ?: string;
   type : "thread" | "conversation";
 }
 

@@ -22,16 +22,16 @@ const DirectMessageSchema : Schema<DirectMessage> = new Schema({
     type : Boolean,
     default : false
   },
-  member : [{
+  member : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "Member",
     required : true,
-  }],
-  conversation : [{
+  },
+  conversation : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "Thread",
     required : true
-  }]
+  }
 }, {timestamps : true});
 
 const DirectMessageModel = mongoose.models.DirectMessage || mongoose.model<DirectMessage>("DirectMessage", DirectMessageSchema); 

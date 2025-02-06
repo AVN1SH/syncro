@@ -21,6 +21,8 @@ interface Props {
   imageUrl ?: string;
   type : "thread" | "conversation";
   member ?: PlainMember;
+  memberName ?: string;
+  conversationId ?: string;
 }
 
 const Secondary = async({
@@ -29,7 +31,9 @@ const Secondary = async({
     threadId,
     imageUrl,
     type,
-    member
+    member,
+    memberName,
+    conversationId
   } : Props) => {
   // const [active, setActive] = useState("online");
   // const url = usePathname();
@@ -51,7 +55,7 @@ const Secondary = async({
         type={type}
       />}
 
-      <ChatMessages 
+      {type === "thread" &&<ChatMessages 
         name={threadName}
         member={member}
         chatId={threadId}
@@ -64,10 +68,24 @@ const Secondary = async({
         }}
         paramKey="threadId"
         paramValue={threadId}
-      />
+      />}
+      {type === "conversation" &&<ChatMessages 
+        name={memberName}
+        member={member}
+        chatId={conversationId}
+        type="thread"
+        apiUrl="/api/directMessages"
+        socketurl="/api/socket/directMessages"
+        socketQuery={{
+          conversationId : conversationId ? conversationId : '',
+          connectionId : connectionId
+        }}
+        paramKey="conversationId"
+        paramValue={conversationId}
+      />}
 
       <StoreProvider>
-        <ChatInput 
+        {type === "thread" && <ChatInput 
           name={threadName}
           type="thread"
           apiUrl="/api/socket/messages"
@@ -75,7 +93,15 @@ const Secondary = async({
             threadId : threadId,
             connectionId : connectionId
           }}
-        />
+        />}
+        {type === "conversation" && <ChatInput 
+          name={memberName}
+          type="conversation"
+          apiUrl="/api/socket/directMessages"
+          query={{
+            conversationId : conversationId,
+          }}
+        />}
       </StoreProvider>
       {/* <div className="border-solid border-zinc-800 border-b-[2px] h-[50px] flex justify-between">
         {activeUrl === "/chat" && <FriendsTopNav active={(data : string) => setActive(data)} />}

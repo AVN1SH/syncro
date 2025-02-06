@@ -13,7 +13,7 @@ import { useChatScroll } from '@/hooks/useChatScroll';
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
 interface Props {
-  name : string;
+  name ?: string;
   member ?: PlainMember;
   chatId ?: string;
   apiUrl : string;
@@ -88,7 +88,7 @@ const ChatMessages = ({
       {!hasNextPage && <div className="flex-1" />}
       {!hasNextPage && <ChatWelcome
         type={type}
-        name={name}
+        name={name || ''}
       />}
       {hasNextPage && (
         <div className="flex justify-center">
@@ -111,15 +111,15 @@ const ChatMessages = ({
             <Fragment key={i}>
               {group.items.map((message : MessageWithMemberWithUser) => (
                 <ChatItem
-                  key={String(message._id)}
-                  id={String(message._id)}
+                  key={String(message?._id)}
+                  id={String(message?._id)}
                   currentMember={member}
-                  member={message.member}
-                  content={message.content}
-                  fileUrl={message.fileUrl}
-                  deleted={message.deleted}
-                  timeStamp={format(new Date(message.createdAt), DATE_FORMAT)}
-                  isUpdated={message.updatedAt !== message.createdAt}
+                  member={message?.member}
+                  content={message?.content}
+                  fileUrl={message?.fileUrl}
+                  deleted={message?.deleted}
+                  timeStamp={format(new Date(message?.createdAt), DATE_FORMAT)}
+                  isUpdated={message?.updatedAt !== message?.createdAt}
                   socketUrl={socketurl}
                   socketQuery={socketQuery}
                 />
