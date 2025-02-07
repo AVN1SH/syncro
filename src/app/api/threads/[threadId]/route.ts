@@ -1,6 +1,8 @@
 import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
+import MemberModel from "@/model/member.model";
+import MessageModel from "@/model/message.model";
 import ThreadModel from "@/model/thread.model";
 import UserModel from "@/model/user.model";
 import mongoose from "mongoose";
@@ -56,6 +58,31 @@ export async function DELETE(
     });
 
     if(!deletedThread) return new NextResponse("Error while deleting Thread", { status : 500 });
+
+    //remove all related message from member;
+    const allRelatedMessages = await MessageModel.find({
+      thread : new mongoose.Types.ObjectId(params.threadId)
+    })
+
+    const messagesId = allRelatedMessages.map(message => message._id);
+
+    const removeMessagesFromMember = await MemberModel.updateMany({
+        messages : {$in : messagesId}
+      },{
+        $pull : {
+          messages : { $in : messagesId}
+        }
+      })
+
+    if(!removeMessagesFromMember) return new NextResponse("Error while removing Messages from member", { status : 500 });
+
+    // removing all releted messages
+
+    const deletedMessage = await MessageModel.deleteMany({
+      thread : new mongoose.Types.ObjectId(params.threadId)
+    })
+
+    if(!deletedMessage) return new NextResponse("Error while removing all relatted Messages", { status : 500 });
 
     // removing thread from connection and user
 

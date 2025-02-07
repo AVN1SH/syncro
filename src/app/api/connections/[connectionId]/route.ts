@@ -2,6 +2,7 @@ import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
+import MessageModel from "@/model/message.model";
 import ThreadModel from "@/model/thread.model";
 import UserModel from "@/model/user.model";
 import mongoose from "mongoose";
@@ -64,7 +65,7 @@ export async function DELETE(
 
     if(!deletedConnection) return new NextResponse("Error while deleting connection", { status: 404 });
 
-    //remove it's members and threads
+    //removing it's members, threads and all messages.
 
     const deletedMembers = await MemberModel.deleteMany({
       connection : new mongoose.Types.ObjectId(params.connectionId)
@@ -79,6 +80,11 @@ export async function DELETE(
 
     if(!deleteThreads) return new NextResponse("Error while deleting Threads", { status: 404 });
 
+    const deleteMessages = await MessageModel.deleteMany({
+      thread : { $in : deletedConnection.threads}
+    })
+
+    if(!deleteMessages) return new NextResponse("Error while deleting messages", { status : 500 });
 
     //removing connection from user
 

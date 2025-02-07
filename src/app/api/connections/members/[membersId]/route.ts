@@ -3,6 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import { serializeData } from "@/lib/serialized";
 import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
+import UserModel from "@/model/user.model";
 import { ConnectionThreadMemberUser } from "@/types";
 import mongoose, { isValidObjectId } from "mongoose";
 import { NextResponse } from "next/server";
@@ -25,34 +26,7 @@ export async function PATCH(
     
     if(!params.membersId) return new NextResponse("Member Id Missing", { status: 400 });
 
-        
-    console.log({
-      "connectionid" : connectionId,
-      "membersid" : params.membersId,
-      "newrole" : newRole,
-      "user" : user._id,
-      "typeconnectionid" : typeof(connectionId),
-      "typemembersid" : typeof(params.membersId),
-      "typenewrole" : typeof(newRole),
-      "typeuser" : typeof(user._id),
-    })
-
-    console.log(isValidObjectId(new mongoose.Types.ObjectId(params.membersId)));
-    console.log(isValidObjectId(connectionId));
-    console.log(isValidObjectId(user._id));
-
     await dbConnect();
-
-    // const con = await ConnectionModel.findOne({
-    //   _id : new mongoose.Types.ObjectId(connectionId),
-    //   user : new mongoose.Types.ObjectId(user._id as string),
-    //   members : {
-    //     $elemMatch : {
-    //       _id : new mongoose.Types.ObjectId(params.membersId),
-    //       // user : {$ne : new mongoose.Types.ObjectId(user._id as string)}
-    //     }
-    //   }
-    // });
 
     const checkingConnection = await ConnectionModel.aggregate([
       {
@@ -108,7 +82,7 @@ export async function PATCH(
 
 }
 
-//deleting connection
+//deleting member
 
 export async function DELETE(
   req : Request,
@@ -168,6 +142,16 @@ export async function DELETE(
 
 
     if(!deleteMember) return new NextResponse("Error while updating connection", {status : 500});
+
+    //removing member from user
+
+    const updatedUser = await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(user._id), {
+      $pull : {
+        members : deleteMember._id
+      }
+    });
+
+    if(!updatedUser) return new NextResponse("Error while updating user", {status : 500});
 
     const connection : ConnectionThreadMemberUser | null = serializeData(await ConnectionModel.findById(new mongoose.Types.ObjectId(connectionId))
     .populate({

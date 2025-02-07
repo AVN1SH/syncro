@@ -31,7 +31,7 @@ export default async function handler(
 
     await dbConnect();
 
-    const connection = await ConnectionModel.aggregate([
+    const connection : ConnectionWithMembersWithUsers[] = await ConnectionModel.aggregate([
       {
         $match : {
           _id : new mongoose.Types.ObjectId(connectionId as string)
@@ -67,9 +67,7 @@ export default async function handler(
 
     if(!thread) return res.status(404).json({error : "Thread not found"});
 
-    const member : DBMember | null = await MemberModel.findOne({
-      user : new mongoose.Types.ObjectId(user._id)
-    })
+    const member = connection[0].members.find((member : DBMember) => String(member.user) === user._id)
 
     if(!member) return res.status(404).json({error : "Member not found"});
 

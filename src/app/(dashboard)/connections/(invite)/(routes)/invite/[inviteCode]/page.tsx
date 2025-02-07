@@ -2,7 +2,7 @@ import { currentUser } from '@/lib/currentUser';
 import dbConnect from '@/lib/dbConnect';
 import ConnectionModel from '@/model/connection.model';
 import MemberModel from '@/model/member.model';
-import { User } from '@/model/user.model';
+import UserModel, { User } from '@/model/user.model';
 import mongoose, { Types, isValidObjectId } from 'mongoose';
 import { redirect } from 'next/navigation';
 import React from 'react'
@@ -79,6 +79,15 @@ const InviteCodePage = async ({
     },
     { new: true }
   );
+  
+  //updating user model.
+
+  await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(user._id), {
+    $push : {
+      connections : connection._id,
+      members : newMember._id
+    }
+  });
 
   if(updatedConnection) {
     return redirect(`/connections/${updatedConnection._id}`);
