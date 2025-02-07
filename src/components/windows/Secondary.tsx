@@ -13,6 +13,8 @@ import { DBMember, DBThread, PlainMember } from "@/types";
 import ChatInput from "../chat/ChatInput";
 import StoreProvider from "@/store/StoreProvider";
 import ChatMessages from "../chat/ChatMessages";
+import { threadType } from "@/schemas/thread";
+import MediaRoom from "../MediaRoom";
 
 interface Props {
   connectionId : string;
@@ -23,6 +25,8 @@ interface Props {
   member ?: PlainMember;
   memberName ?: string;
   conversationId ?: string;
+  threadType ?: DBThread['type'];
+  video ?: boolean;
 }
 
 const Secondary = async({
@@ -33,7 +37,9 @@ const Secondary = async({
     type,
     member,
     memberName,
-    conversationId
+    conversationId,
+    threadType,
+    video
   } : Props) => {
   // const [active, setActive] = useState("online");
   // const url = usePathname();
@@ -48,14 +54,8 @@ const Secondary = async({
         connectionId={connectionId}
         type={type}
       />}
-      {type === "conversation" && <SecondaryWindowHeader
-        imageUrl={imageUrl}
-        name={threadName}
-        connectionId={connectionId}
-        type={type}
-      />}
 
-      {type === "thread" &&<ChatMessages 
+      {type === "thread" && threadType === "text" && <ChatMessages 
         name={threadName}
         member={member}
         chatId={threadId}
@@ -69,22 +69,49 @@ const Secondary = async({
         paramKey="threadId"
         paramValue={threadId}
       />}
-      {type === "conversation" &&<ChatMessages 
-        name={memberName}
-        member={member}
-        chatId={conversationId}
-        type="conversation"
-        apiUrl="/api/directMessages"
-        socketurl="/api/socket/directMessages"
-        socketQuery={{
-          conversationId : conversationId ? conversationId : ''
-        }}
-        paramKey="conversationId"
-        paramValue={conversationId}
+      {type === "conversation" && <SecondaryWindowHeader
+        imageUrl={imageUrl}
+        name={threadName}
+        connectionId={connectionId}
+        type={type}
       />}
-
+      {video && (
+        <MediaRoom
+          chatId={conversationId ? conversationId : ''}
+          video={true}
+          audio={true}
+        />
+      )}
+      {!video && (
+        <>
+          {type === "conversation" &&<ChatMessages 
+            name={memberName}
+            member={member}
+            chatId={conversationId}
+            type="conversation"
+            apiUrl="/api/directMessages"
+            socketurl="/api/socket/directMessages"
+            socketQuery={{
+              conversationId : conversationId ? conversationId : ''
+            }}
+            paramKey="conversationId"
+            paramValue={conversationId}
+          />}
+          <StoreProvider>
+            {type === "conversation" &&  <ChatInput 
+              name={memberName}
+              type="conversation"
+              apiUrl="/api/socket/directMessages"
+              query={{
+                conversationId : conversationId,
+              }}
+            />}
+          </StoreProvider>
+        </>
+      )}
+      
       <StoreProvider>
-        {type === "thread" && <ChatInput 
+        {type === "thread" && threadType === "text" && <ChatInput 
           name={threadName}
           type="thread"
           apiUrl="/api/socket/messages"
@@ -93,15 +120,23 @@ const Secondary = async({
             connectionId : connectionId
           }}
         />}
-        {type === "conversation" && <ChatInput 
-          name={memberName}
-          type="conversation"
-          apiUrl="/api/socket/directMessages"
-          query={{
-            conversationId : conversationId,
-          }}
-        />}
+        
       </StoreProvider>
+
+      {threadType === "voice" && (
+        <MediaRoom 
+          chatId={threadId ? threadId : ''}
+          video={false}
+          audio={true}
+        />
+      )}
+      {threadType === "video" && (
+        <MediaRoom 
+          chatId={threadId ? threadId : ''}
+          video={true}
+          audio={true}
+        />
+      )}
       {/* <div className="border-solid border-zinc-800 border-b-[2px] h-[50px] flex justify-between">
         {activeUrl === "/chat" && <FriendsTopNav active={(data : string) => setActive(data)} />}
 

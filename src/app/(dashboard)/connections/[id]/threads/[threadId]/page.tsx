@@ -36,6 +36,7 @@ const page = async({params} : Props) => {
     <div className="fixed left-[310px] top-[40px] right-0 bottom-0">
         <Secondary 
           threadName = {thread.name}
+          threadType = {thread.type}
           connectionId={String(thread.connection)}
           type="thread"
           threadId={String(thread._id)}

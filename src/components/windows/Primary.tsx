@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { Crown, Hash, Mic, Plus, Skull, Video } from "lucide-react"
 import PrimaryNav from "../navigation/PrimaryNav"
 import { redirect, usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import Banner from "@/components/connections/Banner"
 import { currentUser } from "@/lib/currentUser"
 import ConnectionModel, { Connection } from "@/model/connection.model"
@@ -74,7 +74,7 @@ const Primary = async ({connectionId} : Props) => {
   // const url = usePathname();
   // const [activeUrl, setActiveUrl] = useState(url);
   return (
-    <div className="">
+    <div className="flex flex-col h-full">
       <StoreProvider>
         <PrimaryWindowHeader 
           connectionName={connection.name}
@@ -91,7 +91,7 @@ const Primary = async ({connectionId} : Props) => {
           role={role}
         />
       </StoreProvider>
-      <ScrollArea className="flex-1 px-3">
+      <ScrollArea className="h-[50px] px-3">
         <div className="mt-2">
           <ConnectionSearch 
             data={[
@@ -143,95 +143,86 @@ const Primary = async ({connectionId} : Props) => {
       
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-[calc(100%-10px)] mx-auto my-2"/>
 
-      {!!textThreads?.length && (
-        <StoreProvider>
-          <div className="mt-2">
-            <ConnectionSection 
-              sectionType="threads"
-              threadType="text"
-              role={role}
-              label="Text Threads"
-            />
-          </div>
-          {textThreads?.map((thread) => (
-            <ConnectionThread 
-              key={String(thread._id)}
-              thread={thread}
-              connection={connection}
-              role={role}
-            />
-          ))}
-        </StoreProvider>
-      )}
-      {!!voiceThreads?.length && (
-        <StoreProvider>
-          <div className="mt-2">
-            <ConnectionSection 
-              sectionType="threads"
-              threadType="voice"
-              role={role}
-              label="Voice Threads"
-            />
-          </div>
-          {voiceThreads?.map((thread) => (
-            <ConnectionThread 
-              key={String(thread._id)}
-              thread={thread}
-              connection={connection}
-              role={role}
-            />
-          ))}
-        </StoreProvider>
-      )}
-      {!!videoThreads?.length && (
-        <StoreProvider>
-          <div className="mt-2">
-            <ConnectionSection 
-              sectionType="threads"
-              threadType="video"
-              role={role}
-              label="Video Threads"
-            />
-          </div>
-          {videoThreads?.map((thread) => (
-            <ConnectionThread 
-              key={String(thread._id)}
-              thread={thread}
-              connection={connection}
-              role={role}
-            />
-          ))}
-        </StoreProvider>
-      )}
-      {!!members?.length && (
-        <StoreProvider>
-          <div className="mt-2">
-            <ConnectionSection 
-              sectionType="members"
-              role={role}
-              label="Members"
-              connection={connection}
-            />
-          </div>
-          {members?.map((member) => (
-            <ConnectionMember 
-              key={String(member._id)}
-              member={member}
-              connection={connection}
-            />
-          ))}
-        </StoreProvider>
-      )}
-
-      <div>
-        {/* {activeUrl === "/chat" && <PlusIconAction name="Direct Messages" label="Create new DM"/>} */}
-        {/* <PlusIconAction name="Text Threads" label="New thread"/>
-        <PlusIconAction name="Voice Threads" label="New thread"/> */}
-        {/* <div className="p-2 space-y-3">
-          {[...Array(8)].map((_, index) => {
-            return <Single key={index}/>
-          })}
-        </div> */}
+      <div className="flex-1 overflow-y-auto pb-10 scrollbar-hide">
+          {!!textThreads?.length && (
+            <StoreProvider>
+              <div className="mt-2">
+                <ConnectionSection 
+                  sectionType="threads"
+                  threadType="text"
+                  role={role}
+                  label="Text Threads"
+                />
+              </div>
+              {textThreads?.map((thread) => (
+                <ConnectionThread 
+                  key={String(thread._id)}
+                  thread={thread}
+                  connection={connection}
+                  role={role}
+                />
+              ))}
+            </StoreProvider>
+          )}
+          {!!voiceThreads?.length && (
+            <StoreProvider>
+              <div className="mt-2">
+                <ConnectionSection 
+                  sectionType="threads"
+                  threadType="voice"
+                  role={role}
+                  label="Voice Threads"
+                />
+              </div>
+              {voiceThreads?.map((thread) => (
+                <ConnectionThread 
+                  key={String(thread._id)}
+                  thread={thread}
+                  connection={connection}
+                  role={role}
+                />
+              ))}
+            </StoreProvider>
+          )}
+          {!!videoThreads?.length && (
+            <StoreProvider>
+              <div className="mt-2">
+                <ConnectionSection 
+                  sectionType="threads"
+                  threadType="video"
+                  role={role}
+                  label="Video Threads"
+                />
+              </div>
+              {videoThreads?.map((thread) => (
+                <ConnectionThread 
+                  key={String(thread._id)}
+                  thread={thread}
+                  connection={connection}
+                  role={role}
+                />
+              ))}
+            </StoreProvider>
+          )}
+          {!!members?.length && (
+            <StoreProvider>
+              <div className="mt-2">
+                <ConnectionSection 
+                  sectionType="members"
+                  role={role}
+                  label="Members"
+                  connection={connection}
+                />
+              </div>
+              {members?.map((member) => (
+                <ConnectionMember 
+                  key={String(member._id)}
+                  member={member}
+                  connection={connection}
+                />
+              ))}
+            </StoreProvider>
+          )}
       </div>
     </div>
   )

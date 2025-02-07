@@ -3,6 +3,7 @@ import React from 'react'
 import MobileToggle from '../MobileToggle';
 import UserAvatar from '../UserAvatar';
 import { SocketIndicator } from '../ui/socket-indicator';
+import ChatVideoButton from './ChatVideoButton';
 
 interface Props {
   connectionId : string;
@@ -18,7 +19,7 @@ const SecondaryWindowHeader = ({
   type
 } : Props) => {
   return (
-    <div className="border-solid border-zinc-200 dark:border-zinc-800 border-b-[2px] h-[50px] flex items-center justify-between px-3">
+    <div className="border-solid border-zinc-200 dark:border-zinc-800 border-b-[2px] h-[50px] flex items-center justify-between px-3 flex-shrink-0">
       <div className="flex items-center font-semibold gap-2">
         <MobileToggle 
           connectionId={connectionId}
@@ -36,8 +37,12 @@ const SecondaryWindowHeader = ({
           {name}
         </p>
       </div>
-      <SocketIndicator />
-      
+      <div className="flex items-center">
+        {type === "conversation" && (
+          <ChatVideoButton />
+        )}
+        <SocketIndicator />
+      </div>
     </div>
   )
 }

@@ -15,9 +15,12 @@ interface Props {
     id : string;
     memberId : string;
   }
+  searchParams : {
+    video ?: boolean;
+  }
 }
 
-const page = async({params} : Props) => {
+const page = async({params, searchParams} : Props) => {
 
   const user = await currentUser();
 
@@ -52,6 +55,7 @@ const page = async({params} : Props) => {
         member={plainMember}
         memberName={otherMember.user.name}
         conversationId={String(conversation._id)}
+        video={searchParams.video}
       />
     </div>
   )
