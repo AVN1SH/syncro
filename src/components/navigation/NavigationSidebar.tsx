@@ -9,8 +9,11 @@ import InitialConnection from '../models/InitialConnection';
 import { ScrollArea } from '../ui/scroll-area';
 import SideNavigationItems from './SideNavigationItems';
 import mongoose from 'mongoose';
-import { ConnectionType } from '@/types/modelTypes';
 import StoreProvider from '@/store/StoreProvider';
+import NavFeatures from './NavFeatures';
+import { ModeToggle } from '../themeToggle';
+import UserAvatar from '../UserAvatar';
+import ActionTooltip from '../action-tooltip';
 
 const NavigationSidebar = async () => {
 
@@ -39,25 +42,44 @@ const NavigationSidebar = async () => {
   ]);
 
   return (
-    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1e1f22] bg-[#e3e5e8] py-3">
-      <StoreProvider>
-        <NavigationAction />
-      </StoreProvider>
-      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
-      {connections.length === 0 && <InitialConnection  />}
-      
-      <ScrollArea className="flex-1 w-full">
-        {connections && connections.map((connection) => (
-          <div key={connection._id.toString()} className="mb-4">
-            <SideNavigationItems 
-              id={connection._id.toString()}
-              imageUrl={connection.profilePhotoUrl}
-              name={connection.name}
-              active={connections[0] ? true : false}
+    <div className="flex flex-col justify-between h-full dark:bg-[#1e1f22] bg-[#e3e5e8] relative z-20">
+      <div className="space-y-4 flex flex-col items-center h-full text-primary w-full py-3">
+        <NavFeatures />
+
+        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
+
+        <StoreProvider>
+          <NavigationAction />
+        </StoreProvider>
+        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
+
+        {connections.length === 0 && <InitialConnection  />}
+        
+        <ScrollArea className="flex-1 w-full">
+          {connections && connections.map((connection) => (
+            <div key={connection._id.toString()} className="mb-4">
+              <SideNavigationItems 
+                id={connection._id.toString()}
+                imageUrl={connection.profilePhotoUrl}
+                name={connection.name}
+                active={connections[0] ? true : false}
+              />
+            </div>
+          ))}
+        </ScrollArea>
+      </div>
+      <div className="flex flex-col items-center justify-center">
+        <ModeToggle />
+        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
+        <div className="overflow-hidden p-2">
+          <ActionTooltip label="Profile" side="left">
+            <UserAvatar  
+              src={user?.imageUrl}
+              className="cursor-pointer hover:opacity-80 transition-[2s]"
             />
-          </div>
-        ))}
-      </ScrollArea>
+          </ActionTooltip>
+        </div>
+      </div>
     </div>
   );
 }

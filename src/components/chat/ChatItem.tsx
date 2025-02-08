@@ -1,5 +1,5 @@
 "use client";
-import { DBMember, MemberWithUser, PlainMember } from '@/types';
+import { MemberWithUser, PlainMember } from '@/types';
 import React, { useEffect, useState } from 'react'
 import UserAvatar from '../UserAvatar';
 import ActionTooltip from '../action-tooltip';
@@ -249,7 +249,7 @@ const ChatItem = ({
                   query : socketQuery
                 }
               }))}
-              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-rose-500 transition" />
           </ActionTooltip>
         </div>
       )}

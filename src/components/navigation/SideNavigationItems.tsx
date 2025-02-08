@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import ActionTooltip from '../action-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

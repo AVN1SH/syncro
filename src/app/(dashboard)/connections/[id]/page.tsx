@@ -51,7 +51,7 @@ const page = async({ params } : Props) => {
     { $unwind : "$threads" },
     {
       $match : {
-        "threads.name" : "Hello World..!"
+        "threads.name" : "general"
       }
     },
     {

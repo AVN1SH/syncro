@@ -19,7 +19,7 @@ const SecondaryWindowHeader = ({
   type
 } : Props) => {
   return (
-    <div className="border-solid border-zinc-200 dark:border-zinc-800 border-b-[2px] h-[50px] flex items-center justify-between px-3 flex-shrink-0">
+    <div className="border-solid border-zinc-200 dark:border-zinc-800 border-b-[2px] h-[50px] flex items-center justify-between px-3 flex-shrink-0 bg-[#313338]">
       <div className="flex items-center font-semibold gap-2">
         <MobileToggle 
           connectionId={connectionId}

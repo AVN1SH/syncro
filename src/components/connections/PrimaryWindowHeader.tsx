@@ -1,7 +1,5 @@
 "use client"
-import React, { ReactNode, useEffect } from 'react'
-import { faBolt, faCommentDots, faCommentSms, faGears, faPlusCircle, faShareNodes, faSignOut, faSmile, faTrash, faUserGroup, faVideo, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useState } from 'react'
 import { DBMember } from '@/types'
 import { Member } from '@/model/member.model'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -34,6 +32,7 @@ const PrimaryWindowHeader = ({
 
   const isAdmin = role === "admin";
   const isModerator = isAdmin || role === "moderator";
+  const [toRotate, setToRotate] = useState(false);
 
   return (
     <div className="border-solid border-zinc-900 border-b-[2px] h-[50px] w-full">
@@ -49,16 +48,15 @@ const PrimaryWindowHeader = ({
           <Wifi size="14" className="absolute bottom-1 left-[45px] animate-bounce" />
           <Video size="16" className=" text-yellow-600 absolute bottom-5 right-[45px]" />
         </div>
-        <DropdownMenu>
+        <DropdownMenu onOpenChange={() => setToRotate(!toRotate)}>
           <DropdownMenuTrigger
-            className="focus:outline-none w-full"
-          >
+            className="focus:outline-none w-full">
             <div className="w-full text-md font-semibold flex items-center justify-center h-[50px] border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-300/100 dark:hover:bg-zinc-700/50 transition px-2 gap-2">
               <div>
                 <span className="text-yellow-500 text-2xl font-bold">{connectionName[0].toUpperCase()}</span>
                 <span className="font-thin text-xl">{connectionName.slice(1)}</span>
               </div>
-              <ChevronDown className="h-5 w-5"/>
+              <ChevronDown className={`size-5 ${toRotate ? "rotate-0" : "rotate-180"} transition-all duration-300`}/>
             </div>
           </DropdownMenuTrigger>
 
