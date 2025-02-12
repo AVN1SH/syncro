@@ -36,7 +36,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <AuthProvider>
         <body
-          className={`${inter.className} dark:bg-[#313338]`}
+          className={`${geistSans.className} dark:bg-[#313338]`}
         >
           <ThemeProvider
             attribute="class"

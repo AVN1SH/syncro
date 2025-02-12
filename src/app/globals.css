@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./css/animation/wave-animation.css";
+
 html,
 body,
 :root {
@@ -30,6 +32,33 @@ body,
   .text-balance {
     text-wrap: balance;
   }
+
+  .scrollbar::-webkit-scrollbar {
+    width : 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background : #29292c;
+    border-radius : 10px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #ffc800;
+    border-radius: 10px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background : #555;
+  }
+
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+/* 
+  .scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color : #ffcc00 #2b2c2d;
+  } */
 }
 
 @layer base {

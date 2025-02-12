@@ -10,6 +10,7 @@ export async function PATCH(
   req: Request,
   { params } : { params : { connectionId : string}}
 ) {
+  console.log("hello")
   try {
     const user = await currentUser();
 

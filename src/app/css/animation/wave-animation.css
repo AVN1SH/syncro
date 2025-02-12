@@ -1,0 +1,73 @@
+@keyframes wave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(3deg);
+  }
+}
+
+/* Custom Classes */
+.wave-container {
+  background: linear-gradient(
+    45deg,
+    theme('colors.zinc.400'),
+    theme('colors.zinc.500'),
+    theme('colors.zinc.600'),
+    theme('colors.zinc.500'),
+    theme('colors.zinc.400')
+  );
+  background-size: 400% 400%;
+  animation: wave 15s ease infinite;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0,0,0,0.4) 20%,
+    rgba(0,0,0,0.9) 50%,
+    rgba(0,0,0,0.4) 80%,
+    transparent
+  );
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.delay-100 {
+  animation-delay: 1s;
+}
+
+.delay-300 {
+  animation-delay: 3s;
+}
+
+@keyframes hand-wave {
+  0% {
+    transform: rotate(0deg);
+    scale: 1;
+  }
+  50% {
+    transform: rotate(10deg);
+    scale: 0.9;
+  }
+  100% {
+    transform: rotate(0deg);
+    scale: 1;
+  }
+}
+
+.animate-wave {
+  animation: hand-wave 2s ease-in-out infinite;
+}
