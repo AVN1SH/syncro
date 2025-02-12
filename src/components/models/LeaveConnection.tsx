@@ -44,6 +44,7 @@ const LeaveConnection = () => {
       dispatch(onClose());
       router.refresh();
       router.push("/connections");
+      setModelOpen(false);
       
     } catch (error) {
       console.log(error)

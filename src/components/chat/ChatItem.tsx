@@ -24,6 +24,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
 import { useRouter, useParams } from "next/navigation";
+import TextareaAutosize from "react-textarea-autosize";
+
 
 interface Props {
   id : string;
@@ -108,7 +110,7 @@ const ChatItem = ({
 
   useEffect(() => {
     const handleKeyDown = (event : any) => {
-      if(event.key === "Enter" || event.keyCode === 27) {
+      if(event.keyCode === 27) {
         setIsEditing(false);
       }
     }
@@ -186,7 +188,7 @@ const ChatItem = ({
           )}
           {!fileUrl && !isEditing && (
             <p className={cn(
-              "text-sm text-zinc-600 dark:text-zinc-300",
+              "text-sm text-zinc-600 dark:text-zinc-300 whitespace-pre-line",
               deleted && "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1"
             )}>
               {content}
@@ -200,7 +202,7 @@ const ChatItem = ({
           {!fileUrl && isEditing && (
             <Form {...form}>
               <form
-                className="flex items-center w-full gap-x-2 pt-2"
+                className="flex w-full gap-x-2 pt-2"
                 onSubmit={form.handleSubmit(onSubmit)}
               >
                 <FormField
@@ -210,9 +212,11 @@ const ChatItem = ({
                     <FormItem className="flex-1">
                       <FormControl>
                         <div className="relative w-full">
-                          <Input 
+                          <TextareaAutosize
+                            minRows={1}
+                            maxRows={6}
                             disabled={isLoading}
-                            className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200" placeholder="Edited message"
+                            className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 w-full scrollbar-hide focus:outline-none resize-none rounded-lg" placeholder="Edited message"
                             {...field}
                           />
                         </div>
@@ -225,7 +229,7 @@ const ChatItem = ({
                 </Button>
               </form>
               <span className="text-[10px] mt-1 text-zinc-400">
-                Press escape to cancel, Enter to save
+                Press escape to cancel it.
               </span>
             </Form>
           )}

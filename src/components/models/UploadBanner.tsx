@@ -122,7 +122,7 @@ const UploadBanner = () => {
                         endpoint="connectionImage"
                         value={field.value}
                         onChange={field.onChange}
-                        banner={true}
+                        widePhoto={true}
                       />
                     </FormControl>
                     <FormDescription>

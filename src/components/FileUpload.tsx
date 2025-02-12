@@ -13,21 +13,22 @@ interface Props {
   onChange: (url?: string) => void;
   value?: string;
   endpoint : "messageFile" | "connectionImage";
-  banner ?: boolean;
+  widePhoto ?: boolean;
+  squarePhoto ?: boolean;
 }
-const FileUpload = ({onChange, value, endpoint, banner}: Props) => {
+const FileUpload = ({onChange, value, endpoint, widePhoto, squarePhoto}: Props) => {
 
   const[fileType, setFileType] = useState<string | null>(null)
 
   if (value && !fileType?.includes("pdf")) {
     return (
-      <div className={cn("relative left-1/2 transform -translate-x-1/2", banner ? "h-20 w-40" : "h-20 w-20")}>
+      <div className={cn("relative left-1/2 transform -translate-x-1/2", widePhoto ? "h-20 w-40" : "h-20 w-20")}>
         <Image 
           fill
           sizes="100%"
           src={value}
           alt="Upload"
-          className={cn("object-cover", banner ? "rounded-sm" : "rounded-full")}
+          className={cn("object-cover", squarePhoto && "size-10" && (widePhoto = true), widePhoto ? "rounded-sm" : "rounded-full")}
         />
         <button
           onClick={() => onChange('')}

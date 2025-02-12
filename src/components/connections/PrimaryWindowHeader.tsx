@@ -56,7 +56,7 @@ const PrimaryWindowHeader = ({
                 <span className="text-yellow-500 text-2xl font-bold">{connectionName[0].toUpperCase()}</span>
                 <span className="font-thin text-xl">{connectionName.slice(1)}</span>
               </div>
-              <ChevronDown className={`size-5 ${toRotate ? "rotate-0" : "rotate-180"} transition-all duration-300`}/>
+              <ChevronDown className={`size-5 ${!toRotate ? "rotate-0" : "rotate-180"} transition-all duration-300`}/>
             </div>
           </DropdownMenuTrigger>
 

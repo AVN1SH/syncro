@@ -14,6 +14,7 @@ import NavFeatures from './NavFeatures';
 import { ModeToggle } from '../themeToggle';
 import UserAvatar from '../UserAvatar';
 import ActionTooltip from '../action-tooltip';
+import ProfieInfo from './ProfileInfo';
 
 const NavigationSidebar = async () => {
 
@@ -51,7 +52,6 @@ const NavigationSidebar = async () => {
         <StoreProvider>
           <NavigationAction />
         </StoreProvider>
-        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
 
         {connections.length === 0 && <InitialConnection  />}
         
@@ -72,12 +72,7 @@ const NavigationSidebar = async () => {
         <ModeToggle />
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
         <div className="overflow-hidden p-2">
-          <ActionTooltip label="Profile" side="left">
-            <UserAvatar  
-              src={user?.imageUrl}
-              className="cursor-pointer hover:opacity-80 transition-[2s]"
-            />
-          </ActionTooltip>
+          <ProfieInfo />
         </div>
       </div>
     </div>

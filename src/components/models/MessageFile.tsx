@@ -121,6 +121,7 @@ const MessageFile = () => {
                       <FileUpload 
                         endpoint="messageFile"
                         value={field.value}
+                        squarePhoto={true}
                         onChange={field.onChange}
                       />
                     </FormControl>

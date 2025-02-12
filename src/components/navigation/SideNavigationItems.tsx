@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import ActionTooltip from '../action-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,7 @@ interface Props {
 const SideNavigationItems = ({id, imageUrl, name} : Props) => {
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname();
 
   const onClick = () => {
     router.push(`/connections/${id}`);
@@ -29,7 +30,7 @@ const SideNavigationItems = ({id, imageUrl, name} : Props) => {
     >
       <button 
         onClick={onClick}
-        className="group relative flex items-center"
+        className={`group relative flex items-center duration-300 ${pathname?.includes("connections") ? "left-0" : "-left-20"}`}
       >
         <div className={`
         absolute left-0 bg-primary rounded-r-full transition-all w-[4px]

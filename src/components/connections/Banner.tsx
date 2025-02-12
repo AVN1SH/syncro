@@ -35,7 +35,7 @@ const Banner = ({connectionId, connectionBannerPhotoUrl, role} : Props) => {
         <FontAwesomeIcon icon={faTriangleExclamation} size="xl" className="text-yellow-500 absolute bottom-[27px] right-[85px] opacity-70" />
         {role !== "guest" && <UploadCloud 
           onClick={() => dispatch(onOpen({ type : "uploadBanner", data : { connectionId }}))}
-          className="absolute bottom-[5px] right-[5px] text-zinc-700 dark:text-zinc-500 cursor-pointer bg-zinc-700 rounded-full h-6 w-6 p-1 dark:hover:text-yellow-500 hover:bg-zinc-800 transition duration-300 drop-shadow-md"
+          className="absolute bottom-[5px] right-[5px] text-zinc-400 dark:text-zinc-500 cursor-pointer bg-zinc-700 rounded-full h-6 w-6 p-1 hover:text-yellow-500 hover:bg-zinc-800 transition duration-300 drop-shadow-md"
         />}
       </div>}
     </div>
