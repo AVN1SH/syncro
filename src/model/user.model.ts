@@ -14,6 +14,7 @@ export interface User extends Document {
   connections : mongoose.Schema.Types.ObjectId[];
   members : mongoose.Schema.Types.ObjectId[];
   threads : mongoose.Schema.Types.ObjectId[];
+  friends : mongoose.Schema.Types.ObjectId[];
 }
 
 const UserSchema : Schema<User> = new Schema({
@@ -60,6 +61,10 @@ const UserSchema : Schema<User> = new Schema({
   threads : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "Thread"
+  }],
+  friends : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Friend"
   }]
 }, {timestamps : true});
 

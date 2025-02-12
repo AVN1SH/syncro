@@ -5,3 +5,4 @@ import "./member.model";
 import "./message.model"
 import "./conversation.model"
 import "./directMessage.model"
+import "./friend.model"
