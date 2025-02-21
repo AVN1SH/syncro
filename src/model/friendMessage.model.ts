@@ -3,15 +3,15 @@ import { Thread } from "./thread.model";
 import { Member } from "./member.model";
 import { User } from "./user.model";
 
-export interface DirectMessage extends Document {
+export interface FriendMessage extends Document {
   content : string;
   fileUrl : string;
   deleted : boolean;
-  member : mongoose.Schema.Types.ObjectId;
-  conversation : mongoose.Schema.Types.ObjectId;
+  user : mongoose.Schema.Types.ObjectId;
+  friendConversation : mongoose.Schema.Types.ObjectId;
 }
 
-const DirectMessageSchema : Schema<DirectMessage> = new Schema({
+const FriendMessageSchema : Schema<FriendMessage> = new Schema({
   content : {
     type : String,
   },
@@ -22,18 +22,18 @@ const DirectMessageSchema : Schema<DirectMessage> = new Schema({
     type : Boolean,
     default : false
   },
-  member : {
+  user : {
     type : mongoose.Schema.Types.ObjectId,
-    ref : "Member",
+    ref : "User",
     required : true,
   },
-  conversation : {
+  friendConversation : {
     type : mongoose.Schema.Types.ObjectId,
-    ref : "Conversation",
+    ref : "FriendConversation",
     required : true
   }
 }, {timestamps : true});
 
-const DirectMessageModel = mongoose.models.DirectMessage || mongoose.model<DirectMessage>("DirectMessage", DirectMessageSchema); 
+const FriendMessageModel = mongoose.models.FriendMessage || mongoose.model<FriendMessage>("FriendMessage", FriendMessageSchema); 
 
-export default DirectMessageModel;
+export default FriendMessageModel;

@@ -9,12 +9,14 @@ export interface User extends Document {
   email: string;
   password: string;
   imageUrl: string;
-  role: string;
+  type: "emailPass" | "google";
   isVerified : boolean;
   connections : mongoose.Schema.Types.ObjectId[];
   members : mongoose.Schema.Types.ObjectId[];
   threads : mongoose.Schema.Types.ObjectId[];
   friends : mongoose.Schema.Types.ObjectId[];
+  friendMessages : mongoose.Schema.Types.ObjectId[];
+  inboxes : mongoose.Schema.Types.ObjectId[];
 }
 
 const UserSchema : Schema<User> = new Schema({
@@ -36,15 +38,13 @@ const UserSchema : Schema<User> = new Schema({
   },
   password: {
     type: String,
-    required: [true, "Password is required..!"],
   },
   imageUrl: {
     type : String,
   },
-  role: {
+  type: {
     type: String,
-    enum: ["user", "admin"],
-    default: "user",
+    enum : ["emailPass", "google"],
   },
   isVerified : {
     type : Boolean,
@@ -65,6 +65,14 @@ const UserSchema : Schema<User> = new Schema({
   friends : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "Friend"
+  }],
+  friendMessages : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "FriendMessage"
+  }],
+  inboxes : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Inbox"
   }]
 }, {timestamps : true});
 

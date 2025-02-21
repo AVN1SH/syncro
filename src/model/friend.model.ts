@@ -4,15 +4,16 @@ import { Connection } from "./connection.model";
 import { deleteMemeberMiddleware } from "@/middleware/deleteMember.middleware";
 
 export interface Friend extends Document {
-  status : boolean;
+  status : "accepted" | "pending" | "none";
   requestingUser : mongoose.Schema.Types.ObjectId;
   requestedUser : mongoose.Schema.Types.ObjectId;
 }
 
 const FriendSchema : Schema<Friend> = new Schema({
   status : {
-    type : Boolean,
-    default : false
+    type : String,
+    enum : ["accepted", "pending", "none"],
+    default : "pending"
   },
   requestingUser : {
     type : mongoose.Schema.Types.ObjectId,
