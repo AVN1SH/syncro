@@ -8,7 +8,7 @@ const DashLayout = async ({children} : {children : React.ReactNode}) => {
         <NavigationSidebar />
       </div>
         <main className="">
-          {children}Z
+          {children}
         </main>
     </div>
   );

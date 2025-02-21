@@ -1,20 +1,44 @@
-"use client"
 import ConnectionSearch from '@/components/connections/ConnectionSearch';
+import FriendList from '@/components/friends/FriendList';
+import ByLink from '@/components/transfer/ByLink';
+import OnlineFriendList from '@/components/transfer/OnlineFriendList';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import Primary from '@/components/windows/Primary'
 import { currentUser } from '@/lib/currentUser'
 import dbConnect from '@/lib/dbConnect';
+import { serializeData } from '@/lib/serialized';
 import { cn } from '@/lib/utils';
 import ConnectionModel from '@/model/connection.model';
-import { Separator } from '@radix-ui/react-select';
+import UserModel from '@/model/user.model';
+import { PlainFriendWithUser, PlainUserWithFriendWithUser } from '@/types';
 import { Link, MessageCircleMore, MessagesSquare, Smile, SmilePlus, Video, Wifi, WifiHigh, Zap } from 'lucide-react';
 import mongoose from 'mongoose';
-import { redirect, usePathname } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import React from 'react'
 
-const layout = ({children} : {children : React.ReactNode}) => {
+const layout = async ({children} : {children : React.ReactNode}) => {
 
-  const pathname = usePathname();
+  await dbConnect();
+  
+  const user = await currentUser();
+
+  if(!user) {
+    return redirect("/sign-in");
+  }
+
+  const userData = await UserModel.findById(new mongoose.Types.ObjectId(user._id)).populate({
+    path : "friends",
+    populate : {
+      path : "requestingUser requestedUser",
+    },
+  }).lean().exec() as PlainUserWithFriendWithUser;
+
+  const plainUserData = serializeData(userData);
+
+  // const isRequestedUser = plainUserData.friends?.some((friend : PlainFriendWithUser) => friend.requestingUser._id === user._id && friend.status === "pending");
+  // const isRequestingUser = plainUserData.friends?.some((friend : PlainFriendWithUser) => friend.requestedUser._id === user._id && friend.status === "pending");
+  const acceptedFriends = plainUserData.friends?.some((friend : PlainFriendWithUser) => friend.status === "pending");
 
   return (
     <div className="flex h-full w-[250px] z-10 flex-col fixed inset-y-0 top-0 left-[60px] dark:bg-[#2b2d31] bg-zinc-100 overflow-hidden">
@@ -46,23 +70,13 @@ const layout = ({children} : {children : React.ReactNode}) => {
         </p>
       </div>
 
-      <div className="mx-3 space-y-[2px] mt-3">
-        <button 
-          // onClick={onClick}
-          className={cn("group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1", pathname?.includes("sender") ? "bg-zinc-700/20 dark:bg-zinc-700" : "bg-transparent")}
-        >
-          <Link className="flex-shrink-0 w-5 h-5 text-zinc-500 dark:text-zinc-400" />
-          <p className={cn("line-clamp-1 font-semibold text-sm text-zinc-500 group-hover:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition", pathname?.includes("sender") && "text-primary dark:text-zinc-200 dark:group-hover:text-white")}>
-            Generate Link
-          </p>
-        </button>
-      </div>
-
+      <ByLink />
+      
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-[calc(100%-10px)] mx-auto my-2"/>
 
       <div className="flex items-center justify-between p-2">
         <p className="text-xs uppercase font-semibold text-zinc-500 dark:text-zinc-400">
-          Online Members
+          Online Friends
         </p>
       </div>
 
@@ -85,6 +99,14 @@ const layout = ({children} : {children : React.ReactNode}) => {
       </ScrollArea>
 
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-[calc(100%-10px)] mx-auto my-2"/>
+
+      {plainUserData.friends?.map((friend : any) => (
+        <OnlineFriendList 
+          key={friend._id}
+          friend={friend}
+          userId={user._id}
+        />
+      ))}
 
       {children}
     </div>
