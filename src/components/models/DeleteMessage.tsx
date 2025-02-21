@@ -41,7 +41,8 @@ const DeleteMessage = () => {
         url: data?.apiUrl || '',
         query : data?.query
       })
-
+      
+      console.log("apiurl", url)
       await axios.delete(url);
 
       dispatch(onClose());
