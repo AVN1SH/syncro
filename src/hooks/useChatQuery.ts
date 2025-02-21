@@ -8,7 +8,7 @@ import { MessageWithMemberWithUser } from "@/types";
 interface Props {
   queryKey : string;
   apiUrl : string;
-  paramKey : "threadId" | "conversationId";
+  paramKey : "threadId" | "conversationId" | "friendConversationId";
   paramValue ?: string;
 }
 
