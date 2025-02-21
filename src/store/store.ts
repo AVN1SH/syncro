@@ -1,13 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createConnectionSlice, { onOpen, onClose, CreateConnection } from "@/features/modelSlice";
+import createChatNavSlice, { ChatNav } from "@/features/chatNavigateSlice";
+import createNotificationSlice from "@/features/notificationSlice"
 
 export interface RootState {
   createConnectionSlice : CreateConnection;
+  createChatNavSlice : ChatNav;
 }
 
 const store = configureStore({
   reducer: {
-    createConnectionSlice
+    createConnectionSlice,
+    createChatNavSlice,
+    createNotificationSlice
   }
 })
 
