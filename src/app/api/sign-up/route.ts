@@ -35,7 +35,8 @@ export async function POST(request : Request) {
       email,
       password : hasedPassword,
       imageUrl : '',
-      isVerified : false
+      isVerified : false,
+      type : "emailPass"
     })
 
     const dbResponse = await newUser.save();

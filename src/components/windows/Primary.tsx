@@ -12,13 +12,15 @@ import ThreadModel, { Thread } from "@/model/thread.model"
 import MemberModel, { Member } from "@/model/member.model"
 import PrimaryWindowHeader from "../connections/PrimaryWindowHeader"
 import StoreProvider from "@/store/StoreProvider"
-import { ConnectionThreadMemberUser, ConnectionWithMembersWithUsers, DBMember, DBThread, MemberWithUser } from "@/types"
+import { ConnectionThreadMemberUser, ConnectionThreadMemberUserFriends, ConnectionWithMembersWithUsers, DBFriend, DBMember, DBThread, MemberWithUser, MemberWithUserWithFriends, PlainMemberWithUser } from "@/types"
 import { serializeData } from "@/lib/serialized"
 import { ScrollArea } from "../ui/scroll-area"
 import ConnectionSearch from "../connections/ConnectionSearch"
 import ConnectionSection from "../connections/ConnectionSection"
 import ConnectionThread from "../connections/ConnectionThread"
 import ConnectionMember from "../connections/ConnectionMember"
+import FriendModel from "@/model/friend.model"
+import mongoose from "mongoose"
 
 interface Props {
   connectionId : string;
@@ -55,6 +57,9 @@ const Primary = async ({connectionId} : Props) => {
     populate: {
       path: "user",
       select: "name email imageUrl",
+      populate : {
+        path : "friends"
+      }
     }
   }).lean() as ConnectionThreadMemberUser | null);
 
@@ -64,6 +69,25 @@ const Primary = async ({connectionId} : Props) => {
   const videoThreads = connection?.threads.filter((thread : Thread) => thread.type === "video");
 
   const members = connection?.members.filter((member : MemberWithUser) => String(member.user._id) !== user?._id);
+
+  const userIds = members?.map((member : any) => String(member.user._id));
+
+  const friends : DBFriend[] = await FriendModel.aggregate([
+    {
+      $match : {
+        $or : [
+          {
+            requestingUser : new mongoose.Types.ObjectId(user._id),
+            requestedUser : {$in : userIds?.map(id => new mongoose.Types.ObjectId(id))}
+          },
+          {
+            requestingUser : {$in : userIds?.map(id => new mongoose.Types.ObjectId(id))},
+            requestedUser : new mongoose.Types.ObjectId(user._id)
+          }
+        ]
+      }
+    }
+  ]);
 
   if(!connection) {
     return redirect("/connections"); 
@@ -219,6 +243,15 @@ const Primary = async ({connectionId} : Props) => {
                   key={String(member._id)}
                   member={member}
                   connection={connection}
+                  friendStatus={(friends.find(friend => {
+                    const requestingUser = String(friend.requestingUser);
+                    const requestedUser = String(friend.requestedUser);
+                    const memberUserId = String(member.user._id);
+
+                    if(requestedUser === memberUserId || requestingUser === memberUserId) {
+                      return friend;
+                    }
+                  }))?.status || "none"}               
                 />
               ))}
             </StoreProvider>
@@ -227,5 +260,4 @@ const Primary = async ({connectionId} : Props) => {
     </div>
   )
 }
-
 export default Primary

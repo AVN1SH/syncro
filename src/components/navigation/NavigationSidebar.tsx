@@ -14,7 +14,7 @@ import NavFeatures from './NavFeatures';
 import { ModeToggle } from '../themeToggle';
 import UserAvatar from '../UserAvatar';
 import ActionTooltip from '../action-tooltip';
-import ProfieInfo from './ProfileInfo';
+import ProfileInfo from './ProfileInfo';
 
 const NavigationSidebar = async () => {
 
@@ -72,7 +72,14 @@ const NavigationSidebar = async () => {
         <ModeToggle />
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
         <div className="overflow-hidden p-2">
-          <ProfieInfo />
+          <ProfileInfo 
+            imageUrl={user.imageUrl}
+            name={user.name}
+            username={user.username}
+            email={user.email}
+            userId={user._id}
+            type="self"
+          />
         </div>
       </div>
     </div>

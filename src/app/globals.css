@@ -33,6 +33,22 @@ body,
     text-wrap: balance;
   }
 
+  .scrollbar-dark::-webkit-scrollbar {
+    width : 4px;
+  }
+  .scrollbar-dark::-webkit-scrollbar-track {
+    background : #29292c;
+    border-radius : 8px;
+  }
+  .scrollbar-dark::-webkit-scrollbar-thumb {
+    background: #101010;
+    border-radius: 8px;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background : #555;
+  }
+
   .scrollbar::-webkit-scrollbar {
     width : 8px;
   }

@@ -5,7 +5,7 @@ import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import ModelProvider from "@/components/providers/ModelProvider";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { SocketProvider } from "@/components/providers/SocketProvider";
 import QueryProvider from "@/components/providers/QueryProvider";
 
