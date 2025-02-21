@@ -53,10 +53,25 @@ export const authOptions : NextAuthOptions = {
   callbacks : {
     async jwt({ token, user } : { token : JWT, user : User }) {
       if(user) {
-        token._id = user._id;
-        token.username = user.username;
-        token.email = user.email;
-        token.imageUrl = user.imageUrl;
+        await dbConnect();
+        let existingUser = await UserModel.findOne({email : user.email});
+
+        if(!existingUser) {
+          existingUser = await UserModel.create({
+            name : user.name,
+            email : user.email,
+            username : user.email?.split("@")[0],
+            imageUrl : user.image,
+            type : "google",
+            isVerified : true
+          });
+        }
+
+        token._id = String(existingUser._id);
+        token.username = existingUser.username;
+        token.email = existingUser.email;
+        token.imageUrl = existingUser.imageUrl;
+        token.isVerified = existingUser.isVerified;
       }
       return token;
     },
