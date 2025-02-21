@@ -1,5 +1,5 @@
 "use client";
-import { DBMember, MessageWithMemberWithUser, PlainMember } from '@/types';
+import { DBMember, FriendMessageWithUser, MessageWithMemberWithUser, PlainMember, PlainUser } from '@/types';
 import React, { Fragment, useRef, ElementRef } from 'react'
 import ChatWelcome from './ChatWelcome';
 import { useChatQuery } from '@/hooks/useChatQuery';
@@ -19,9 +19,10 @@ interface Props {
   apiUrl : string;
   socketurl : string;
   socketQuery : Record<string, string>;
-  paramKey : "threadId" | "conversationId";
+  paramKey : "threadId" | "conversationId" | "friendConversationId";
   paramValue ?: string;
-  type : "thread" | "conversation";
+  type : "thread" | "conversation" | "friendConversation";
+  userId ?: string;
 }
 
 const ChatMessages = ({
@@ -34,6 +35,7 @@ const ChatMessages = ({
   paramKey,
   paramValue,
   type,
+  userId
 }: Props) => {
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
@@ -106,7 +108,7 @@ const ChatMessages = ({
         </div>
       )}
       <StoreProvider>
-        <div className="flex flex-col-reverse mt-auto">
+        {type !== "friendConversation" ? <div className="flex flex-col-reverse mt-auto">
           {data?.pages?.map((group, i) => (
             <Fragment key={i}>
               {group.items.map((message : MessageWithMemberWithUser) => (
@@ -127,6 +129,29 @@ const ChatMessages = ({
             </Fragment>
           ))}
         </div>
+        
+        : <div className="flex flex-col-reverse mt-auto">
+            {data?.pages?.map((group, i) => (
+              <Fragment key={i}>
+                {group.items.map((message : FriendMessageWithUser) => (
+                  <ChatItem
+                    key={String(message?._id)}
+                    id={String(message?._id)}
+                    currentUserId={userId}
+                    user={message?.user}
+                    content={message?.content}
+                    fileUrl={message?.fileUrl}
+                    deleted={message?.deleted}
+                    timeStamp={format(new Date(message?.createdAt), DATE_FORMAT)}
+                    isUpdated={message?.updatedAt !== message?.createdAt}
+                    socketUrl={socketurl}
+                    socketQuery={socketQuery}
+                  />
+                ))}
+              </Fragment>
+            ))}
+          </div>
+        }
       </StoreProvider>
       <div ref={bottomRef} />
     </div>

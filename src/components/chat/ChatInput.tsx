@@ -11,27 +11,33 @@ import {
   FormItem,
   FormField
 } from "@/components/ui/form";
-import { Input } from '../ui/input';
-import { Loader2, Plus, Send, SmilePlus } from 'lucide-react';
+import { Loader2, Plus, Send } from 'lucide-react';
 import axios from 'axios';
 import qs from "query-string"
 import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
 import EmojiPicker from '../EmojiPicker';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import TextareaAutosize from "react-textarea-autosize";
+import { useSession } from 'next-auth/react';
+import { useSocket } from '../providers/SocketProvider';
 
 interface Props {
   apiUrl : string;
   query : Record<string, any>;
   name ?: string;
-  type : "thread" | "conversation";
+  type : "thread" | "conversation" | "friendConversation";
+  friendUserId ?: string;
+  friendId ?: string;
 }
 
-const ChatInput = ({apiUrl, query, name, type} : Props) => {
-
+const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) => {
   const dispatch = useDispatch();
+  const { data: session } = useSession();
   const router = useRouter();
+  const { socket } = useSocket();
+  const [onlinePageUsers, setOnlinePageUsers] = useState<string[]>([]);
+
   const form = useForm<z.infer<typeof chat>>({
     resolver: zodResolver(chat),
     defaultValues : {
@@ -62,12 +68,39 @@ const ChatInput = ({apiUrl, query, name, type} : Props) => {
       })
 
       await axios.post(url, values);
+      if(type === "friendConversation" && friendUserId && !onlinePageUsers.includes(friendUserId) ) {
+        await axios.post("/api/socket/notifications", {
+          type : "text",
+          title : "New Message",
+          content : values.content,
+          friendUserId : friendUserId
+        })
+      }
       form.reset();
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if(type === "friendConversation" && socket && session?.user._id) {
+      socket.emit("joinPage", {
+        friendId,
+        userId : session.user._id
+      })
+
+    socket.on("activePageUsers", (userIds: string[]) => {
+      setOnlinePageUsers(userIds);
+    });
+
+    return () => {
+      socket.emit("leavePage", { friendId, userId : session.user._id });
+      socket.off("activePageUsers");
+  };
+    }
+  }, [friendId, friendUserId, session?.user._id, socket, type])
+  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>

@@ -4,7 +4,7 @@ import { Hash } from 'lucide-react';
 import React from 'react'
 
 interface Props {
-  type : "thread" | "conversation";
+  type : "thread" | "conversation" | "friendConversation";
   name : string;
 }
 

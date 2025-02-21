@@ -1,5 +1,5 @@
 "use client";
-import { MemberWithUser, PlainMember } from '@/types';
+import { DBUser, MemberWithUser, PlainMember, PlainUser } from '@/types';
 import React, { useEffect, useState } from 'react'
 import UserAvatar from '../UserAvatar';
 import ActionTooltip from '../action-tooltip';
@@ -25,12 +25,16 @@ import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
 import { useRouter, useParams } from "next/navigation";
 import TextareaAutosize from "react-textarea-autosize";
+import ProfileInfo from '../navigation/ProfileInfo';
+import { formatTextWithLinks } from '@/lib/formateTextWithLinks';
 
 
 interface Props {
   id : string;
   content : string;
-  member : MemberWithUser;
+  member ?: MemberWithUser;
+  user ?: DBUser;
+  currentUserId ?: string;
   timeStamp : string;
   fileUrl : string;
   deleted : boolean;
@@ -57,12 +61,14 @@ const ChatItem = ({
   isUpdated,
   socketUrl,
   socketQuery,
+  user,
+  currentUserId
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const isAdmin = currentMember?.role === "admin"
   const isModerator = currentMember?.role === "moderator"
-  const isOwner = currentMember?._id === String(member._id);
+  const isOwner = currentMember?._id === String(member?._id) || currentUserId === String(user?._id);
   const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
   const canEditMessage = !deleted && isOwner && !fileUrl;
   const [fileType, setFileType] = useState('');
@@ -75,11 +81,12 @@ const ChatItem = ({
   const params = useParams();
   
   const onMemberClick = () => {
-    if(String(member._id) === currentMember?._id) {
+    if(user) return;
+    if(String(member?._id) === currentMember?._id) {
       return;
     }
 
-    router.push(`/connections/${params?.id}/conversations/${String(member._id)}`);
+    router.push(`/connections/${params?.id}/conversations/${String(member?._id)}`);
   }
 
   const form = useForm<z.infer<typeof chat>>({
@@ -105,7 +112,6 @@ const ChatItem = ({
     } catch (error) {
       console.log(error);
     }
-
   }
 
   useEffect(() => {
@@ -141,17 +147,24 @@ const ChatItem = ({
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="goup flex gap-x-2 items-start w-full">
         <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-md transition">
-          <UserAvatar src={member.user?.imageUrl}/>
+          <ProfileInfo 
+            imageUrl={user ? user.imageUrl : member?.user.imageUrl || ""}
+            name={user ? user.name : member?.user.name || ''}
+            username={user ? user.username : member?.user.username || ''}
+            email={user ? user.email : member?.user.email || ''}
+            userId={user ? String(user._id) : String(member?.user._id) || ''}
+            type="other"
+          />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
               <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
-                {member.user?.name}
+                {user ? user.name : member?.user?.name}
               </p>
-              <ActionTooltip label={member.role}>
+              {member && <ActionTooltip label={member.role}>
                 {roleIconMap[member.role]}
-              </ActionTooltip>
+              </ActionTooltip>}
             </div>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
               {timeStamp}
@@ -191,7 +204,7 @@ const ChatItem = ({
               "text-sm text-zinc-600 dark:text-zinc-300 whitespace-pre-line",
               deleted && "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1"
             )}>
-              {content}
+              {formatTextWithLinks(content)}
               {isUpdated && !deleted && (
                 <span className=" text-[10px] mx-2 text-zinc-500 dark:text-zinc-400">
                   (edited)
