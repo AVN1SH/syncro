@@ -1,6 +1,4 @@
 "use client"
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import mongoose from 'mongoose';
 import React, { useEffect, useState } from 'react'
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
@@ -10,23 +8,25 @@ import { Search } from 'lucide-react';
 interface Props {
   data : {
     label : string;
-    type : "thread" | "member";
+    type : "thread" | "member" | "friends";
     data : {
-      icon : React.ReactNode;
+      icon ?: React.ReactNode;
       name : string;
       id : mongoose.Schema.Types.ObjectId;
     }[] | undefined
-  }[]
+  }[];
+  activate ?: boolean;
 }
 
 const ConnectionSearch = ({
-  data
+  data, activate
 } : Props) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const params = useParams();
 
   useEffect(() => {
+    if(activate) setOpen(true);
     const down = (e: KeyboardEvent) => {
       if(e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
@@ -37,7 +37,7 @@ const ConnectionSearch = ({
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const onClick = ({ id, type } : {id: string, type : "thread" | "member"}) => {
+  const onClick = ({ id, type } : {id: string, type : "thread" | "member" | "friends"}) => {
     setOpen(false);
 
     if(type === "member") {
@@ -47,12 +47,16 @@ const ConnectionSearch = ({
     if(type === "thread") {
       return router.push(`/connections/${params?.id}/threads/${id}`)
     }
+
+    if(type === "friends") {
+      return router.push(`/chat/${id}`)
+    }
   }
 
   return (
     <div>
       <button 
-        onClick={() => {console.log(data); setOpen(true)}}
+        onClick={() => {setOpen(true)}}
         className="group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition">
         <Search className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
         <p className="font-semibold text-sm text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition">

@@ -72,4 +72,4 @@ const ConnectionThread = ({ thread, connection, role } : Props) => {
   )
 }
 
-export default ConnectionThread
+export default ConnectionThread;
