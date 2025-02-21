@@ -1,17 +1,20 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { type } from "os";
 import { createContext, useContext, useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 
 type SocketContextType = {
-  socket: any | null;
-  isConnected: boolean;
+  socket : any | null;
+  isConnected : boolean;
+  onlineUsers : string[];
 };
 
 const SocketContext = createContext<SocketContextType>({
   socket: null,
   isConnected: false,
+  onlineUsers:[]
 });
 
 export const useSocket = () => {
@@ -21,16 +24,25 @@ export const useSocket = () => {
 export const SocketProvider = ({children} : {children : React.ReactNode}) => {
   const [socket, setSocket] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const { data : session, status } = useSession();
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
 
   useEffect(() => {
-    const socketInstance = io(process.env.NEXT_PUBLIC_SITE_URL!, {
+    if(status !== "authenticated" || !session?.user._id) return;
+
+    const socketInstance = new (io as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
       path: "/api/socket/io",
       addTrailingSlash: false,
     });
 
     socketInstance.on("connect", () => {
       setIsConnected(true);
+      socketInstance.emit("online-user", session?.user._id);
     });
+
+    socketInstance.on("online-user", (users: string[]) => {
+      setOnlineUsers(users);
+    })
     
     socketInstance.on("disconnect", () => {
       setIsConnected(false);
@@ -39,13 +51,14 @@ export const SocketProvider = ({children} : {children : React.ReactNode}) => {
     setSocket(socketInstance);
 
     return () => {
+      socketInstance.off("online-user");
       socketInstance.disconnect();
     }
 
-  }, []);
+  }, [status, session]);
 
   return (
-    <SocketContext.Provider value={{socket, isConnected}}>
+    <SocketContext.Provider value={{socket, isConnected, onlineUsers}}>
       {children}
     </SocketContext.Provider>
   )
