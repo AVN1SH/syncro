@@ -28,7 +28,6 @@ export default async function handler(
 
     if(!content) return res.status(400).json({error : "Content is required"});
 
-
     await dbConnect();
 
     const connection : ConnectionWithMembersWithUsers[] = await ConnectionModel.aggregate([

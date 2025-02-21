@@ -1,13 +1,17 @@
 import { Server as NetServer } from "http";
 import { NextApiRequest } from "next";
 import { Server as ServerIO } from "socket.io";
-import { NextApiResponseServerIo } from "@/types";
+import { NextApiResponseServerIo, PlainFriend } from "@/types";
 
 export const config = {
   api: {
     bodyParser: false,
   },
 };
+
+const onlineUsers = new Map();
+const socketToUser = new Map();
+const activePageUsers = new Map<string, Set<string>>();
 
 const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
   if (!res.socket.server.io) {
@@ -17,6 +21,56 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
       path: path,
       addTrailingSlash: false,
     });
+    
+    io.on("connection", (socket) => {
+      socket.on("online-user", (userId : string) => {
+        socketToUser.set(socket.id, userId);
+        if(onlineUsers.has(userId)) {
+          onlineUsers.set(userId, onlineUsers.get(userId) + 1);
+        } else {
+          onlineUsers.set(userId, 1);
+        }
+        io.emit("online-user", Array.from(onlineUsers.keys()));
+      });
+
+      socket.on("disconnect", () => {
+        const userId = socketToUser.get(socket.id);
+
+        if(userId) {
+          if(onlineUsers.get(userId) > 1) {
+            onlineUsers.set(userId, onlineUsers.get(userId) -1);
+          } else {
+            onlineUsers.delete(userId);
+          }
+          socketToUser.delete(socket.id);
+        }
+        io.emit("online-user", Array.from(onlineUsers.keys()));
+      });
+
+      socket.on("joinPage", ({ friendId, userId }) => {
+        const pageKey = `page:${friendId}`;
+        socket.join(pageKey);
+
+        if(!activePageUsers.has(pageKey)) {
+          activePageUsers.set(pageKey, new Set());
+        }
+        activePageUsers.get(pageKey)?.add(userId);
+
+        io.to(pageKey).emit("activePageUsers", Array.from(activePageUsers.get(pageKey)!));
+      });
+
+      socket.on("leavePage", ({ friendId, userId }) => {
+        const pageKey = `page:${friendId}`;
+        socket.leave(pageKey);
+
+        if(activePageUsers.has(pageKey)) {
+          activePageUsers.get(pageKey)?.delete(userId);
+          io.to(pageKey).emit("activePageUsers", Array.from(activePageUsers.get(pageKey)!));
+        }
+      });
+
+    });
+
     res.socket.server.io = io;
   }
   res.end();
