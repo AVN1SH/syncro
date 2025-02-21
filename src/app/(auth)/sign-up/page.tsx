@@ -14,13 +14,10 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/schemas/signUp"
-// import { useDebounceCallback } from "usehooks-ts"
+import { useDebounceCallback } from "usehooks-ts"
 import { useEffect, useState } from "react"
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock, LockOpen, RefreshCw } from "lucide-react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEye, faEyeSlash, faRotate } from "@fortawesome/free-solid-svg-icons"
 import { toast } from "sonner"
 import axios from "axios";
 import { ModeToggle } from "@/components/themeToggle"
@@ -29,21 +26,22 @@ import { signIn, useSession } from "next-auth/react"
 
 
 const page = () => {
-  // const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [isSubmiting, setIsSubmitting] = useState(false);
-  // const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
-  const [selectValue, setSelectValue] = useState('');
-  const [isSelected, setIsSelected] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const [googleSubmitting, setGoogleSubmitting] = useState(false);
   const [animate, setAnimate] = useState(true);
+  const [emailDebounceError, setEmailDebounceError] = useState('');
+  const [usernameDebounceError, setUsernameDebounceError] = useState('');
 
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if(status === "authenticated") router.push("/connections");
+    if(status === "authenticated") router.push("/chat");
   }, [status, router]);
 
   const navigateWithAnimation = (path: string) => {
@@ -59,23 +57,46 @@ const page = () => {
     }, 50);
   }, []);
 
-  // const debounced = useDebounceCallback(setEmail, 300);
+  const emailDebounced = useDebounceCallback(setEmail, 500);
+  const usernameDebounced = useDebounceCallback(setUsername, 500);
   
+  useEffect(() => {
+    (async () => {
+      if(email) {
+        setIsCheckingEmail(true);
+        try {
+          await axios.post("/api/checkEmail", {
+            email
+          })
+          setEmailDebounceError('')
+          setIsCheckingEmail(false);
+        } catch(error : any) {
+          console.log(error);
+          setEmailDebounceError(error.response.data)
+          setIsCheckingEmail(false);
+        }
+      }
+    })()
+  }, [email])
 
-  // useEffect(() => {
-  //   const checkEmail = async () => {
-  //     if(email) {
-  //       setIsCheckingEmail(true);
-  //       try {
-  //         //TODO: i need to add the request to the django
-  //         setIsSubmitting(false);
-  //       } catch(error) {
-  //         // TODO:
-  //         setIsSubmitting(false);
-  //       }
-  //     }
-  //   }
-  // }, [email])
+  useEffect(() => {
+    (async () => {
+      if(username) {
+        setIsCheckingUsername(true);
+        try {
+          await axios.post("/api/checkUsername", {
+            username
+          })
+          setIsCheckingUsername(false);
+          setUsernameDebounceError('')
+        } catch(error : any) {
+          console.log(error);
+          setUsernameDebounceError(error.response.data)
+          setIsCheckingUsername(false);
+        }
+      }
+    })()
+  }, [username])
 
 
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -101,12 +122,29 @@ const page = () => {
       if(response) {
         router.push("/sign-in");
         setError('');
-        toast("Registred Successfully..!", {
+        toast("Signed In Successfully..!", {
           description : "Login to Continue access your dashboard.",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
+        })
+        await axios.post("/api/socket/notifications", {
+          type : "system",
+          title : "Welcome to SyncRo 🚀",
+          content : `We're thrilled to have you on board! 🌟
+
+          💬 Chat, connect, and collaborate effortlessly with your friends and community.
+          🎙️ Jump into voice & video calls and stay engaged in real-time.
+          🔒 Your privacy & security are our top priorities.
+          
+          ✨ Explore & make the most out of SyncRo! ✨
+          Click the button below to get started! 🎯
+          
+          🛠️ Need help? Our team is always here for you. 💡
+          Enjoy your journey with SyncRo! 🚀🔥`,
+          sender : String(response.data._id),
+          receiver : String(response.data._id)
         })
       }
       setIsSubmitting(false);
@@ -120,24 +158,13 @@ const page = () => {
   }
 
   const googleSubmit = async() => {
-    setGoogleSubmitting(true);
     try {
-      const response = await signIn("google", {
+      await signIn("google", {
         redirect: false,
-      }).then((res) => {
-        console.log(session);
-
-        if(res?.error) {
-          setError(res.error);
-        } else {
-          router.push("/connections");
-        }
       })
-      setGoogleSubmitting(false);
     } catch (error : any) {
       setError("Error while signning you in, Please Try Again Or Do It Later");
       console.log(error);
-      setGoogleSubmitting(false);
     }
   }
 
@@ -190,19 +217,25 @@ const page = () => {
                     name="username"
                     control={form.control}
                     render={({ field }) => (
-                      <FormItem className={`${animate ? "w-0 opacity-50 flex-0" : "w-full opacity-100 flex-1"} overflow-hidden duration-300 transition-all`}>
+                      <FormItem className={`${animate ? "w-0 opacity-50 flex-0" : "w-full opacity-100 flex-1"} overflow-hidden duration-300 transition-all relative`}>
                         <FormLabel>Username<span className="text-red-600">*</span></FormLabel>
                         <FormControl>
                           <Input 
                             type="text" 
                             placeholder="eg : hello123" 
                             {...field} 
+                            onChange={(e) => {
+                              field.onChange(e);
+                              usernameDebounced(e.target.value);
+                            }}
                           />
                         </FormControl>
                         <FormDescription className="whitespace-nowrap">
                           Username can't change later.
                         </FormDescription>
+                        {isCheckingUsername && <Loader2 className="animate-spin absolute size-4 right-2 top-9 text-amber-500" />}
                         <FormMessage className="text-xs" />
+                        {usernameDebounceError && <p className="text-xs text-red-500">{usernameDebounceError}</p>}
                       </FormItem>
                     )}
                   />
@@ -210,7 +243,7 @@ const page = () => {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem className={`${animate ? "w-0 opacity-50 flex-0" : "w-full opacity-100 flex-1"} overflow-hidden duration-300 transition-all`}>
+                      <FormItem className={`${animate ? "w-0 opacity-50 flex-0" : "w-full opacity-100 flex-1"} overflow-hidden duration-300 transition-all relative`}>
                         <FormLabel>Email<span className="text-red-600">*</span></FormLabel>
                         <FormControl>
                           <Input 
@@ -218,12 +251,13 @@ const page = () => {
                             {...field}
                             onChange={(e) => {
                               field.onChange(e);
-                              // debounced(e.target.value);
+                              emailDebounced(e.target.value);
                             }}
                           />
                         </FormControl>
-                          {/* {isCheckingEmail && <Loader2 className="animate-spin" />} */}
+                          {isCheckingEmail && <Loader2 className="animate-spin absolute size-4 right-2 top-9 text-amber-500" />}
                         <FormMessage className="text-xs" />
+                        {emailDebounceError && <p className="text-xs text-red-500">{emailDebounceError}</p>}
                       </FormItem>
                     )}
                   />
@@ -290,8 +324,8 @@ const page = () => {
           </div>
           <div className={`relative w-fit mt-1 duration-500 transition-all 
           ${animate ? "-bottom-40" : "bottom-0"}`}>
-            <div className="p-[2px] rounded-full overflow-hidden">
-              <button className="relative bg-zinc-300 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 before:absolute before:w-[230px] before:h-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-200 duration-500 before:z-[-10] z-0" 
+            <div className="p-[2px] rounded-full overflow-hidden relative before:contents-[''] before:absolute before:size-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:opacity-0 before:hover:opacity-100 before:duration-300 duration-300">
+              <button className="relative bg-zinc-300 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 duration-300" 
               onClick={googleSubmit}
               ><img className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-zinc-800 font-bold text-[16px] ">Sign-In with Google</span></button>
             </div>

@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas/signIn";
-// import { useDebounceCallback } from "usehooks-ts"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation";
 import { Loader2, Lock, LockOpen, RefreshCw } from "lucide-react"
@@ -24,21 +23,15 @@ import { Separator } from "@/components/ui/separator";
 
 
 const page = () => {
-  // const [email, setEmail] = useState('');
   const [isSubmiting, setIsSubmitting] = useState(false);
-  const [googleSubmitting, setGoogleSubmitting] = useState(false);
-  // const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
-  const [selectValue, setSelectValue] = useState('');
-  const [isSelected, setIsSelected] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
   const [animate, setAnimate] = useState(true);
-
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if(status === "authenticated") router.push("/connections");
+    if(status === "authenticated") router.push("/chat");
   }, [status, router]);
 
   const navigateWithAnimation = (path: string) => {
@@ -77,10 +70,10 @@ const page = () => {
             description : "Now you can start using our services",
             action: {
               label: "ok",
-              onClick: () => console.log(''),
+              onClick: () => {},
             },
           })
-          router.push("/connections");
+          router.push("/chat");
         }
       })
       setIsSubmitting(false);
@@ -92,30 +85,15 @@ const page = () => {
   }
 
   const googleSubmit = async() => {
-    setGoogleSubmitting(true);
     try {
-      const response = await signIn("google", {
+      await signIn("google", {
         redirect: false,
-      }).then((res) => {
-        console.log(session);
-
-        if(res?.error) {
-          setError(res.error);
-        } else {
-          router.push("/connections");
-        }
       })
-      setGoogleSubmitting(false);
     } catch (error : any) {
       setError("Error while signning you in, Please Try Again Or Do It Later");
       console.log(error);
-      setGoogleSubmitting(false);
     }
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="h-screen flex flex-col relative">
@@ -205,8 +183,8 @@ const page = () => {
           </div>
           <div className={`relative w-fit mt-4 duration-500 transition-all 
           ${animate ? "-bottom-40" : "bottom-0"}`}>
-            <div className="p-[2px] rounded-full overflow-hidden">
-              <button className="relative bg-zinc-300 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 before:absolute before:w-[230px] before:h-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-200 duration-500 before:z-[-10] z-0" 
+            <div className="p-[2px] rounded-full overflow-hidden relative before:contents-[''] before:absolute before:size-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:opacity-0 before:hover:opacity-100 before:duration-300 duration-300">
+              <button className="relative bg-zinc-300 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 duration-300" 
               onClick={googleSubmit}
               ><img className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-zinc-800 font-bold text-[16px] ">Sign-In with Google</span></button>
             </div>
