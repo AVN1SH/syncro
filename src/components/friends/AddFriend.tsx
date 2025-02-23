@@ -54,7 +54,7 @@ const AddFriend = () => {
         {error && <p className="text-xs text-rose-500 font-semibold mt-1 ml-2">{error}</p>}
       </form>
       <Separator className="dark:bg-zinc-700 bg-zinc-200" />
-      <img src="/images/singleBoy.svg" className="h-[600px] self-center mx-auto  drop-shadow-md" />
+      <img src="/images/singleBoy.svg" className="w-[600px] self-center mx-auto drop-shadow-md" />
     </div>
   )
 }

@@ -11,7 +11,7 @@ const FriendsTopNav = () => {
   const activeName = useSelector((state : RootState) => state.createChatNavSlice.activeName)
 
   return (
-    <div className="flex gap-2 overflow-x-auto ml-10 md:ml-0 scrollbar-hide shadow-[inset_0px_0px_5px_rgb(0,0,0)] sm:shadow-none px-2 rounded-full sm:rounded-none">
+    <div className="flex gap-2 overflow-x-auto ml-10 md:ml-0 scrollbar scrollbar-horizontal px-2 sm:rounded-none">
       <div className="flex gap-2 pl-0 md:pl-4 items-center font-thin">
         <FontAwesomeIcon icon={faHandshakeAngle} size="xl" />
         <span className="font-semibold">

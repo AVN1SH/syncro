@@ -35,8 +35,8 @@ const OnlineFriend = ({friends} : Props) => {
   return (
     <div className="flex-1 p-4 overflow-auto">
 
-      {onlineFriends.length === 0 && <div className="h-full flex flex-col items-center justify-center ">
-        <div className="flex-[2]">
+      {onlineFriends.length === 0 && <div className="h-full flex flex-col items-center justify-center">
+        <div className="flex-1">
           <img src="/images/sad.svg" className="size-full opacity-85" />
         </div>
         <p className="flex-1 text-zinc-400">There is no online friends right now..<span className="text-amber-500">!</span> Check back later.</p>

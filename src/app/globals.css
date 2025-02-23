@@ -64,6 +64,11 @@ body,
   .scrollbar-hide {
     scrollbar-width: none;
   }
+
+  .scrollbar-horizontal::-webkit-scrollbar {
+    height : 1px;
+  }
+
 /* 
   .scrollbar {
     scrollbar-width: thin;
