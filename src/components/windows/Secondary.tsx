@@ -1,9 +1,15 @@
 import SecondaryWindowHeader from "../chat/SecondaryWindowHeader";
-import { DBThread, PlainMember } from "@/types";
+import { DBThread, PlainMember, PlainUserWithFriendWithUserAndInboxesWithUser } from "@/types";
 import ChatInput from "../chat/ChatInput";
 import StoreProvider from "@/store/StoreProvider";
 import ChatMessages from "../chat/ChatMessages";
 import MediaRoom from "../MediaRoom";
+import { currentUser } from "@/lib/currentUser";
+import { redirect } from "next/navigation";
+import dbConnect from "@/lib/dbConnect";
+import UserModel from "@/model/user.model";
+import mongoose from "mongoose";
+import { serializeData } from "@/lib/serialized";
 
 interface Props {
   connectionId : string;
@@ -31,12 +37,43 @@ const Secondary = async({
     video
   } : Props) => {
 
+    const user = await currentUser();
+
+    if(!user) return redirect("/sign-in");
+    
+    await dbConnect();
+
+    const userData = await UserModel.findById(new mongoose.Types.ObjectId(user._id)).populate([
+      {
+        path : "friends",
+        populate : [
+          {path : "requestingUser"},
+          {path : "requestedUser"}
+        ]
+      },
+      {
+        path : "inboxes",
+        populate : {
+          path : "sender"
+        },
+        options: {
+          sort: {
+            createdAt: -1
+          }
+        }
+      }
+    ]).lean().exec();
+  
+    const PlainUserData : PlainUserWithFriendWithUserAndInboxesWithUser = serializeData(userData);
+
   return (
     <div className="flex flex-col h-full">
       {type === "thread" && <SecondaryWindowHeader 
         name = {threadName}
         connectionId={connectionId}
         type={type}
+        userId={user._id}
+        inboxMessages={PlainUserData.inboxes}
       />}
 
       {type === "thread" && threadType === "text" && <ChatMessages 
@@ -58,6 +95,8 @@ const Secondary = async({
         name={threadName}
         connectionId={connectionId}
         type={type}
+        userId={user._id}
+        inboxMessages={PlainUserData.inboxes}
       />}
       {video && (
         <MediaRoom

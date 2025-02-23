@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scrollbar">
       <AuthProvider>
         <body
           className={`${geistSans.className} dark:bg-[#313338]`}
@@ -50,7 +50,7 @@ export default function RootLayout({
                 {children}
               </QueryProvider>
             </SocketProvider>
-            <Toaster />
+            <Toaster className="z-50"/>
           </ThemeProvider>
         </body>
       </AuthProvider>

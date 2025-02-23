@@ -33,7 +33,7 @@ const page = async({params} : Props) => {
   const plainMember : PlainMember = serializeData(member);
 
   return (
-    <div className="fixed left-[310px] top-0 right-0 bottom-0">
+    <div className="fixed left-[60px] md:left-[310px] top-0 right-0 bottom-0">
         <Secondary 
           threadName = {thread.name}
           threadType = {thread.type}

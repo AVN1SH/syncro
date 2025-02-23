@@ -13,16 +13,14 @@ import axios from "axios";
 import { formatTextWithLinks } from "@/lib/formateTextWithLinks";
 
 interface Props {
-  inboxMessages : PlainInboxWithUser[];
   deleteAllInboxMsg : boolean;
   updateDeleteAllInboxMsg : () => void;
   updateAllMessages : (inboxId : string) => void;
-  newInboxMsg : PlainInboxWithUser | null;
   allMessages : PlainInboxWithUser[];
 }
 
 
-const UnreadMessages = ({inboxMessages, deleteAllInboxMsg, updateDeleteAllInboxMsg, newInboxMsg, updateAllMessages, allMessages} : Props) => {
+const UnreadMessages = ({deleteAllInboxMsg, updateDeleteAllInboxMsg,  updateAllMessages, allMessages} : Props) => {
   const [collapse, setCollapse] = useState<Map<string, boolean>>(new Map());
 
   const deleteOne = async (inboxMessageId : string) => {
@@ -70,16 +68,16 @@ const UnreadMessages = ({inboxMessages, deleteAllInboxMsg, updateDeleteAllInboxM
               <button>
                 <Check 
                   onClick={() => deleteOne(message._id)}
-                  className="bg-zinc-900 hover:text-amber-500 duration-300 p-[6px] rounded-full" 
+                  className="bg-zinc-100 dark:bg-zinc-900 hover:text-amber-500 duration-300 p-[6px] rounded-full" 
                 />
               </button>
 
               <button onClick={() => setCollapse(new Map(collapse.set(message._id, !collapse.get(message._id))))}>
-                <ChevronDown className={`bg-zinc-900 hover:text-amber-500 duration-300 p-[6px] rounded-full ${collapse.get(message._id) ? "rotate-180" : ""}`} />
+                <ChevronDown className={`bg-zinc-100 dark:bg-zinc-900 hover:text-amber-500 duration-300 p-[6px] rounded-full ${collapse.get(message._id) ? "rotate-180" : ""}`} />
               </button>
             </div>
           </div>
-          <div className={`flex flex-col bg-zinc-700 w-full rounded-md h-0 duration-300 overflow-hidden ${!collapse.get(message._id) ? "h-fit p-3 opacity-100" : "h-0 p-0 opacity-0"}`}>
+          <div className={`flex flex-col bg-zinc-50 dark:bg-zinc-700 w-full rounded-md h-0 duration-300 overflow-hidden shadow-lg ${!collapse.get(message._id) ? "h-fit p-3 opacity-100" : "h-0 p-0 opacity-0"}`}>
             <h1 className="text-zinc-400 font-bold flex items-start gap-1"><MessageSquareText className="size-6 pt-[2px]" />{message.title}</h1>
             <div className="px-2">
               {message.type === "fileLink" && 

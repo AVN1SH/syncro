@@ -46,7 +46,7 @@ const page = async({params, searchParams} : Props) => {
   const plainMember = serializeData(currentMember);
 
   return (
-    <div className="fixed left-[310px] top-0 right-0 bottom-0">
+    <div className="fixed left-[60px] md:left-[310px] top-0 right-0 bottom-0">
       <Secondary
         imageUrl={otherMember.user.imageUrl}
         threadName={otherMember.user.name}

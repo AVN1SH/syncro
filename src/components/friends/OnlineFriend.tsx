@@ -1,3 +1,4 @@
+"use client"
 import { PlainFriendWithUser, PlainUser } from '@/types';
 import React, { useEffect, useState } from 'react'
 import { useSocket } from '../providers/SocketProvider';
@@ -6,6 +7,7 @@ import { Dot } from 'lucide-react';
 import ProfileInfo from '../navigation/ProfileInfo';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   friends : PlainFriendWithUser[];
@@ -15,6 +17,7 @@ const OnlineFriend = ({friends} : Props) => {
   const { socket, isConnected, onlineUsers } = useSocket();
   const {data : session} = useSession();
   const [onlineFriends, setOnlineFriends] = useState<PlainUser[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     setOnlineFriends([]);
@@ -44,7 +47,14 @@ const OnlineFriend = ({friends} : Props) => {
         <p className="font-bold text-zinc-400">FRIEND REQUESTS FOR YOU</p>
         {onlineFriends.map((friend) => {
           return  (
-            <div key={friend._id} className="flex items-center justify-between gap-2 p-2 dark:hover:bg-zinc-700 hover:bg-zinc-200 rounded-lg duration-300">
+            <div 
+              key={friend._id}
+              onClick={() => router.push(`/chat/${friends.find((f) => 
+                  f.requestedUser._id === friend._id || f.requestingUser._id === friend._id
+                )?._id
+              }`)} 
+              className="flex items-center justify-between gap-2 p-2 dark:hover:bg-zinc-700 hover:bg-zinc-200 rounded-lg duration-300 cursor-pointer"
+            >
               <div className="flex items-center gap-2">
                 <ProfileInfo 
                   imageUrl={friend.imageUrl}

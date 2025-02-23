@@ -1,34 +1,19 @@
 import FriendsTopNav from "@/components/chat/FriendsTopNav";
-import Contacts from "@/components/friends/Contacts";
 import Inbox from "@/components/notifications/Inbox";
-import Primary from "@/components/windows/Primary";
-import Secondary from "@/components/windows/Secondary";
-import { getOrCreateConversation } from "@/lib/conversation";
 import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import { serializeData } from "@/lib/serialized";
-import MemberModel from "@/model/member.model";
 import StoreProvider from "@/store/StoreProvider";
-import { MemberWithUser, PlainUserWithFriendWithUser, PlainUserWithFriendWithUserAndInboxesWithUser } from "@/types";
+import { PlainUserWithFriendWithUserAndInboxesWithUser } from "@/types";
 import mongoose from "mongoose";
 import { redirect } from "next/navigation";
 import Friends from "@/components/windows/Friends";
 import UserModel from "@/model/user.model";
 import { Separator } from "@/components/ui/separator";
-import { Github, Youtube } from "lucide-react";
+import { Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-interface Props {
-  params : {
-    id : string;
-    memberId : string;
-  }
-  searchParams : {
-    video ?: boolean;
-  }
-}
-
-const page = async ({params, searchParams} : Props) => {
+const page = async () => {
 
   const user = await currentUser();
 
@@ -59,20 +44,8 @@ const page = async ({params, searchParams} : Props) => {
 
   const PlainUserData : PlainUserWithFriendWithUserAndInboxesWithUser = serializeData(userData);
 
-  // if(!currentMember?.user._id) return redirect("/chat");
-
-  // const conversation = await getOrCreateConversation(String(currentMember._id), params.memberId);
-  
-  // if(!conversation) return redirect(`/chat/${params.id}`);
-  
-  // const { memberOne, memberTwo } = conversation;
-
-  // const otherMember = String(memberOne.user._id) === user._id ? memberTwo : memberOne;
-
-  // const plainMember = serializeData(currentMember);
-
   return (
-    <div className="fixed left-[310px] top-0 right-0 bottom-0">
+    <div className="fixed left-[60px] md:left-[310px] top-0 right-0 bottom-0">
       <StoreProvider>
         <div className="border-solid dark:border-zinc-800 border-zinc-200 border-b-[2px] h-[50px] flex justify-between">
           <FriendsTopNav />
@@ -87,7 +60,7 @@ const page = async ({params, searchParams} : Props) => {
               friends={PlainUserData.friends}
             />
           </div>
-          <div className="flex-1 h-full border-l-[1px] border-zinc-200 dark:border-zinc-700 border-solid p-4">
+          <div className="flex-1 h-full border-l-[1px] border-zinc-200 dark:border-zinc-700 border-solid p-4 xl:block init:hidden">
             <div className="flex flex-col items-center justify-between h-full">
               <div>
                 <h1 className="font-bold text-xl dark:text-zinc-300 text-zinc-700">Welcome to SyncRo!</h1>
@@ -122,21 +95,7 @@ const page = async ({params, searchParams} : Props) => {
             </div>
           </div>
         </div>
-        
       </StoreProvider>
-
-      {/* <div className="pl-[250px]">
-        <Secondary
-        imageUrl={otherMember.user.imageUrl}
-        threadName={otherMember.user.name}
-        connectionId={params.id}
-        type="conversation"
-        member={plainMember}
-        memberName={otherMember.user.name}
-        conversationId={String(conversation._id)}
-        video={searchParams.video}
-      />
-      </div> */}
     </div>
   );
 }

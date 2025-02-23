@@ -141,11 +141,25 @@ export default function SendToFriend({friendUserId} : Props) {
 
     const interval = setInterval(async () => {
       const response = await fetch(`/api/signal?roomId=${roomId}`);
-      const answer = await response.json();
-      if (answer.type === 'answer') {
-        await peerConnection.setRemoteDescription(answer);
+      if(!response.ok) {
+        setError("Error While Fetching Signal, Please Try again");
+        clearInterval(interval)
+        return;
+      }
+      const text = await response.text();
+      if(!text) return;
+
+      try {
+        const answer = JSON.parse(text);
+        if (answer.type === 'answer') {
+          await peerConnection.setRemoteDescription(answer);
+          clearInterval(interval);
+          intervalRef.current = null;
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        setError("Error processing signal data. Please try again.");
         clearInterval(interval);
-        intervalRef.current = null;
       }
     }, 1000);
     
@@ -178,7 +192,7 @@ export default function SendToFriend({friendUserId} : Props) {
               </div>}
               {file && <div className="dark:bg-zinc-700 bg-zinc-300 flex gap-2 items-center flex-1 h-[calc(100%-30px)] rounded-lg p-2">
                 <Icon className="size-8" />
-                <p className="text-xl font-semibold dark:text-zinc-300 text-zinc-600">{file.name.slice(0, 20) + '...'}</p>
+                <p className="text-xl font-semibold dark:text-zinc-300 text-zinc-600">{file.name.length > 18 ? file.name.slice(0, 18) + '...' : file.name}</p>
               </div>}
             </div>
             {error && <p className="text-rose-500 font-semibold flex flex-shrink-0 items-center gap-2"><Ban size={16} /> {error}</p>}

@@ -1,23 +1,18 @@
 "use client"
-import Contacts from "@/components/friends/Contacts"
 import { Separator } from "@/components/ui/separator"
 import { faHandshakeAngle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { usePathname } from "next/navigation"
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { onChange } from "@/features/chatNavigateSlice"
 import { RootState } from "@/store/store"
 
 const FriendsTopNav = () => {
-  const [current, setCurrent] = useState("online");
-  const pathname = usePathname();
   const dispatch = useDispatch();
   const activeName = useSelector((state : RootState) => state.createChatNavSlice.activeName)
 
   return (
-    <div className="flex gap-2">
-      <div className="flex gap-2 pl-4 items-center font-thin">
+    <div className="flex gap-2 overflow-x-auto ml-10 md:ml-0 scrollbar-hide shadow-[inset_0px_0px_5px_rgb(0,0,0)] sm:shadow-none px-2 rounded-full sm:rounded-none">
+      <div className="flex gap-2 pl-0 md:pl-4 items-center font-thin">
         <FontAwesomeIcon icon={faHandshakeAngle} size="xl" />
         <span className="font-semibold">
           <span className="text-yellow-500 font-bold text-lg">F</span>

@@ -66,6 +66,7 @@ const page = () => {
         if(res?.error) {
           setError(res.error);
         } else {
+          router.push("/chat");
           toast("Signed In Successfully", {
             description : "Now you can start using our services",
             action: {
@@ -73,7 +74,6 @@ const page = () => {
               onClick: () => {},
             },
           })
-          router.push("/chat");
         }
       })
       setIsSubmitting(false);
@@ -105,18 +105,18 @@ const page = () => {
         <ModeToggle />
       </div>
 
-      <div className="flex justify-center flex-1 mx-24 my-6 bg-red-300 rounded-xl overflow-hidden sm:flex-col md:flex-row">
-        <div className="flex-1 bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center flex-col relative">
+      <div className="flex justify-center flex-1 mx-2 lg:mx-12 xl:mx-24 my-6 rounded-xl overflow-visible scrollbar-hide lg:overflow-hidden init:flex-col lg:flex-row">
+        <div className="lg:flex-1 bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center flex-col relative min-h-[600px] lg:min-h-fit rounded-t-xl  lg:rounded-t-none overflow-hidden">
           <div className={`flex flex-col justify-center items-center 
           ${animate ? "opacity-0" : "opacity-100"} overflow-hidden duration-500 transition-all`}>
             <h1 className="flex items-center text-4xl gap-2 font-extrabold tracking-tight lg:text-5xl">
               Welcome Back
             </h1>
-            <h3 className="font-bold text-lg mt-2 text-yellow-500">Log in to continue the conversation.🚀</h3>
+            <h3 className="font-bold text-lg mt-2 text-yellow-500 text-center">Log in to continue the conversation.🚀</h3>
             <p className="mb-4 text-sm mt-6">Sign-In To Your Account, If New <span onClick={() => navigateWithAnimation("/sign-up")} className="text-blue-500 underline hover:font-semibold cursor-pointer">Sign-Up</span></p>
           </div>
 
-          <div className="w-[350px] max-w-xl">
+          <div className="w-[300px] sm:w-[400px] md:w-[450px] max-w-xl">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
@@ -201,8 +201,8 @@ const page = () => {
           </div>
         </div>
 
-        <div className="flex-1 bg-yellow-500 flex flex-col relative z-0">
-          <div className="flex flex-col px-10 py-6 dark:text-black text-white">
+        <div className="md:flex-1 bg-yellow-500 flex flex-col relative z-0 overflow-hidden lg:overflow-auto lg:mb-0 mb-10 rounded-b-xl lg:rounded-b-none pb-5 lg:pb-0">
+          <div className="flex flex-col px-2 md:px-10 py-6 dark:text-black text-white">
             <h1 className={`relative font-black text-4xl transition-all duration-300 ${animate ? "-right-[800px]" : "right-0"}`}>WELCOME BACK TO </h1>
             <div className={`flex items-center gap-2 relative transition-all duration-700 ${animate ? "-right-[800px]" : "right-0"}`}>
               <h1 className="flex items-center w-fit p-2 gap-2 dark:bg-zinc-800 bg-zinc-100 rounded-lg font-black text-4xl shadow-lg">
@@ -213,7 +213,7 @@ const page = () => {
             </div>
           </div>
 
-          <p className={`px-10 dark:text-zinc-700/85 text-white/85 text-xl ${animate ? "opacity-0" : "opacity-100"} transition-all duration-300`}>
+          <p className={`px-2 md:px-10 dark:text-zinc-700/85 text-white/85 text-xl ${animate ? "opacity-0" : "opacity-100"} transition-all duration-300`}>
             Reconnect with your 
             <span className="font-semibold text-white dark:text-zinc-700"> community</span>
             , engage in 
@@ -229,7 +229,7 @@ const page = () => {
         <div className="flex-0 transition-all"></div>
       </div>
       <div className="absolute bg-zinc-800 drop-shadow-[0px_0px_10px_rgba(0,0,0)] size-[68px] rounded-full bottom-0 left-16 -z-10" />
-      <div className="absolute bg-zinc-800 drop-shadow-[0px_0px_10px_rgba(0,0,0)] size-[68px] rounded-full top-14 right-16 -z-10" />
+      <div className="absolute bg-zinc-800 drop-shadow-[0px_0px_10px_rgba(0,0,0)] size-[68px] rounded-full top-14 right-0 md:right-16 -z-10" />
     </div>
   )
 }

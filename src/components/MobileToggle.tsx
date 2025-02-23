@@ -22,14 +22,12 @@ const MobileToggle = ({connectionId} : Props) => {
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 flex gap-0">
-        <div className="w-[72px]">
-          <NavigationSidebar />
-          <Primary connectionId={connectionId} />
+      <SheetContent side="left" className="p-0 flex gap-0 w-fit">
+        <div className="flex h-full w-[250px] z-10 flex-col dark:bg-[#2b2d31] bg-zinc-100 shadow-[0px_0px_10px_rgba(0,0,0,0.4)]">
+          <Primary 
+            connectionId={connectionId}
+          />
         </div>
-        <Primary 
-          connectionId={connectionId}
-        />
       </SheetContent>
     </Sheet>
   )

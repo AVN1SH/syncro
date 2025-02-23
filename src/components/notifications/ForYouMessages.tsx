@@ -12,7 +12,7 @@ interface Props {
 const ForYouMessages = ({inboxMessages} : Props) => {
   return (
     <div className="space-y-4 overflow-y-auto h-[390px] scrollbar-dark">
-      {inboxMessages.filter((m) => m.type === "system").length > 0 && inboxMessages.map((message) => (
+      {inboxMessages.length > 0 && inboxMessages.filter((m) => m.type === "system").length > 0 && inboxMessages.map((message) => (
         <div className="flex flex-col gap-2 items-center px-3">
           <div className="flex items-center justify-between w-full">
             <div className="flex gap-2">
@@ -46,7 +46,7 @@ const ForYouMessages = ({inboxMessages} : Props) => {
           </div>
         </div>
       ))}
-      {inboxMessages.filter((m) => m.type === "system").length === 0 && (
+      {(!inboxMessages.length) || (inboxMessages.length > 0 && inboxMessages.filter((m) => m.type === "system").length === 0) && (
         <div className="h-[390px] flex items-center justify-center">
           <p className="text-center text-zinc-400">No messages..!</p>
         </div>

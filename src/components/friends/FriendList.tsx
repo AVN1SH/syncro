@@ -12,7 +12,7 @@ import { Separator } from '../ui/separator';
 import { format } from 'date-fns';
 
 interface Props {
-  friend : PlainFriendWithUser;
+  friend : PlainFriendWithUser & { lastUpdated : Date };
   userId : string;
 }
 
@@ -48,7 +48,11 @@ const FriendList = ({friend, userId} : Props) => {
               {friendUser?.name}
             </p>
           </div>
-            <p className="text-[8px] text-amber-500 pr-1">{format(new Date(friend.updatedAt), 'dd/MM/yyyy')}</p>
+            <p className="text-[8px] text-amber-500 pr-1">{
+              format(new Date(friend.lastUpdated), "dd/MM/yyyy") === format(new Date(), "dd/MM/yyyy") 
+              ? format(new Date(friend.lastUpdated), "hh:mm") 
+              : format(new Date(friend.lastUpdated), "dd/MM/yyyy")
+            }</p>
         </button>
       </div>
     </div>

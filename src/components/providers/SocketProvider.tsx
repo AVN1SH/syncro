@@ -32,6 +32,7 @@ export const SocketProvider = ({children} : {children : React.ReactNode}) => {
 
     const socketInstance = new (io as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
       path: "/api/socket/io",
+      autoConnect : true,
       addTrailingSlash: false,
     });
 
@@ -39,14 +40,14 @@ export const SocketProvider = ({children} : {children : React.ReactNode}) => {
       setIsConnected(true);
       socketInstance.emit("online-user", session?.user._id);
     });
-
-    socketInstance.on("online-user", (users: string[]) => {
-      setOnlineUsers(users);
-    })
     
     socketInstance.on("disconnect", () => {
       setIsConnected(false);
     });
+    
+    socketInstance.on("online-user", (users: string[]) => {
+      setOnlineUsers(users);
+    })
 
     setSocket(socketInstance);
 

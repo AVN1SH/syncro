@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
-import { apiResponse } from "@/utils/apiResponse";
 import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 
 export async function POST(request : Request) {
   await dbConnect();
@@ -25,7 +25,7 @@ export async function POST(request : Request) {
     console.log(existingUser);
 
     if(existingUser) {
-      return apiResponse(400, "Email already exists.")
+      return new NextResponse("Email already exists.", {status : 400})
     }
 
     const hasedPassword = await bcrypt.hash(password, 10);

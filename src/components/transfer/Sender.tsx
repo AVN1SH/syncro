@@ -125,7 +125,7 @@ export default function Sender() {
 
     const interval = setInterval(async () => {
       const response = await fetch(`/api/signal?roomId=${roomId}`);
-      const answer = await response.json();
+      const answer = await response?.json();
       if (answer.type === 'answer') {
         await peerConnection.setRemoteDescription(answer);
         clearInterval(interval);
@@ -170,7 +170,7 @@ export default function Sender() {
               </div>}
               {file && <div className="dark:bg-zinc-700 bg-zinc-300 flex gap-2 items-center flex-1 h-[calc(100%-30px)] rounded-lg p-2">
                 <Icon className="size-8" />
-                <p className="text-xl font-semibold dark:text-zinc-300 text-zinc-600">{file.name.slice(0, 20) + '...'}</p>
+                <p className="text-xl font-semibold dark:text-zinc-300 text-zinc-600">{file.name.length > 18 ? file.name.slice(0, 18) + '...' : file.name}</p>
               </div>}
             </div>
             {error && <p className="text-rose-500 font-semibold flex flex-shrink-0 items-center gap-2"><Ban size={16} /> {error}</p>}

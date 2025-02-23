@@ -64,12 +64,6 @@ const page = async({ params } : Props) => {
   const initialThread = checkingConnection[0]?.threads?._id;
 
   return redirect(`/connections/${params.id}/threads/${initialThread}`);
-  
-  // return (
-  //     <div className="fixed left-[310px] top-[40px] right-0 bottom-0">
-  //       <Secondary />
-  //     </div>
-  // )
 }
 
 export default page

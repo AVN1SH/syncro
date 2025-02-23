@@ -95,8 +95,6 @@ const Primary = async ({connectionId} : Props) => {
 
   const role = connection?.members.find((member : MemberWithUser) => String(member.user._id) === user?._id)?.role;
 
-  // const url = usePathname();
-  // const [activeUrl, setActiveUrl] = useState(url);
   return (
     <div className="flex flex-col h-full">
       <StoreProvider>
@@ -159,11 +157,6 @@ const Primary = async ({connectionId} : Props) => {
           />
         </div>
       </ScrollArea>
-      
-      {/* <PrimaryNav data={[
-        {icon: faHandshakeAngle, label: "Friends"},
-        {icon: faIdBadge, label : "By Username"}
-      ]}/> */}
       
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-[calc(100%-10px)] mx-auto my-2"/>
 

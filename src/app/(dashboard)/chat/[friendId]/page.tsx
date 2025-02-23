@@ -11,8 +11,9 @@ import { getOrCreateConversation } from '@/lib/friendConversation';
 import { serializeData } from '@/lib/serialized';
 import FriendModel from '@/model/friend.model';
 import MemberModel from '@/model/member.model';
+import UserModel from '@/model/user.model';
 import StoreProvider from '@/store/StoreProvider';
-import { DBConversation, MemberWithUser, PlainFriendWithUser, PlainUser } from '@/types';
+import { DBConversation, MemberWithUser, PlainFriendWithUser, PlainUser, PlainUserWithFriendWithUserAndInboxesWithUser } from '@/types';
 import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
 import React from 'react'
@@ -55,12 +56,37 @@ const page = async({params, searchParams} : Props) => {
 
   const plainOtherUser : PlainUser = serializeData(otherUser);
 
+  const userData = await UserModel.findById(new mongoose.Types.ObjectId(user._id)).populate([
+    {
+      path : "friends",
+      populate : [
+        {path : "requestingUser"},
+        {path : "requestedUser"}
+      ]
+    },
+    {
+      path : "inboxes",
+      populate : {
+        path : "sender"
+      },
+      options: {
+        sort: {
+          createdAt: -1
+        }
+      }
+    }
+  ]).lean().exec();
+
+  const PlainUserData : PlainUserWithFriendWithUserAndInboxesWithUser = serializeData(userData);
+
   return (
-    <div className="fixed left-[310px] top-0 right-0 bottom-0 flex flex-col h-full">
+    <div className="fixed left-[60px] md:left-[310px] top-0 right-0 bottom-0 flex flex-col h-full">
       {<SecondaryWindowHeader
         imageUrl={plainOtherUser.imageUrl}
         name={plainOtherUser.name}
         type={"conversation"}
+        inboxMessages={PlainUserData.inboxes}
+        userId={user._id}
       />}
       {searchParams.video && (
         <MediaRoom

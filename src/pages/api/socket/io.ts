@@ -51,6 +51,8 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
         const pageKey = `page:${friendId}`;
         socket.join(pageKey);
 
+        socket.data.userId = userId;
+
         if(!activePageUsers.has(pageKey)) {
           activePageUsers.set(pageKey, new Set());
         }
@@ -60,6 +62,7 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
       });
 
       socket.on("leavePage", ({ friendId, userId }) => {
+        console.log(friendId, userId, "hello")
         const pageKey = `page:${friendId}`;
         socket.leave(pageKey);
 
@@ -68,6 +71,22 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
           io.to(pageKey).emit("activePageUsers", Array.from(activePageUsers.get(pageKey)!));
         }
       });
+
+      // socket.on("disconnect", () => {
+      //   console.log("disconnect\n\n\n")
+      //   const pageKey = Array.from(socket.rooms);
+
+      //   pageKey.forEach((key) => {
+      //     if(key.startsWith("page:")) {
+      //       const userId = socket.data.userId;
+
+      //       if(userId) {
+      //         activePageUsers.get(key)?.delete(userId);
+      //         io.to(key).emit("activePageUsers", Array.from(activePageUsers.get(key)!))
+      //       }
+      //     }
+      //   })
+      // });
 
     });
 

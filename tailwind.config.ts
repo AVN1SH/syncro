@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+			screens: {
+				init : "0px"
+			},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

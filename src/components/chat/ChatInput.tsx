@@ -33,9 +33,9 @@ interface Props {
 
 const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) => {
   const dispatch = useDispatch();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const { socket } = useSocket();
+  const { socket, isConnected } = useSocket();
   const [onlinePageUsers, setOnlinePageUsers] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof chat>>({
@@ -68,7 +68,7 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
       })
 
       await axios.post(url, values);
-      if(type === "friendConversation" && friendUserId && !onlinePageUsers.includes(friendUserId) ) {
+      if(type === "friendConversation" && friendUserId && !onlinePageUsers.some((f) => f === friendUserId) ) {
         await axios.post("/api/socket/notifications", {
           type : "text",
           title : "New Message",
@@ -84,23 +84,23 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
   }
 
   useEffect(() => {
-    if(type === "friendConversation" && socket && session?.user._id) {
-      socket.emit("joinPage", {
-        friendId,
-        userId : session.user._id
-      })
+    if(type === "friendConversation" && socket?.connected && session?.user._id) {
 
-    socket.on("activePageUsers", (userIds: string[]) => {
-      setOnlinePageUsers(userIds);
-    });
+      const joinData = { friendId, userId : session.user._id}
 
-    return () => {
-      socket.emit("leavePage", { friendId, userId : session.user._id });
-      socket.off("activePageUsers");
-  };
+      socket.emit("joinPage", joinData)
+
+      socket.on("activePageUsers", (userIds: string[]) => {
+        setOnlinePageUsers(userIds);
+      });
+
+      return () => {
+        socket.emit("leavePage", joinData);
+        socket.off("activePageUsers");
+    };
     }
-  }, [friendId, friendUserId, session?.user._id, socket, type])
-  
+  }, [friendId, friendUserId, status, socket, type, isConnected])
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>

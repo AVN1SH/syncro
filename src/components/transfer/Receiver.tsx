@@ -27,7 +27,7 @@ export default function Receiver({ roomId }: ReceiverProps) {
       };
 
       const response = await fetch(`/api/signal?roomId=${roomId}`);
-      const offer = await response.json();
+      const offer = await response?.json();
       await peerConnection.current.setRemoteDescription(offer);
 
       const answer = await peerConnection.current.createAnswer();
@@ -42,5 +42,5 @@ export default function Receiver({ roomId }: ReceiverProps) {
     setupWebRTC();
   }, [roomId]);
 
-  return <div className="fixed inset-0 p-2">Downloading file...</div>;
+  return <div className="fixed left-[60px] md:left-[310px] w-full h-full flex items-center justify-center p-2">Downloading file...</div>;
 }

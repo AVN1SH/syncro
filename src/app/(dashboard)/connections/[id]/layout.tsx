@@ -43,8 +43,10 @@ const layout = async ({children, params} : {children : React.ReactNode; params :
   }
 
   return (
-    <div className="flex h-full w-[250px] z-10 flex-col fixed inset-y-0 top-0 left-[60px] dark:bg-[#2b2d31] bg-zinc-100 shadow-[0px_0px_10px_rgba(0,0,0,0.4)]">
-      <Primary connectionId={params.id}/>
+    <div>
+      <div className="init:hidden md:flex h-full w-[250px] z-10 flex-col fixed inset-y-0 top-0 left-[60px] dark:bg-[#2b2d31] bg-zinc-100 shadow-[0px_0px_10px_rgba(0,0,0,0.4)]">
+        <Primary connectionId={params.id}/>
+      </div>
       {children}
     </div>
   )

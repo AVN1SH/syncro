@@ -63,7 +63,9 @@ const AllFriend = ({friends} : Props) => {
           if(friend.status !== "accepted") return
           const otherUser = friend.requestingUser._id === session?.user._id ? friend.requestedUser : friend.requestingUser;
           return  (
-            <div key={friend._id} className="flex items-center justify-between gap-2 p-2 dark:hover:bg-zinc-700 hover:bg-zinc-200 rounded-lg duration-300">
+            <div key={friend._id}
+              onClick={() => router.push(`/chat/${friend._id}`)}
+              className="flex items-center justify-between gap-2 p-2 dark:hover:bg-zinc-700 hover:bg-zinc-200 rounded-lg duration-300 cursor-pointer">
               <div className="flex items-center gap-2">
                 <ProfileInfo 
                   imageUrl={otherUser.imageUrl}
