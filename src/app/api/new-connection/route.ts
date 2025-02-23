@@ -7,7 +7,6 @@ import UserModel from "@/model/user.model";
 import MemberModel from "@/model/member.model";
 import { DBConnection, DBMember } from "@/types";
 import ThreadModel from "@/model/thread.model";
-import mongoose from "mongoose";
 
 export const generateInviteCode = () : string => {
   const inviteCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -17,7 +16,6 @@ export const generateInviteCode = () : string => {
 export async function POST(request : Request) {
   try {
     const session = await getServerSession(authOptions);
-    console.log(session);
     if(!session) {
       return apiResponse(401, "Unauthorized");
     }

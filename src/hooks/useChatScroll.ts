@@ -60,4 +60,3 @@ export const useChatScroll = ({
     }
   }, [bottomRef, chatRef, count, hasInitialized]);
 }
-

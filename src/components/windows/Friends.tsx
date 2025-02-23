@@ -2,11 +2,9 @@
 import { RootState } from '@/store/store';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import mongoose from 'mongoose';
-import { Separator } from '../ui/separator';
 import AddFriend from '../friends/AddFriend';
 import PendingFriend from '../friends/PendingFriend';
-import { PlainFriend, PlainFriendWithUser } from '@/types';
+import { PlainFriendWithUser } from '@/types';
 import AllFriend from '../friends/AllFriend';
 import OnlineFriend from '../friends/OnlineFriend';
 import { onChange } from '@/features/chatNavigateSlice';

@@ -22,7 +22,6 @@ export async function POST(request : Request) {
       email,
       isVerified : false
     });
-    console.log(existingUser);
 
     if(existingUser) {
       return new NextResponse("Email already exists.", {status : 400})

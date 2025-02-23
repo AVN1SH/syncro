@@ -8,7 +8,6 @@ import React from 'react'
 
 const layout = async ({children, params} : {children : React.ReactNode; params : {id : string}}) => {
 
-  console.log("params : ", params)
   await dbConnect();
   
   const user = await currentUser();

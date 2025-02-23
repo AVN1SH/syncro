@@ -1,7 +1,4 @@
 import mongoose, {Schema, Document} from "mongoose";
-import { User } from "./user.model";
-import { Connection } from "./connection.model";
-import { deleteMemeberMiddleware } from "@/middleware/deleteMember.middleware";
 
 export interface Friend extends Document {
   status : "accepted" | "pending" | "none";

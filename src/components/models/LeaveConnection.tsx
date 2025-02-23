@@ -14,6 +14,7 @@ import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 const LeaveConnection = () => {
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
@@ -40,7 +41,13 @@ const LeaveConnection = () => {
       setIsLoading(true);
 
       await axios.patch(`/api/connections/${String(data.connectionId)}/leave`)
-
+      toast("You Succesfully left the connection", {
+        description : "You can join the connection again at any time",
+        action: {
+          label: "ok",
+          onClick: () => {},
+        },
+      })
       dispatch(onClose());
       router.refresh();
       router.push("/connections");

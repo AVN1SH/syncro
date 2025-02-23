@@ -33,7 +33,6 @@ import { useSession } from "next-auth/react"
 const InitialConnection = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const session = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
 
@@ -56,10 +55,10 @@ const InitialConnection = () => {
       if(response) {
         setError('');
         toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
+          description : "Now you can start inviting peoples to your connection",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
         })
       }

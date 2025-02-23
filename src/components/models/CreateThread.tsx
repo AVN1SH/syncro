@@ -73,11 +73,11 @@ const CreateThread = () => {
 
       if(response) {
         setError('');
-        toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
+        toast("Thread Created Successfully..!", {
+          description : "Now you can start conversation with members.",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
         })
       }

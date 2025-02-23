@@ -72,10 +72,6 @@ export async function  GET(
       nextCursor = nextItem?._id.toString() || null;
     }
 
-    // if(messages.length === MESSAGE_BATCH) {
-    //   nextCursor = messages[MESSAGE_BATCH - 1]._id.toString();
-    // }
-
     return NextResponse.json({
       items: messages,
       nextCursor,

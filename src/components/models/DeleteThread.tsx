@@ -15,6 +15,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import qs from "query-string"
+import { toast } from "sonner"
 
 const DeleteThread = () => {
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
@@ -47,6 +48,13 @@ const DeleteThread = () => {
       })
 
       await axios.delete(url)
+      toast("Thread Deleted Successfully..!", {
+        description : "You now can't recover that thread.",
+        action: {
+          label: "ok",
+          onClick: () => {},
+        },
+      })
       dispatch(onClose());
       router.push(`/connections/${data?.connectionId}`);
       router.refresh();

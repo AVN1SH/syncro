@@ -14,6 +14,7 @@ import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import qs from "query-string"
+import { toast } from "sonner"
 
 const DeleteMessage = () => {
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
@@ -42,9 +43,14 @@ const DeleteMessage = () => {
         query : data?.query
       })
       
-      console.log("apiurl", url)
       await axios.delete(url);
-
+      toast("Message Deleted Successfully..!", {
+        description : "If message not updated, PLease refresh the page.",
+        action: {
+          label: "ok",
+          onClick: () => {},
+        },
+      })
       dispatch(onClose());
       setModelOpen(false);
       

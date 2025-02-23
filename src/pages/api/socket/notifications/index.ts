@@ -1,14 +1,9 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { currentUserPage } from "@/lib/currentUserPages";
 import dbConnect from "@/lib/dbConnect";
 import { serializeData } from "@/lib/serialized";
-import ConnectionModel from "@/model/connection.model";
 import InboxModel from "@/model/inbox.model";
-import MemberModel from "@/model/member.model";
-import MessageModel from "@/model/message.model";
-import ThreadModel from "@/model/thread.model";
 import UserModel from "@/model/user.model";
-import { ConnectionWithMembersWithUsers, DBMember, DBMessage, DBThread, MessageWithMemberWithUser, PlainInboxWithUser } from "@/types";
+import { PlainInboxWithUser } from "@/types";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 

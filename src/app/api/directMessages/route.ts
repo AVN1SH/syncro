@@ -1,8 +1,7 @@
 import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import DirectMessageModel from "@/model/directMessage.model";
-import MessageModel, { Message } from "@/model/message.model";
-import { DBDirectMessage, directmessagewithmemberwithUser } from "@/types";
+import { directmessagewithmemberwithUser } from "@/types";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 

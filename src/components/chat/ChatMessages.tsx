@@ -1,5 +1,5 @@
 "use client";
-import { DBMember, FriendMessageWithUser, MessageWithMemberWithUser, PlainMember, PlainUser } from '@/types';
+import { FriendMessageWithUser, MessageWithMemberWithUser, PlainMember, PlainUser } from '@/types';
 import React, { Fragment, useRef, ElementRef } from 'react'
 import ChatWelcome from './ChatWelcome';
 import { useChatQuery } from '@/hooks/useChatQuery';

@@ -1,7 +1,6 @@
 "use client";
 import { DBUser, MemberWithUser, PlainMember, PlainUser } from '@/types';
 import React, { useEffect, useState } from 'react'
-import UserAvatar from '../UserAvatar';
 import ActionTooltip from '../action-tooltip';
 import { Crown, Edit, FileIcon, Skull, Trash } from 'lucide-react';
 import Image from 'next/image';
@@ -17,7 +16,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { chat } from '@/schemas/chat';
 import { z } from 'zod';
-import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import qs from "query-string";
 import axios from 'axios';

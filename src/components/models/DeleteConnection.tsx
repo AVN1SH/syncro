@@ -14,6 +14,7 @@ import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 const DeleteConnection = () => {
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
@@ -40,6 +41,13 @@ const DeleteConnection = () => {
       setIsLoading(true);
 
       await axios.delete(`/api/connections/${String(data.connectionId)}`)
+      toast("Connection Deleted Successfully..!", {
+        description : "You now can't recover that connection.",
+        action: {
+          label: "ok",
+          onClick: () => {},
+        },
+      })
       dispatch(onClose());
       router.push("/connections");
       router.refresh();

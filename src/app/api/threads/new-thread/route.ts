@@ -1,10 +1,8 @@
 import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
-import MemberModel from "@/model/member.model";
 import ThreadModel from "@/model/thread.model";
 import UserModel from "@/model/user.model";
-import { DBThread, DBUser } from "@/types";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 

@@ -19,7 +19,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -66,11 +65,11 @@ const UploadBanner = () => {
 
       if(response) {
         setError('');
-        toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
+        toast("Banner Uploaded Successfully..!", {
+          description : "You can always update it later",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
         })
       }

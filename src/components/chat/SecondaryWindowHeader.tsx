@@ -5,7 +5,7 @@ import UserAvatar from '../UserAvatar';
 import { SocketIndicator } from '../ui/socket-indicator';
 import ChatVideoButton from './ChatVideoButton';
 import Inbox from '../notifications/Inbox';
-import { PlainInboxWithUser, PlainUserWithFriendWithUser } from '@/types';
+import { PlainInboxWithUser } from '@/types';
 
 interface Props {
   connectionId ?: string;

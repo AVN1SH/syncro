@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose, onOpen } from "@/features/modelSlice"
-import { Check, Crown, Loader2, MoreVertical, Shield, Skull, User, UserRound, UserRoundPen, UserRoundX } from "lucide-react"
+import { Check, Crown, Loader2, MoreVertical, Skull, UserRound, UserRoundPen, UserRoundX } from "lucide-react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { ScrollArea } from "../ui/scroll-area"

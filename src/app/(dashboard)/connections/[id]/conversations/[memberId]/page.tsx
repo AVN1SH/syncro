@@ -4,11 +4,10 @@ import { currentUser } from '@/lib/currentUser';
 import dbConnect from '@/lib/dbConnect';
 import { serializeData } from '@/lib/serialized';
 import MemberModel from '@/model/member.model';
-import { DBConversation, MemberWithUser } from '@/types';
+import { MemberWithUser } from '@/types';
 import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
 import React from 'react'
-import { serialize } from 'v8';
 
 interface Props {
   params : {

@@ -10,12 +10,11 @@ import ChatPrimary from '@/components/windows/ChatPrimary';
 import ChatNavToggle from '@/components/ChatNavToggle';
 import FriendConversationModel from '@/model/friendConversation.model';
 
-const layout = async ({children, params} : {children : React.ReactNode; params : {id : string}}) => {
+const layout = async ({children} : {children : React.ReactNode; }) => {
 
   await dbConnect();
   
   const user = await currentUser();
-  console.log(user);
 
   if(!user) {
     return redirect("/sign-in");
@@ -60,7 +59,7 @@ const layout = async ({children, params} : {children : React.ReactNode; params :
   return (
     <div>
       <ChatNavToggle 
-        plainUserData={plainUserData}
+        plainFriends={friends}
         user={user}
         acceptedFriends={acceptedFriends}
         isRequestedUser={isRequestedUser}

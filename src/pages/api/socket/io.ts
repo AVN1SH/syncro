@@ -1,7 +1,7 @@
 import { Server as NetServer } from "http";
 import { NextApiRequest } from "next";
 import { Server as ServerIO } from "socket.io";
-import { NextApiResponseServerIo, PlainFriend } from "@/types";
+import { NextApiResponseServerIo } from "@/types";
 
 export const config = {
   api: {
@@ -62,7 +62,6 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
       });
 
       socket.on("leavePage", ({ friendId, userId }) => {
-        console.log(friendId, userId, "hello")
         const pageKey = `page:${friendId}`;
         socket.leave(pageKey);
 

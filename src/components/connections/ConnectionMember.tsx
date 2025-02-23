@@ -1,11 +1,8 @@
 "use client";
 import { cn } from '@/lib/utils';
 import { ConnectionThreadMemberUser, DBFriend, MemberWithUser } from '@/types';
-import { faShield, faShieldDog } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
-import UserAvatar from '../UserAvatar';
 import { Crown, Skull } from 'lucide-react';
 import FriendRequest from '../friends/FriendRequest';
 import { Separator } from '../ui/separator';
@@ -32,8 +29,6 @@ const ConnectionMember = ({member, connection, friendStatus} : Props) => {
   const handleOnClick = () => {
     router.push(`/connections/${params?.id}/conversations/${member._id}`)
   }
-
-  console.log(member.user.name, friendStatus)
 
   return (
     <div className="mx-3">

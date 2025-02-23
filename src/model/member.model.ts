@@ -1,7 +1,4 @@
 import mongoose, {Schema, Document} from "mongoose";
-import { User } from "./user.model";
-import { Connection } from "./connection.model";
-import { deleteMemeberMiddleware } from "@/middleware/deleteMember.middleware";
 
 export interface Member extends Document {
   role : "admin" | "moderator" | "guest";

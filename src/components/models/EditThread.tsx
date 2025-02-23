@@ -72,11 +72,11 @@ const EditThread = () => {
 
       if(response) {
         setError('');
-        toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
+        toast("Thread Edited Successfully..!", {
+          description : "If Changes are not reflected, please refresh the page.",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
         })
       }

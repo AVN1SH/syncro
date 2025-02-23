@@ -1,7 +1,4 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { Connection } from "./connection.model";
-import { Member } from "./member.model";
-import { Thread } from "./thread.model";
 
 export interface User extends Document {
   name: string;

@@ -1,6 +1,5 @@
 import SecondaryWindowHeader from '@/components/chat/SecondaryWindowHeader'
 import SendToFriend from '@/components/transfer/SendToFriend';
-import Sender from '@/components/transfer/Sender'
 import { currentUser } from '@/lib/currentUser';
 import dbConnect from '@/lib/dbConnect';
 import { serializeData } from '@/lib/serialized';

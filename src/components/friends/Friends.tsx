@@ -1,10 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Group, Users } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { Users } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 const Friends = () => {
-  const params = useParams();
   const pathname = usePathname();
   const router = useRouter();
   return (

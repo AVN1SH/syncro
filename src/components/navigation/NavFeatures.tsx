@@ -81,7 +81,7 @@ const NavFeatures = () => {
             ? "top-[10px] scale-50 opacity-0"
             : "top-[190px] scale-100 opacity-100"
           } group overflow-hidden absolute -z-10 trasition-all duration-700 delay-300`}
-          onClick={() => router.push("/file-transfer")}
+          onClick={() => router.push("/file-transfer/sender")}
         >
           <div className={`flex mx-3 h-[48px] w-[48px] group-hover:rounded-[16px] transition-all overflow-hidden items-center justify-center group-hover:bg-yellow-500
           ${pathname?.includes("transfer")

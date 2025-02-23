@@ -1,8 +1,6 @@
-import { Connection } from "@/model/connection.model";
-import { Member } from "@/model/member.model";
-import { ConnectionThreadMemberUser, DBMember, DBThread, DBUser, MemberWithUser } from "@/types";
+import { DBThread, MemberWithUser } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
 export type ConnectionType = "createConnection" | "invite" | "editConnection" | "members" | "createThread" | "leaveConnection" | "deleteConnection" | "deleteThread" | "editThread" | "uploadBanner" | "messageFile" | "deleteMessage" | "friendRequest" | "";
 

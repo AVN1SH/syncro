@@ -1,15 +1,15 @@
 "use client";
-
 import { cn } from "@/lib/utils";
 import { Link } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const ByLink = () => {
   const pathname = usePathname();
+  const router = useRouter();
   return (
     <div className="mx-3 space-y-[2px] mt-3">
       <button 
-        // onClick={onClick}
+        onClick={() => router.push("/file-transfer/sender")}
         className={cn("group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1", pathname?.includes("sender") ? "bg-zinc-700/20 dark:bg-zinc-700" : "bg-transparent")}
       >
         <Link className="flex-shrink-0 w-5 h-5 text-zinc-500 dark:text-zinc-400" />

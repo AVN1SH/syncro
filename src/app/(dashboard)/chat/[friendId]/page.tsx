@@ -1,23 +1,18 @@
 import MediaRoom from '@/components/MediaRoom';
 import ChatInput from '@/components/chat/ChatInput';
 import ChatMessages from '@/components/chat/ChatMessages';
-import FriendsTopNav from '@/components/chat/FriendsTopNav';
 import SecondaryWindowHeader from '@/components/chat/SecondaryWindowHeader';
-import Inbox from '@/components/notifications/Inbox';
-import Secondary from '@/components/windows/Secondary'
 import { currentUser } from '@/lib/currentUser';
 import dbConnect from '@/lib/dbConnect';
 import { getOrCreateConversation } from '@/lib/friendConversation';
 import { serializeData } from '@/lib/serialized';
 import FriendModel from '@/model/friend.model';
-import MemberModel from '@/model/member.model';
 import UserModel from '@/model/user.model';
 import StoreProvider from '@/store/StoreProvider';
-import { DBConversation, MemberWithUser, PlainFriendWithUser, PlainUser, PlainUserWithFriendWithUserAndInboxesWithUser } from '@/types';
+import { PlainFriendWithUser, PlainUser, PlainUserWithFriendWithUserAndInboxesWithUser } from '@/types';
 import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
 import React from 'react'
-import { serialize } from 'v8';
 
 interface Props {
   params : {
@@ -125,17 +120,6 @@ const page = async({params, searchParams} : Props) => {
           </StoreProvider>
         </>
       )}
-      
-      {/* <Secondary
-        imageUrl={otherMember.user.imageUrl}
-        threadName={otherMember.user.name}
-        connectionId={params.id}
-        type="conversation"
-        member={plainMember}
-        memberName={otherMember.user.name}
-        conversationId={String(conversation._id)}
-        video={searchParams.video}
-      /> */}
     </div>
   )
 }

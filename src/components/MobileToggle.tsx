@@ -7,7 +7,6 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Button } from './ui/button'
-import NavigationSidebar from './navigation/NavigationSidebar'
 import Primary from './windows/Primary'
 
 interface Props {

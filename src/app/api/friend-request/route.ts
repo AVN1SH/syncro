@@ -70,8 +70,6 @@ export async function POST(req : Request) {
       
       if(!requestedUser) return new NextResponse("User not found", { status : 404 });
 
-      console.log(requestedUser, user._id)
-
       const checkingFriendRequest = await FriendModel.aggregate([
         {
           $match : {
@@ -88,8 +86,6 @@ export async function POST(req : Request) {
           }
         }
       ])
-
-      console.log("checking", checkingFriendRequest)
 
       if(checkingFriendRequest.length) return new NextResponse("Friend request already sent", {status : 409 });
       
@@ -129,7 +125,6 @@ export async function PATCH(req : Request) {
     const {requestingUserId} = await req.json();
     
     const user = await currentUser();
-    console.log("requestingUserId : ", requestingUserId);
 
     if(!user) return new NextResponse("Unauthorized", { status : 401 });
 

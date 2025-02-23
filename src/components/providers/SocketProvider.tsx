@@ -1,7 +1,5 @@
 "use client";
-
 import { useSession } from "next-auth/react";
-import { type } from "os";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 

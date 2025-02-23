@@ -1,10 +1,7 @@
 'use client';
-
 import { useEffect, useRef, useState } from 'react';
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Ban, Check, CloudUpload, Copy, File, FileArchive, FileAudio2, FileText, FileVideo, Image, RefreshCw } from 'lucide-react';
+import { Ban, CloudUpload, File, FileArchive, FileAudio2, FileText, FileVideo, Image, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -50,7 +47,6 @@ export default function SendToFriend({friendUserId} : Props) {
 
     Object.keys(iconMap).forEach((key) => {
       const type = selectedFile.type.split('/');
-      console.log(type)
       if (type[1] === key) {
         setIcon(iconMap[key as keyof typeof iconMap]);
       }

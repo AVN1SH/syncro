@@ -28,7 +28,6 @@ import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
-import { useRouter } from "next/navigation"
 import { messageFile } from "@/schemas/messageFile"
 import qs from "query-string";
 
@@ -37,7 +36,6 @@ const MessageFile = () => {
   const [error, setError] = useState('');
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const isModelOpen = isOpen && type === "messageFile"
   const [modelOpen, setModelOpen] = useState(isModelOpen);
@@ -64,13 +62,6 @@ const MessageFile = () => {
 
       if(response) {
         setError('');
-        toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
-          action: {
-            label: "ok",
-            onClick: () => console.log(''),
-          },
-        })
       }
       form.reset();
       dispatch(onClose());
@@ -101,7 +92,6 @@ const MessageFile = () => {
     <div>
       <Dialog open={modelOpen} onOpenChange={handleClose}>
         <DialogTrigger asChild>
-          {/* {children} */}
         </DialogTrigger>
         <DialogContent className="bg-white text-black p-0 overflow-hidden dark:bg-neutral-800 dark:text-white">
           <DialogHeader className="pt-8 px-6">

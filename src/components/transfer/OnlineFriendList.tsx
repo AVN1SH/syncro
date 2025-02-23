@@ -1,15 +1,10 @@
 "use client";
 import { cn } from '@/lib/utils';
-import { ConnectionThreadMemberUser, DBFriend, MemberWithUser, PlainFriendWithUser, PlainUser } from '@/types';
-import { faShield, faShieldDog } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { PlainFriendWithUser, PlainUser } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import UserAvatar from '../UserAvatar';
-import { Crown, Dot, Skull } from 'lucide-react';
-import FriendRequest from '../friends/FriendRequest';
-import { Separator } from '../ui/separator';
-import { format } from 'date-fns';
+import { Dot } from 'lucide-react';
 import { useSocket } from '../providers/SocketProvider';
 import { Badge } from '../ui/badge';
 

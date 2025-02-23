@@ -5,7 +5,7 @@ import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
 import UserModel from "@/model/user.model";
 import { ConnectionThreadMemberUser } from "@/types";
-import mongoose, { isValidObjectId } from "mongoose";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -170,4 +170,3 @@ export async function DELETE(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
-  

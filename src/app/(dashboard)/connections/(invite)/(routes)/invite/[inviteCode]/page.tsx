@@ -3,9 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import ConnectionModel from '@/model/connection.model';
 import MemberModel from '@/model/member.model';
 import UserModel, { User } from '@/model/user.model';
-import mongoose, { Types, isValidObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
-import React from 'react'
 
 interface InviteCodePageProps {
   params : {
@@ -22,19 +21,11 @@ const InviteCodePage = async ({
   if(!user) {
     return redirect("/sign-in");
   }
-  console.log(params.inviteCode)
   if(!params.inviteCode) {
     return redirect("/connections");
   }
   
   await dbConnect();
-
-  // const existingConnection = await ConnectionModel.findOne({
-  //   inviteCode: params.inviteCode
-  // }).populate({
-  //   path : "members",
-  //   match : {user : new mongoose.Types.ObjectId(user._id as string)}
-  // });
 
   const existingConnection = await ConnectionModel.aggregate([
     {

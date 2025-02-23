@@ -1,7 +1,6 @@
 "use client";
 import { Handshake, UserCheck2, UserPlus2 } from 'lucide-react';
 import React from 'react'
-import { Badge } from '../ui/badge';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { DBFriend } from '@/types';

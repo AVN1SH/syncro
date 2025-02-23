@@ -8,7 +8,7 @@ import { Separator } from '../ui/separator'
 import FriendList from '../friends/FriendList'
 import RequestingFriend from '../friends/RequestingFriend'
 import RequestedFriend from '../friends/RequestedFriend'
-import { PlainFriendWithUser, PlainUserWithFriendWithUser, SessionUser } from '@/types'
+import { PlainFriendWithUser, SessionUser } from '@/types'
 
 interface Props {
   plainFriends ?: PlainFriendWithUser & {

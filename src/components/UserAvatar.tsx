@@ -2,9 +2,6 @@ import { DBMember } from '@/types';
 import React from 'react'
 import {Avatar, AvatarImage } from "@/components/ui/avatar";
 import { cn } from '@/lib/utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { User, User2 } from 'lucide-react';
 
 interface Props {
   src ?: string;

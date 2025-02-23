@@ -27,7 +27,6 @@ import { toast } from "sonner"
 import FileUpload from "../FileUpload"
 import { Loader2 } from "lucide-react"
 import axios from "axios"
-import { useSession } from "next-auth/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
@@ -36,7 +35,6 @@ import { useRouter } from "next/navigation"
 const CreateConnection = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const session = useSession();
   const { isOpen, type } = useSelector((state : RootState) => state.createConnectionSlice);
   const isModelOpen = isOpen && type === "createConnection";
   const dispatch = useDispatch();
@@ -62,10 +60,10 @@ const CreateConnection = () => {
       if(response) {
         setError('');
         toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
+          description : "Now you can start inviiting peoples to your connection",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
         })
       }

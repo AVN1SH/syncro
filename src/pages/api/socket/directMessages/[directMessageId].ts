@@ -1,12 +1,8 @@
 import { currentUserPage } from "@/lib/currentUserPages";
 import dbConnect from "@/lib/dbConnect";
-import ConnectionModel from "@/model/connection.model";
 import ConversationModel from "@/model/conversation.model";
 import DirectMessageModel from "@/model/directMessage.model";
-import MemberModel from "@/model/member.model";
-import MessageModel from "@/model/message.model";
-import ThreadModel from "@/model/thread.model";
-import { ConnectionWithMembersWithUsers, DBMember, DBThread } from "@/types";
+import { DBMember } from "@/types";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 

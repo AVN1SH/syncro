@@ -12,8 +12,6 @@ import mongoose from 'mongoose';
 import StoreProvider from '@/store/StoreProvider';
 import NavFeatures from './NavFeatures';
 import { ModeToggle } from '../themeToggle';
-import UserAvatar from '../UserAvatar';
-import ActionTooltip from '../action-tooltip';
 import ProfileInfo from './ProfileInfo';
 
 const NavigationSidebar = async () => {

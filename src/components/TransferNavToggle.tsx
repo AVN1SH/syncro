@@ -1,17 +1,13 @@
 "use client"
 import { Menu } from 'lucide-react'
 import React from 'react'
-
 import {
   Sheet,
   SheetContent,
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Button } from './ui/button'
-import NavigationSidebar from './navigation/NavigationSidebar'
-import Primary from './windows/Primary'
-import ChatPrimary from './windows/ChatPrimary'
-import { PlainUserWithFriendWithUser, SessionUser } from '@/types'
+import { PlainUserWithFriendWithUser } from '@/types'
 import TransferPrimary from './windows/TransferPrimary'
 
 interface Props {

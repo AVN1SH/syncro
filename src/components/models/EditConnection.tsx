@@ -21,7 +21,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -38,7 +37,6 @@ import { useRouter } from "next/navigation"
 const EditConnection = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const session = useSession();
   const { isOpen, type, data } = useSelector((state : RootState) => state.createConnectionSlice);
   const isModelOpen = isOpen && type === "editConnection";
   const [modelOpen, setModelOpen] = useState(isModelOpen);
@@ -72,11 +70,11 @@ const EditConnection = () => {
 
       if(response) {
         setError('');
-        toast("Connection Created Successfully..!", {
-          description : "Now you can start sharing your thoughts with your friends.",
+        toast("Connection Edited Successfully..!", {
+          description : "If Changes are not reflected, please refresh the page.",
           action: {
             label: "ok",
-            onClick: () => console.log(''),
+            onClick: () => {},
           },
         })
       }

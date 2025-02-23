@@ -2,7 +2,6 @@ import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
 import MemberModel from "@/model/member.model";
-import { DBUser } from "@/types";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -10,7 +9,6 @@ export async function PATCH(
   req: Request,
   { params } : { params : { connectionId : string}}
 ) {
-  console.log("hello")
   try {
     const user = await currentUser();
 
@@ -37,8 +35,6 @@ export async function PATCH(
     });
 
     if(!deleteMember) return new NextResponse("Member Not Found", { status: 404 });
-
-    console.log("delete :" , deleteMember);
 
     const updatedConnection = await ConnectionModel.findByIdAndUpdate(params.connectionId, {
       $pull : {

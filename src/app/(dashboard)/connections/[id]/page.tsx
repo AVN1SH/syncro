@@ -1,12 +1,7 @@
-import NavigationSidebar from '@/components/navigation/NavigationSidebar';
-import Primary from '@/components/windows/Primary';
-import Secondary from '@/components/windows/Secondary';
 import { currentUser } from '@/lib/currentUser';
 import ConnectionModel from '@/model/connection.model';
-import ThreadModel from '@/model/thread.model';
 import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
-import React from 'react'
 
 interface Props {
   params : {
