@@ -7,6 +7,7 @@ import { signOut } from 'next-auth/react';
 import { Separator } from '../ui/separator';
 import { DoorOpen, Dot } from 'lucide-react';
 import { useSocket } from '../providers/SocketProvider';
+import Image from 'next/image';
 
 interface Props {
   imageUrl : string;
@@ -45,7 +46,7 @@ const ProfileInfo = ({imageUrl, name, username, email, type, className, userId} 
       className="dark:bg-zinc-900 bg-zinc-200 w-[260px] rounded-xl">
         <div className="flex flex-col p-4 relative z-0">
           <div className="bg-yellow-500 left-0 top-0 right-0 absolute h-24 -z-10 rounded-xl" />
-          {imageUrl ? <img src={imageUrl} className="self-center rounded-full size-[150px]" />
+          {imageUrl ? <Image alt="profile-pic" width={150} height={150} src={imageUrl} className="self-center rounded-full size-[150px]" />
            : <div className={`self-center flex items-center justify-center rounded-full dark:bg-zinc-700 bg-zinc-200 size-[150px]`}>
             <p className="capitalize font-black text-amber-500 text-6xl">{name.charAt(0)}</p>
           </div>}

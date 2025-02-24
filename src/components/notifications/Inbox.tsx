@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import ActionTooltip from "../action-tooltip"
 import { Separator } from "../ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu"
-import { Bell, BellDot, CheckCheck, Mail } from "lucide-react"
+import { CheckCheck, Mail } from "lucide-react"
 import { useEffect, useState } from "react"
 import ForYouMessages from "./ForYouMessages"
 import { PlainInboxWithUser } from "@/types";

@@ -2,7 +2,7 @@ import { currentUser } from '@/lib/currentUser';
 import dbConnect from '@/lib/dbConnect';
 import ConnectionModel from '@/model/connection.model';
 import MemberModel from '@/model/member.model';
-import UserModel, { User } from '@/model/user.model';
+import UserModel from '@/model/user.model';
 import mongoose from 'mongoose';
 import { redirect } from 'next/navigation';
 

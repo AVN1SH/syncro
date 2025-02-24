@@ -8,6 +8,7 @@ import { PlainFriendWithUser } from '@/types';
 import AllFriend from '../friends/AllFriend';
 import OnlineFriend from '../friends/OnlineFriend';
 import { onChange } from '@/features/chatNavigateSlice';
+import Image from 'next/image';
 
 interface Props {
   friends : PlainFriendWithUser[];
@@ -20,7 +21,7 @@ const Friends = ({friends} : Props) => {
   return (
     <div className="h-full flex flex-col relative">
       {activeName !== "add" && !friends?.length && <div className="flex-1 flex flex-col items-center justify-center">
-        <img src="/images/sadEmoji.svg" 
+        <Image alt="sad-emoji" width={200} height={200} src="/images/sadEmoji.svg" 
           className="object-contain w-[200px] h-[200px] repeat-0 mx-auto drop-shadow-[4px_10px_10px_rgba(172,71,4,1)]"
         />
         <span className="font-semibold mt-4 text-zinc-400 flex init:flex-col md:flex-row gap-2 init:items-center md:items-end md:text-start text-center">
@@ -37,7 +38,7 @@ const Friends = ({friends} : Props) => {
             className="bg-emerald-600 hover:bg-emerald-700 text-white px-2 rounded text-[16px] duration-150 peer text-nowrap">
               Add Friends
             </button>
-            <img src="/images/sadEmoji.svg"
+            <Image alt="sad-emoji" width={40} height={40} src="/images/sadEmoji.svg"
               className="object-contain w-[40px] h-[40px] repeat-0 absolute right-8 -z-10 bottom-[-15px] peer-hover:bottom-1 duration-300"
             />
           </div>

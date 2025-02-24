@@ -4,6 +4,7 @@ import { Separator } from '../ui/separator'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 const AddFriend = () => {
   const [error, setError] = useState('');
@@ -36,7 +37,7 @@ const AddFriend = () => {
     <div className="flex-1 p-4">
       <div className="flex flex-col gap-y-1">
         <p className="text-lg font-bold text-zinc-800 dark:text-zinc-200">ADD FRIEND</p>
-        <p className="text-zinc-700 dark:text-zinc-300">You can add friends by using it's SyncRo username.</p>
+        <p className="text-zinc-700 dark:text-zinc-300">{"You can add friends by using it's SyncRo username."}</p>
       </div>
       <form className="my-8">
         <div className={`dark:bg-[#1e1f22] bg-zinc-200 flex justify-between items-center h-14 px-3 rounded-lg border-2 focus-within:border-amber-500 focus-within:border-solid`}>
@@ -54,7 +55,7 @@ const AddFriend = () => {
         {error && <p className="text-xs text-rose-500 font-semibold mt-1 ml-2">{error}</p>}
       </form>
       <Separator className="dark:bg-zinc-700 bg-zinc-200" />
-      <img src="/images/singleBoy.svg" className="w-[600px] self-center mx-auto drop-shadow-md" />
+      <Image alt="single-boy" width={600} height={600} src="/images/singleBoy.svg" className="w-[600px] self-center mx-auto drop-shadow-md" />
     </div>
   )
 }

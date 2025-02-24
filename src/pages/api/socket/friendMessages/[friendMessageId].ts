@@ -47,7 +47,7 @@ export default async function handler(
     
     if(!userData) return res.status(404).json({error : "User not found"});
 
-    let friendMessage = await FriendMessageModel.aggregate([
+    const friendMessage = await FriendMessageModel.aggregate([
       {
         $match : {
           _id : new mongoose.Types.ObjectId(friendMessageId as string),

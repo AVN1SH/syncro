@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Edit, UploadCloud } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { onOpen } from "../../features/modelSlice";
+import Image from "next/image";
 
 interface Props {
   connectionId : DBConnection["_id"],
@@ -21,7 +22,7 @@ const Banner = ({connectionId, connectionBannerPhotoUrl, role} : Props) => {
     <div className="dark:bg-zinc-600 bg-zinc-400 h-[120px] object-cover object-center flex items-center justify-center">
       {connectionBannerPhotoUrl 
       ?<div className="relative w-full h-full"> 
-          <img src={connectionBannerPhotoUrl} className="w-full h-full object-cover object-center"/>
+          <Image alt="banner-image" fill src={connectionBannerPhotoUrl} className="w-full h-full object-cover object-center"/>
 
           <div className="absolute bottom-0 right-0 left-0 h-[10px] dark:bg-gradient-to-b dark:from-transparent dark:to-[#2b2d31] bg-gradient-to-b from-transparent to-zinc-100" />
 

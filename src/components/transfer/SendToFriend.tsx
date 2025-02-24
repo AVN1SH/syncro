@@ -28,8 +28,6 @@ interface Props {
 
 export default function SendToFriend({friendUserId} : Props) {
   const [file, setFile] = useState<File | null>(null);
-  const [link, setLink] = useState<string>('');
-  const [copied, setCopied] = useState(false);
   const [Icon, setIcon] = useState<any>();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -69,8 +67,6 @@ export default function SendToFriend({friendUserId} : Props) {
 
   const onReset = () => {
     setFile(null);
-    setLink('');
-    setCopied(false);
     setError('');
     setIsLoading(false);
     setAnimate(false);
@@ -102,7 +98,6 @@ export default function SendToFriend({friendUserId} : Props) {
     setIsLoading(true);
 
     const roomId = generateRoomId();
-    setLink(`${window.location.origin}/file-transfer/receiver/${roomId}`);
 
     const peerConnection = new RTCPeerConnection();
     setPeerConnection(peerConnection);
@@ -125,7 +120,7 @@ export default function SendToFriend({friendUserId} : Props) {
     });
 
     try {
-      const response = await axios.post("/api/socket/notifications", {
+      await axios.post("/api/socket/notifications", {
         title : "File Download Link",
         type : "fileLink",
         content : `${window.location.origin}/file-transfer/receiver/${roomId}`,
@@ -168,7 +163,7 @@ export default function SendToFriend({friendUserId} : Props) {
         <div className={`flex flex-col items-center justify-center gap-2 relative rounded-lg bg-white text-black dark:bg-neutral-900 dark:text-white before:contents-[''] size-[450px] before:size-[750px] before:absolute before:bg-gradient-to-r before:from-yellow-500 before:via-purple-500 before:to-red-500 before:rounded-full before:-z-10 before:animate-[spin_6s_linear_infinite] transition-all duration-300 ${!animate && "overflow-hidden"}`}>
           <div className="flex flex-col">
             <h3 className="text-3xl text-center font-bold">Transfer Files</h3>
-            <h2 className="text-zinc-400" >You Can Share Your File's Without Uploading It<span className="text-yellow-500">.</span></h2>
+            <h2 className="text-zinc-400" >{"You Can Share Your File's Without Uploading It"}<span className="text-yellow-500">.</span></h2>
           </div>
 
           <div className="flex flex-col w-full px-6 gap-4">
@@ -198,7 +193,7 @@ export default function SendToFriend({friendUserId} : Props) {
           </div>
 
           {animate && <div className="bg-rose-600 mx-6 p-2 rounded-lg animate-pulse">
-            You have to keep this window open until the reciever completes it's download.
+            {"You have to keep this window open until the reciever completes it's download."}
           </div>}
 
           <div className="px-6 w-full">

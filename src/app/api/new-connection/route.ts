@@ -7,11 +7,7 @@ import UserModel from "@/model/user.model";
 import MemberModel from "@/model/member.model";
 import { DBConnection, DBMember } from "@/types";
 import ThreadModel from "@/model/thread.model";
-
-export const generateInviteCode = () : string => {
-  const inviteCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  return inviteCode;
-}
+import { generateInviteCode } from "@/lib/generateInviteCode";
 
 export async function POST(request : Request) {
   try {

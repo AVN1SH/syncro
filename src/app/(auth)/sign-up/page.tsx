@@ -23,9 +23,10 @@ import axios from "axios";
 import { ModeToggle } from "@/components/themeToggle"
 import { Separator } from "@/components/ui/separator"
 import { signIn, useSession } from "next-auth/react"
+import Image from "next/image"
 
 
-const page = () => {
+const Page = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [isSubmiting, setIsSubmitting] = useState(false);
@@ -42,7 +43,7 @@ const page = () => {
 
   useEffect(() => {
     if(status === "authenticated") router.push("/chat");
-  }, [status, router]);
+  }, [session, status, router]);
 
   const navigateWithAnimation = (path: string) => {
     setAnimate(true); 
@@ -231,7 +232,7 @@ const page = () => {
                           />
                         </FormControl>
                         <FormDescription className="whitespace-nowrap">
-                          Username can't change later.
+                          {"Username can't change later."}
                         </FormDescription>
                         {isCheckingUsername && <Loader2 className="animate-spin absolute size-4 right-2 top-9 text-amber-500" />}
                         <FormMessage className="text-xs" />
@@ -327,13 +328,13 @@ const page = () => {
             <div className="p-[2px] rounded-full overflow-hidden relative before:contents-[''] before:absolute before:size-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:opacity-0 before:hover:opacity-100 before:duration-300 duration-300">
               <button className="relative bg-zinc-300 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 duration-300" 
               onClick={googleSubmit}
-              ><img className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-zinc-800 font-bold text-[16px] ">Sign-In with Google</span></button>
+              ><Image alt="google" width={20} height={20} className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-zinc-800 font-bold text-[16px] ">Sign-In with Google</span></button>
             </div>
           </div>
-          <img src={"/images/sadEmoji.svg"} className={`absolute size-[200px] rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-45 duration-300 transition-all
+          <Image alt="sad-emoji" width={200} height={200} src={"/images/sadEmoji.svg"} className={`absolute size-[200px] rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-45 duration-300 transition-all
           ${animate ? "-left-40 -bottom-48" : "-left-16 -bottom-16"}
           `} />
-          <img src="/images/yellowSmile.svg" className={`absolute size-[200px] -rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-25 duration-300 transition-all
+          <Image alt="yellow-smile" width={200} height={200} src="/images/yellowSmile.svg" className={`absolute size-[200px] -rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-25 duration-300 transition-all
           ${animate ? "-right-40 -bottom-48" : "-right-12 -bottom-12"}
           `} />
           <div className="absolute top-8 left-0 text-yellow-500 flex">
@@ -368,7 +369,7 @@ const page = () => {
             <span className="font-semibold text-white dark:text-zinc-700"> communites</span>, and share files effortlessly.
             <span className="font-semibold text-white dark:text-zinc-700"> Sign up now</span> and be part of a smarter way to communicate!
           </p>
-          <img src="/images/hash3.svg" className={`absolute -bottom-24 w-full opacity-25 drop-shadow-xl z-[-1] ${animate ? "h-0" : "h-full"} duration-300 transition-all`}/>
+          <Image alt="hash" fill src="/images/hash3.svg" className={`absolute -bottom-24 w-full opacity-25 drop-shadow-xl z-[-1] ${animate ? "h-0" : "h-full"} duration-300 transition-all`}/>
         </div>
         <div className="flex-0 transition-all"></div>
       </div>
@@ -378,4 +379,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

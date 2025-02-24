@@ -1,6 +1,6 @@
 import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
-import MessageModel, { Message } from "@/model/message.model";
+import MessageModel from "@/model/message.model";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -88,10 +88,6 @@ export async function  GET(
       const nextItem = messages.pop();
       nextCursor = nextItem?._id.toString() || null;
     }
-
-    // if(messages.length === MESSAGE_BATCH) {
-    //   nextCursor = messages[MESSAGE_BATCH - 1]._id.toString();
-    // }
 
     return NextResponse.json({
       items: messages,

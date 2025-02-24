@@ -130,7 +130,7 @@ const CreateConnection = () => {
                       />
                     </FormControl>
                     <FormDescription className="text-xs">
-                      You can't change name after creating a connection.
+                      You can always change name after creating it.
                     </FormDescription>
                     <FormMessage className="text-xs" />
                   </FormItem>

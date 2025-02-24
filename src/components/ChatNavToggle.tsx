@@ -8,10 +8,8 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Button } from './ui/button'
-import NavigationSidebar from './navigation/NavigationSidebar'
-import Primary from './windows/Primary'
 import ChatPrimary from './windows/ChatPrimary'
-import { PlainFriendWithUser, PlainUserWithFriendWithUser, SessionUser } from '@/types'
+import { PlainFriendWithUser, SessionUser } from '@/types'
 
 interface Props {
   plainFriends : PlainFriendWithUser & {

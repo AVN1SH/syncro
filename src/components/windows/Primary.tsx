@@ -1,18 +1,13 @@
-import ActionTooltip from "@/components/action-tooltip"
-import Single from "@/components/skeletons/Single"
 import { Separator } from "@/components/ui/separator"
-import { Crown, Hash, Mic, Plus, Skull, Video } from "lucide-react"
-import PrimaryNav from "../navigation/PrimaryNav"
-import { redirect, usePathname } from "next/navigation"
-import { Fragment, useEffect, useState } from "react"
+import { Crown, Hash, Mic, Skull, Video } from "lucide-react"
+import { redirect } from "next/navigation"
 import Banner from "@/components/connections/Banner"
 import { currentUser } from "@/lib/currentUser"
-import ConnectionModel, { Connection } from "@/model/connection.model"
-import ThreadModel, { Thread } from "@/model/thread.model"
-import MemberModel, { Member } from "@/model/member.model"
+import ConnectionModel from "@/model/connection.model"
+import { Thread } from "@/model/thread.model"
 import PrimaryWindowHeader from "../connections/PrimaryWindowHeader"
 import StoreProvider from "@/store/StoreProvider"
-import { ConnectionThreadMemberUser, ConnectionThreadMemberUserFriends, ConnectionWithMembersWithUsers, DBFriend, DBMember, DBThread, MemberWithUser, MemberWithUserWithFriends, PlainMemberWithUser } from "@/types"
+import { ConnectionThreadMemberUser, DBFriend, DBThread, MemberWithUser } from "@/types"
 import { serializeData } from "@/lib/serialized"
 import { ScrollArea } from "../ui/scroll-area"
 import ConnectionSearch from "../connections/ConnectionSearch"
@@ -235,7 +230,6 @@ const Primary = async ({connectionId} : Props) => {
                 <ConnectionMember 
                   key={String(member._id)}
                   member={member}
-                  connection={connection}
                   friendStatus={(friends.find(friend => {
                     const requestingUser = String(friend.requestingUser);
                     const requestedUser = String(friend.requestedUser);

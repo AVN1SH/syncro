@@ -72,7 +72,7 @@ export async function POST(
 
     if(!updatedConnection) return new NextResponse("Connection Update Failed", {status : 500});
 
-    const updatedUser = await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(user._id), {
+    await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(user._id), {
       $push : {
         threads : createThread._id
       }

@@ -27,7 +27,6 @@ import { toast } from "sonner"
 import FileUpload from "../FileUpload"
 import { Loader2 } from "lucide-react"
 import axios from "axios"
-import { useSession } from "next-auth/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { onClose } from "@/features/modelSlice"
@@ -152,7 +151,7 @@ const EditConnection = () => {
                       />
                     </FormControl>
                     <FormDescription className="text-xs">
-                      You can't change name after creating a connection.
+                      You can always change name after creating it.
                     </FormDescription>
                     <FormMessage className="text-xs" />
                   </FormItem>

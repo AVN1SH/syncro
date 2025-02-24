@@ -1,4 +1,3 @@
-import Thread from "@/model/thread.model";
 import {z} from "zod";
 
 export const threadType = ["text", "voice", "video"] as const;

@@ -1,4 +1,3 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { currentUserPage } from "@/lib/currentUserPages";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";

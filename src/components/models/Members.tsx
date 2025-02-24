@@ -26,8 +26,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSubTrigger
 } from "@/components/ui/dropdown-menu";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGavel, faShield, faShieldDog, faUserShield } from "@fortawesome/free-solid-svg-icons"
 import { DBMember } from "@/types"
 import { useRouter } from "next/navigation";
 
@@ -123,7 +121,7 @@ const Members = () => {
           <ScrollArea className="mt-8 max-h-[420px] pr-6">
             {data?.connectionMembers?.map((member) => (
               <div key={member._id.toString()} className="flex items-center gap-x-2 mb-6">
-                <UserAvatar src={member.user.imageUrl} user={member} />
+                <UserAvatar src={member.user.imageUrl} user={member} userName={member.user.name} />
                 <div className="flex flex-col gap-y-1">
                   <div className="text-xs font-semibold flex items-center gap-x-1 dark:text-white">
                     {member.user.name}

@@ -2,8 +2,6 @@ import { PlainInboxWithUser } from "@/types";
 import UserAvatar from "../UserAvatar";
 import { Check, ChevronDown } from "lucide-react";
 import { format } from "date-fns";
-import { Badge } from "../ui/badge";
-import Link from "next/link";
 
 interface Props {
   inboxMessages : PlainInboxWithUser[];
@@ -13,7 +11,7 @@ const ForYouMessages = ({inboxMessages} : Props) => {
   return (
     <div className="space-y-4 overflow-y-auto h-[390px] scrollbar-dark">
       {inboxMessages.length > 0 && inboxMessages.filter((m) => m.type === "system").length > 0 && inboxMessages.map((message) => (
-        <div className="flex flex-col gap-2 items-center px-3">
+        <div className="flex flex-col gap-2 items-center px-3" key={message._id}>
           <div className="flex items-center justify-between w-full">
             <div className="flex gap-2">
               <div className="flex items-center gap-4">

@@ -1,6 +1,6 @@
 "use client";
 import { cn } from '@/lib/utils';
-import { ConnectionThreadMemberUser, DBFriend, MemberWithUser } from '@/types';
+import { DBFriend, MemberWithUser } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 import { Crown, Skull } from 'lucide-react';
@@ -10,7 +10,6 @@ import ProfileInfo from '../navigation/ProfileInfo';
 
 interface Props {
   member : MemberWithUser;
-  connection : ConnectionThreadMemberUser;
   friendStatus : DBFriend["status"];
 }
 
@@ -20,7 +19,7 @@ const roleIconMap = {
   "guest" : null
 }
 
-const ConnectionMember = ({member, connection, friendStatus} : Props) => {
+const ConnectionMember = ({member, friendStatus} : Props) => {
   const params = useParams();
   const router = useRouter();
 

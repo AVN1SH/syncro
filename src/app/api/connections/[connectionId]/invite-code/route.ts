@@ -2,7 +2,7 @@ import { currentUser } from "@/lib/currentUser";
 import dbConnect from "@/lib/dbConnect";
 import ConnectionModel from "@/model/connection.model";
 import { NextResponse } from "next/server";
-import { generateInviteCode } from "../../../new-connection/route";
+import { generateInviteCode } from "@/lib/generateInviteCode";
 import mongoose from "mongoose";
 
 export async function PATCH(

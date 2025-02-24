@@ -16,7 +16,6 @@ import qs from "query-string"
 import { useDispatch } from 'react-redux';
 import { onOpen } from '@/features/modelSlice';
 import EmojiPicker from '../EmojiPicker';
-import { usePathname, useRouter } from 'next/navigation';
 import TextareaAutosize from "react-textarea-autosize";
 import { useSession } from 'next-auth/react';
 import { useSocket } from '../providers/SocketProvider';
@@ -33,7 +32,6 @@ interface Props {
 const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) => {
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
-  const router = useRouter();
   const { socket, isConnected } = useSocket();
   const [onlinePageUsers, setOnlinePageUsers] = useState<string[]>([]);
 
@@ -98,7 +96,7 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
         socket.off("activePageUsers");
     };
     }
-  }, [friendId, friendUserId, status, socket, type, isConnected])
+  }, [friendId, friendUserId, status, socket, type, isConnected, session?.user._id])
 
   return (
     <Form {...form}>

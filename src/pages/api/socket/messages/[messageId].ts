@@ -75,7 +75,7 @@ export default async function handler(
 
     if(!member) return res.status(404).json({error : "Member not found"});
 
-    let message = await MessageModel.aggregate([
+    const message = await MessageModel.aggregate([
       {
         $match : {
           _id : new mongoose.Types.ObjectId(messageId as string),

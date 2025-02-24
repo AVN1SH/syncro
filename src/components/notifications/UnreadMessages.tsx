@@ -3,12 +3,7 @@ import { PlainInboxWithUser } from "@/types";
 import UserAvatar from "../UserAvatar";
 import { Check, ChevronDown, MessageSquareText } from "lucide-react";
 import { format } from "date-fns";
-import { Badge } from "../ui/badge";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Separator } from "@/components/ui/separator";
-import { useInboxSocket } from "@/hooks/useInboxSocket";
-import { useSession } from "next-auth/react";
 import axios from "axios";
 import { formatTextWithLinks } from "@/lib/formateTextWithLinks";
 

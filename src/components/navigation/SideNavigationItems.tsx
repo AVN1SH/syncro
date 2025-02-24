@@ -4,6 +4,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import ActionTooltip from '../action-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 
 interface Props {
   id : string;
@@ -44,7 +45,7 @@ const SideNavigationItems = ({id, imageUrl, name} : Props) => {
           `}
         >
           { imageUrl 
-            ? <img src={imageUrl} className="object-cover object-center w-full" alt="Channel" />
+            ? <Image fill src={imageUrl} className="object-cover object-center w-full" alt="Channel" />
             : <div className="bg-zinc-300 dark:bg-zinc-700 size-[46px] flex items-center justify-center">
                 <FontAwesomeIcon icon={faCircleNodes} size="xl" className="text-neutral-500 dark:text-neutral-400"/> 
             </div>

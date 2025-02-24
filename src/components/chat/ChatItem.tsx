@@ -1,5 +1,5 @@
 "use client";
-import { DBUser, MemberWithUser, PlainMember, PlainUser } from '@/types';
+import { DBUser, MemberWithUser, PlainMember } from '@/types';
 import React, { useEffect, useState } from 'react'
 import ActionTooltip from '../action-tooltip';
 import { Crown, Edit, FileIcon, Skull, Trash } from 'lucide-react';
@@ -128,7 +128,7 @@ const ChatItem = ({
     form.reset({
       content : content
     })
-  }, [content]);
+  }, [content, form]);
 
   useEffect(() => {
     const getFileType = async () => {

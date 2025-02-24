@@ -20,9 +20,10 @@ import { toast } from "sonner"
 import { signIn, useSession } from "next-auth/react"
 import { ModeToggle } from "@/components/themeToggle"
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image"
 
 
-const page = () => {
+const Page = () => {
   const [isSubmiting, setIsSubmitting] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
   const [error, setError] = useState('');
@@ -32,7 +33,7 @@ const page = () => {
 
   useEffect(() => {
     if(status === "authenticated") router.push("/chat");
-  }, [status, router]);
+  }, [session, status, router]);
 
   const navigateWithAnimation = (path: string) => {
     setAnimate(true); 
@@ -58,7 +59,7 @@ const page = () => {
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await signIn("credentials", {
+      await signIn("credentials", {
         email: values.email,
         password: values.password,
         redirect: false,
@@ -186,13 +187,13 @@ const page = () => {
             <div className="p-[2px] rounded-full overflow-hidden relative before:contents-[''] before:absolute before:size-[230px] before:left-[-10px] before:hover:animate-[spin_3s_linear_infinite] before:bg-gradient-to-r before:from-red-500 before:via-yellow-400 before:to-sky-500 before:opacity-0 before:hover:opacity-100 before:duration-300 duration-300">
               <button className="relative bg-zinc-300 hover:bg-white rounded-full flex items-center gap-2 px-4 py-2 duration-300" 
               onClick={googleSubmit}
-              ><img className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-zinc-800 font-bold text-[16px] ">Sign-In with Google</span></button>
+              ><Image alt="google-logo" width={20} height={20} className="w-5 h-5 object-contain" src="/images/google.svg"/><span className="text-zinc-800 font-bold text-[16px] ">Sign-In with Google</span></button>
             </div>
           </div>
-          <img src={"/images/sadEmoji.svg"} className={`absolute size-[200px] rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-45 duration-300 transition-all
+          <Image alt="sad-emoji" width={200} height={200} src={"/images/sadEmoji.svg"} className={`absolute size-[200px] rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-45 duration-300 transition-all
           ${animate ? "-left-40 -bottom-48" : "-left-16 -bottom-16"}
           `} />
-          <img src="/images/yellowSmile.svg" className={`absolute size-[200px] -rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-25 duration-300 transition-all
+          <Image alt="yellow-smile" width={200} height={200} src="/images/yellowSmile.svg" className={`absolute size-[200px] -rotate-12 drop-shadow-[0px_0px_10px_rgb(241,167,16)] opacity-25 duration-300 transition-all
           ${animate ? "-right-40 -bottom-48" : "-right-12 -bottom-12"}
           `} />
           <div className="absolute top-8 left-0 text-yellow-500 flex">
@@ -218,13 +219,13 @@ const page = () => {
             <span className="font-semibold text-white dark:text-zinc-700"> community</span>
             , engage in 
             <span className="font-semibold text-white dark:text-zinc-700"> real-time </span>
-            conversations, and stay updated with everything that matters. Whether it's 
+            conversations, and stay updated with everything that matters. Whether it&apos;s 
             <span className="font-semibold text-white dark:text-zinc-700"> chat</span>, 
             <span className="font-semibold text-white dark:text-zinc-700"> voice</span>, or 
             <span className="font-semibold text-white dark:text-zinc-700"> video</span> – Syncro keeps you connected effortlessly. 
             <span className="font-semibold text-white dark:text-zinc-700"> Log in now</span> and continue where you left off!
           </p>
-          <img src="/images/hash3.svg" className={`absolute -bottom-24 w-full opacity-25 drop-shadow-xl z-[-1] ${animate ? "h-0" : "h-full"} duration-300 transition-all`}/>
+          <Image alt="hash" fill src="/images/hash3.svg" className={`absolute -bottom-24 w-full opacity-25 drop-shadow-xl z-[-1] ${animate ? "h-0" : "h-full"} duration-300 transition-all`}/>
         </div>
         <div className="flex-0 transition-all"></div>
       </div>
@@ -234,4 +235,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

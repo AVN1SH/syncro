@@ -8,6 +8,7 @@ import ProfileInfo from '../navigation/ProfileInfo';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface Props {
   friends : PlainFriendWithUser[];
@@ -37,7 +38,7 @@ const OnlineFriend = ({friends} : Props) => {
 
       {onlineFriends.length === 0 && <div className="h-full flex flex-col items-center justify-center">
         <div className="flex-1">
-          <img src="/images/sad.svg" className="size-full opacity-85" />
+          <Image alt="sad-image" fill src="/images/sad.svg" className="size-full opacity-85" />
         </div>
         <p className="flex-1 text-zinc-400">There is no online friends right now..<span className="text-amber-500">!</span> Check back later.</p>
       </div>}
