@@ -107,7 +107,7 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="relative p-4 pb-6">
+                <div className="relative px-1 md:px-4 py-4 pb-6">
                   <button
                     type="button"
                     onClick={() => dispatch(onOpen({
@@ -117,7 +117,7 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
                         query
                       }
                     }))}
-                    className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 rounded-md p-1 flex items-center justify-center cursor-pointer"
+                    className="absolute top-6 md:top-7 left-2 md:left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 rounded-md p-1 flex items-center justify-center cursor-pointer"
                   >
                     <Plus className="text-white dark:text-[#313338]" />
                   </button>
@@ -126,11 +126,11 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
                     minRows={1}
                     maxRows={6}
                     onKeyDown={handleKeyDown}
-                    className="pl-14 pr-24 py-3 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-bisible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 resize-none w-full rounded-lg flex scrollbar-hide focus:outline-none !h-12"
+                    className="pl-8 md:pl-14 pr-10 md:pr-24 py-3 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-bisible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 resize-none w-full rounded-lg flex scrollbar-hide focus:outline-none !h-12 text-xs md:text-[16px]"
                     placeholder={`Message ${type === "conversation" ? name : "#" + name}`}
                     {...field}
                   />
-                  <div className="absolute top-7 right-20">
+                  <div className="absolute top-7 right-20 init:hidden md:block">
                    <EmojiPicker
                     onChange={(emoji : string) => field.onChange(`${field.value}${emoji}`)}
                    />
@@ -138,7 +138,7 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
                   <button 
                     type='submit'
                     disabled={isLoading}
-                    className='absolute top-6 right-8 bg-yellow-500 cursor-pointer size-[32px] flex items-center justify-center rounded-lg hover:bg-yellow-600 transition-all duration-300'>
+                    className='absolute top-5 md:top-6 md:right-8 right-2 bg-yellow-500 cursor-pointer size-[32px] flex items-center justify-center rounded-lg hover:bg-yellow-600 transition-all duration-300'>
                     {isLoading ? <Loader2 className="text-white size-4 animate-spin" /> : <Send className="text-white size-5" />}
                   </button>
                 </div>

@@ -142,7 +142,7 @@ const ChatItem = ({
   }, [fileUrl])
 
   return (
-    <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
+    <div className="relative group flex items-center hover:bg-black/5 px-2 md:px-4 py-4 transition w-full">
       <div className="goup flex gap-x-2 items-start w-full">
         <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-md transition">
           <ProfileInfo 
@@ -152,19 +152,20 @@ const ChatItem = ({
             email={user ? user.email : member?.user.email || ''}
             userId={user ? String(user._id) : String(member?.user._id) || ''}
             type="other"
+            className="h-6 w-6 md:h-10 md:w-10"
           />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
-              <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
+              <p onClick={onMemberClick} className="font-semibold text-xs md:text-sm hover:underline cursor-pointer">
                 {user ? user.name : member?.user?.name}
               </p>
               {member && <ActionTooltip label={member.role}>
                 {roleIconMap[member.role]}
               </ActionTooltip>}
             </div>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-[10px] md:text-xs text-zinc-500 dark:text-zinc-400">
               {timeStamp}
             </span>
           </div>
@@ -199,7 +200,7 @@ const ChatItem = ({
           )}
           {!fileUrl && !isEditing && (
             <p className={cn(
-              "text-sm text-zinc-600 dark:text-zinc-300 whitespace-pre-line",
+              "text-xs md:text-sm text-zinc-600 dark:text-zinc-300 whitespace-pre-line",
               deleted && "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1"
             )}>
               {formatTextWithLinks(content)}
@@ -227,7 +228,7 @@ const ChatItem = ({
                             minRows={1}
                             maxRows={6}
                             disabled={isLoading}
-                            className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 w-full scrollbar-hide focus:outline-none resize-none rounded-lg" placeholder="Edited message"
+                            className="p-1 md:p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 w-full scrollbar-hide focus:outline-none resize-none rounded-lg text-xs md:text-[16px]" placeholder="Edited message"
                             {...field}
                           />
                         </div>
@@ -235,7 +236,7 @@ const ChatItem = ({
                     </FormItem>
                   )}
                 />
-                <Button disabled={isLoading} size="sm" className="bg-yellow-500 hover:bg-yellow-600 text-black dark:text-white transition duration-300">
+                <Button disabled={isLoading} className="bg-yellow-500 hover:bg-yellow-600 text-black dark:text-white transition duration-300 text-xs md:text-[16px] h-6 px-1 md:px-4 md:h-8">
                   Save
                 </Button>
               </form>

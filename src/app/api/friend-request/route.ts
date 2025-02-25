@@ -158,7 +158,7 @@ export async function PATCH(req : Request) {
 
 export async function DELETE(req : Request) {
   try {
-    const {requestingUserId, requestedUserId} = await req.json();
+    const {requestingUserId, requestedUserId, friendId} = await req.json();
 
     const user = await currentUser();
 
@@ -220,6 +220,55 @@ export async function DELETE(req : Request) {
       if(!checkingFriendRequest.length) return new NextResponse("Friend request not found", { status : 404 });
   
       if(checkingFriendRequest[0].status !== "pending") return new NextResponse("Friend request already accepted", { status : 409 });
+  
+      const deleteFriendRequest = await FriendModel.findByIdAndDelete(checkingFriendRequest[0]._id);
+  
+      if(!deleteFriendRequest) return new NextResponse("Error while updating friend request", { status : 400 });
+  
+      //updating user model...
+  
+      const updatedUser = await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(user._id), {
+        $pull : {
+          friends : deleteFriendRequest._id
+        }
+      });
+  
+      if(!updatedUser) new NextResponse("Error while upding user model", {status : 400})
+  
+      const updatedUser2 = await UserModel.findByIdAndUpdate(new mongoose.Types.ObjectId(requestedUserId as string), {
+        $pull : {
+          friends : deleteFriendRequest._id
+        }
+      });
+  
+      if(!updatedUser2) new NextResponse("Error while upding user model", {status : 400})
+  
+      return NextResponse.json(deleteFriendRequest);
+    }
+
+    if(friendId) {
+      if(!friendId) return new NextResponse("Friend User Id is required", { status : 400 });
+  
+      const checkingFriendRequest = await FriendModel.aggregate([
+        {
+          $match : {
+            $or : [
+              {
+                requestingUser : new mongoose.Types.ObjectId(user._id),
+                requestedUser : new mongoose.Types.ObjectId(friendId as string)
+              },
+              {
+                requestingUser : new mongoose.Types.ObjectId(friendId as string),
+                requestedUser : new mongoose.Types.ObjectId(user._id)
+              }
+            ]
+          }
+        }
+      ])
+      
+      if(!checkingFriendRequest.length) return new NextResponse("Friend request not found", { status : 404 });
+  
+      if(checkingFriendRequest[0].status !== "accepted") return new NextResponse("Friend request not accepted", { status : 409 });
   
       const deleteFriendRequest = await FriendModel.findByIdAndDelete(checkingFriendRequest[0]._id);
   

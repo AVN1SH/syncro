@@ -57,14 +57,14 @@ const Inbox = ({inboxMessages, userId} : Props) => {
 
   const [isActive, setIsActive] = useState("forYou");
   return (
-    <div className="pr-4 pl-2 flex items-center gap-3 md:gap-6">
+    <div className="pr-1 md:pr-4 pl-1 md:pl-2 flex items-center gap-2 md:gap-6">
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">
           <Separator className="mx-2 h-[calc(100%-20px)] bg-zinc-300 dark:bg-zinc-700 rounded-md w-[2px] my-auto"/>
           <ActionTooltip side="top" label="Inbox">
             <div className="relative">
-              <FontAwesomeIcon icon={faInbox} size="xl" 
-              className="text-zinc-400 dark:hover:text-white hover:text-black duration-150" />
+              <FontAwesomeIcon icon={faInbox} 
+              className="text-zinc-400 dark:hover:text-white hover:text-black duration-150 text-xl md:text-2xl pt-[2px]" />
               {allMessages?.length > 0 && <>
                 <div className="absolute top-0 right-0 bg-red-600 size-2 rounded-full" />
                 <div className="absolute top-0 right-0 bg-red-600 size-2 rounded-full animate-ping" />
@@ -73,7 +73,7 @@ const Inbox = ({inboxMessages, userId} : Props) => {
           </ActionTooltip>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end" 
-        className="dark:bg-zinc-800 bg-zinc-200 w-[400px] sm:w-[460px] h-fit rounded-xl border-zinc-500 border-[1px] border-solid">
+        className="dark:bg-zinc-800 bg-zinc-200 w-[350px] sm:w-[460px] h-fit rounded-xl border-zinc-500 border-[1px] border-solid">
           <div className="space-y-2 py-3 relative h-full">
             <div className="flex items-center justify-between px-3">
               <div className="flex items-center gap-2">
@@ -117,7 +117,7 @@ const Inbox = ({inboxMessages, userId} : Props) => {
         <div>
           <FontAwesomeIcon
             onClick={() => router.push("https://github.com/AVN1SH/syncro")}
-            icon={faQuestionCircle} size="xl" className="text-zinc-400 dark:hover:text-white hover:text-black duration-150 cursor-pointer" />
+            icon={faQuestionCircle} className="text-zinc-400 dark:hover:text-white hover:text-black duration-150 cursor-pointer text-xl md:text-2xl pt-[2px]" />
         </div>
       </ActionTooltip>
     </div>

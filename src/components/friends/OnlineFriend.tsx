@@ -44,7 +44,7 @@ const OnlineFriend = ({friends} : Props) => {
       </div>}
 
       {onlineFriends.length > 0 && 
-      <div className="flex-1 flex flex-col gap-y-6 p-4">
+      <div className="flex-1 flex flex-col gap-y-6 px-1 py-4 md:px-4">
         <p className="font-bold text-zinc-400">FRIEND REQUESTS FOR YOU</p>
         {onlineFriends.map((friend) => {
           return  (
@@ -54,7 +54,7 @@ const OnlineFriend = ({friends} : Props) => {
                   f.requestedUser._id === friend._id || f.requestingUser._id === friend._id
                 )?._id
               }`)} 
-              className="flex items-center justify-between gap-2 p-2 dark:hover:bg-zinc-700 hover:bg-zinc-200 rounded-lg duration-300 cursor-pointer"
+              className="flex items-center justify-between gap-2 p-1 md:p-2 dark:hover:bg-zinc-700 hover:bg-zinc-200 rounded-lg duration-300 cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <ProfileInfo 
@@ -66,8 +66,8 @@ const OnlineFriend = ({friends} : Props) => {
                   type="other"
                 />
                 <div>
-                  <p className="font-bold">{friend.name}</p>
-                  <p className="text-xs dark:text-zinc-400 text-zinc-600">@{friend.username}</p>
+                  <p className="font-bold md:text-[16px] text-sm">{friend.name}</p>
+                  <p className="text-[10px] md:text-xs dark:text-zinc-400 text-zinc-600">@{friend.username}</p>
                 </div>
               </div>
                 <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ const OnlineFriend = ({friends} : Props) => {
                     <Dot className="text-green-600 size-16 absolute -right-7 -top-[30px] animate-ping" />
                   </Badge>
                   <Badge 
-                  className="bg-amber-600 text-white cursor-default" variant="outline">Friend</Badge>
+                  className="bg-amber-600 text-white cursor-default init:hidden md:block" variant="outline">Friend</Badge>
                 </div>
             </div>
           )
