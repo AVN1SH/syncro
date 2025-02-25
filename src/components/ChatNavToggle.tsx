@@ -7,7 +7,6 @@ import {
   SheetContent,
   SheetTrigger
 } from "@/components/ui/sheet"
-import { Button } from './ui/button'
 import ChatPrimary from './windows/ChatPrimary'
 import { PlainFriendWithUser, SessionUser } from '@/types'
 

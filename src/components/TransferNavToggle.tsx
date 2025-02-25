@@ -6,7 +6,6 @@ import {
   SheetContent,
   SheetTrigger
 } from "@/components/ui/sheet"
-import { Button } from './ui/button'
 import { PlainUserWithFriendWithUser } from '@/types'
 import TransferPrimary from './windows/TransferPrimary'
 
