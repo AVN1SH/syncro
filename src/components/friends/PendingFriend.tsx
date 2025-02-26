@@ -120,11 +120,11 @@ const PendingFriend = ({friends} : Props) => {
                   <p className="font-bold md:text-[16px] text-sm">{friend.requestedUser.name}</p>
                   <p className="text-[10px] md:text-xs dark:text-zinc-400 text-zinc-600">@{friend.requestedUser.username}</p>
                 </div>
-                <p className="text-xs dark:text-zinc-400 text-zinc-700 ml-3">{format(friend.createdAt, "dd/mm/yyyy hh-mm")}</p>
+                <p className="text-xs md:text-xs dark:text-zinc-400 text-zinc-700 ml-3 init:hidden md:block">{format(friend.createdAt, "dd/MM/yyyy hh-mm")}</p>
               </div>
               <Badge 
                 onClick={() => onRevert(friend.requestedUser._id)}
-                className="bg-red-600 text-white hover:text-red-600 hover:bg-white cursor-pointer">Revert Request</Badge>
+                className="bg-red-600 text-white hover:text-red-600 hover:bg-white cursor-pointer">Revert <span className="init:hidden md:block">Request</span></Badge>
             </div>
           )
         })}

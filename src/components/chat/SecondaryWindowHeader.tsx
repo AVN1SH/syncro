@@ -43,8 +43,11 @@ const SecondaryWindowHeader = ({
         {type === "generateLink" && (
           <Link className="size-5 text-zinc-50 dark:text-zinc-400 mr-2" />
         )}
-        <p className="font-semibold text-sm md:text-md text-black dark:text-white">
+        <p className="font-semibold text-sm md:text-md text-black dark:text-white md:hidden">
           {name.length > 10 ? name.slice(0, 10) + "..." : name}
+        </p>
+        <p className="font-semibold text-sm md:text-md text-black dark:text-white init:hidden md:block">
+          {name}
         </p>
       </div>
       <div className="flex items-center gap-1 md:gap-3">

@@ -159,15 +159,15 @@ export default function SendToFriend({friendUserId} : Props) {
 
   return (
     <div className={`flex items-center justify-center flex-1 before:contents-[''] before:size-[410px] before:rounded-full before:absolute before:bg-gradient-to-r before:from-yellow-500 before:via-purple-500 before:to-red-500 before:blur-3xl before:animate-[spin_6s_linear_infinite] transition-all duration-300 ${!animate && "before:hidden"}`}>
-      <div className="flex items-center justify-center size-[460px] overflow-hidden rounded-lg transition-all duration-300">
+      <div className="flex items-center justify-center size-[300px] sm:size-[460px] overflow-hidden rounded-lg transition-all duration-300">
         <div className={`flex flex-col items-center justify-center gap-2 relative rounded-lg bg-white text-black dark:bg-neutral-900 dark:text-white before:contents-[''] size-[450px] before:size-[750px] before:absolute before:bg-gradient-to-r before:from-yellow-500 before:via-purple-500 before:to-red-500 before:rounded-full before:-z-10 before:animate-[spin_6s_linear_infinite] transition-all duration-300 ${!animate && "overflow-hidden"}`}>
           <div className="flex flex-col">
-            <h3 className="text-3xl text-center font-bold">Transfer Files</h3>
-            <h2 className="text-zinc-400" >{"You Can Share Your File's Without Uploading It"}<span className="text-yellow-500">.</span></h2>
+            <h3 className="text-xl sm:text-3xl text-center font-bold">Transfer Files</h3>
+            <h2 className="text-zinc-400 text-xs text-[16px] text-center" >{"You Can Share Your File's Without Uploading It"}<span className="text-yellow-500">.</span></h2>
           </div>
 
-          <div className="flex flex-col w-full px-6 gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col w-full px-2 sm:px-6 gap-1 sm:gap-4">
+            <div className="flex items-center gap-1 sm:gap-4">
               <input
                 id='fileInput'
                 className="hidden"
@@ -175,28 +175,28 @@ export default function SendToFriend({friendUserId} : Props) {
                 accept="image/*, .pdf, .zip, .tar, video/*" 
                 onChange={handleOnSelect} 
               />
-              <label htmlFor="fileInput" className="size-[80px] bg-yellow-500 rounded-full cursor-pointer hover:bg-yellow-600 transition-all duration-300 group flex items-center justify-center">
-                <CloudUpload className="size-full group-hover:size-[calc(100%-6px)] p-4 group-hover:animate-pulse duration-300" />
+              <label htmlFor="fileInput" className="size-[40px] sm:size-[80px] bg-yellow-500 rounded-full cursor-pointer hover:bg-yellow-600 transition-all duration-300 group flex items-center justify-center">
+                <CloudUpload className="size-full group-hover:size-[calc(100%-6px)] p-1 sm:p-4 group-hover:animate-pulse duration-300" />
               </label>
-              {!file && <div className="dark:bg-zinc-700 bg-zinc-300 flex items-center justify-center flex-1 h-[calc(100%-30px)] rounded-lg text-xl font-semibold dark:text-zinc-300 text-zinc-600">
+              {!file && <div className="dark:bg-zinc-700 bg-zinc-300 flex items-center justify-center flex-1 h-[calc(100%-10px)] sm:h-[calc(100%-30px)] rounded-lg text-sm sm:text-xl font-semibold dark:text-zinc-300 text-zinc-600">
                 No File Choosen Yet.
               </div>}
-              {file && <div className="dark:bg-zinc-700 bg-zinc-300 flex gap-2 items-center flex-1 h-[calc(100%-30px)] rounded-lg p-2">
+              {file && <div className="dark:bg-zinc-700 bg-zinc-300 flex gap-2 items-center flex-1 h-[calc(100%-10px)] sm:h-[calc(100%-30px)] rounded-lg p-2">
                 <Icon className="size-8" />
-                <p className="text-xl font-semibold dark:text-zinc-300 text-zinc-600">{file.name.length > 18 ? file.name.slice(0, 18) + '...' : file.name}</p>
+                <p className="text-sm sm:text-xl font-semibold dark:text-zinc-300 text-zinc-600">{file.name.length > 18 ? file.name.slice(0, 18) + '...' : file.name}</p>
               </div>}
             </div>
-            {error && <p className="text-rose-500 font-semibold flex flex-shrink-0 items-center gap-2"><Ban size={16} /> {error}</p>}
-            <Button type='submit' variant='secondary' onClick={handleFileSelect}>
-              ✨ Click to {animate ? "Send New" : "Send"} Link
+            {error && <p className="text-rose-500 font-semibold flex flex-shrink-0 items-center gap-2 text-xs sm:text-[16px]"><Ban size={16} /> {error}</p>}
+            <Button type='submit' variant='secondary' onClick={handleFileSelect} className="h-[30px] sm:h-[40px] text-xs sm:text-[16px]">
+              ✨ Click to {animate ? "ReGenerate New" : "Generate"} Link
             </Button>
           </div>
 
-          {animate && <div className="bg-rose-600 mx-6 p-2 rounded-lg animate-pulse">
+          {animate && <div className="bg-rose-600 text-xs sm:text-[16px] mx-2 sm:mx-6 p-1 sm:p-2 rounded-lg animate-pulse">
             {"You have to keep this window open until the reciever completes it's download."}
           </div>}
 
-          <div className="px-6 w-full">
+          <div className="px-2 sm:px-6 w-full">
             <Button
               onClick={onReset}
               disabled={isLoading}

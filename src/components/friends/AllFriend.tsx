@@ -192,7 +192,7 @@ const AllFriend = ({friends} : Props) => {
                   <p className="font-bold">{friend.requestedUser.name}</p>
                   <p className="text-xs dark:text-zinc-400 text-zinc-600">@{friend.requestedUser.username}</p>
                 </div>
-                <p className="text-xs dark:text-zinc-400 text-zinc-700 ml-3">{format(friend.createdAt, "dd/mm/yyyy hh-mm")}</p>
+                <p className="text-xs dark:text-zinc-400 text-zinc-700 ml-3 init:hidden md:block">{format(friend.createdAt, "dd/MM/yyyy hh-mm")}</p>
               </div>
               <Badge 
                 onClick={() => onRevert(friend.requestedUser._id)}

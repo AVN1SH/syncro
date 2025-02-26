@@ -34,7 +34,7 @@ const OnlineFriend = ({friends} : Props) => {
   }, [onlineUsers, isConnected, socket, session?.user._id]);
   
   return (
-    <div className="flex-1 p-4 overflow-auto">
+    <div className="flex-1 px-1 py-4 md:px-4 overflow-auto">
 
       {onlineFriends.length === 0 && <div className="h-full flex flex-col items-center justify-center">
         <div className="flex-1">
