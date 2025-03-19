@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Ban, CloudUpload, File, FileArchive, FileAudio2, FileText, FileVideo, Image, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const iconMap = {
   jpeg : Image,
@@ -99,25 +100,52 @@ export default function SendToFriend({friendUserId} : Props) {
 
     const roomId = generateRoomId();
 
-    const peerConnection = new RTCPeerConnection();
-    setPeerConnection(peerConnection);
+    const localConnection = new RTCPeerConnection();
+    setPeerConnection(localConnection);
 
-    const dataChannel = peerConnection.createDataChannel('fileTransfer');
+    localConnection.onicecandidate = (async (event) => {
+      if (!event.candidate) {
+        console.log("hello" , localConnection.localDescription)
+        await fetch(`/api/signal?roomId=${roomId}`, {
+          method: 'POST',
+          body: JSON.stringify({ message: localConnection.localDescription, type : "offer" }),
+        });
+      }
+    });
+
+    const dataChannel = localConnection.createDataChannel('fileTransfer');
     dataChannel.onopen = () => {
+      console.log('Data channel opened');
+      
+      const fileMetadata = {
+        name: selectedFile.name,
+        type: selectedFile.type,
+        size: selectedFile.size,
+      };
+
+      dataChannel.send(JSON.stringify({ metadata: fileMetadata }));
+      
+      const CHUNK_SIZE = 16 * 1024;
       const reader = new FileReader();
-      reader.onload = () => {
-        dataChannel.send(reader.result as ArrayBuffer);
+      let offset = 0;
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const arrayBuffer = reader.result as ArrayBuffer;
+          while (offset < arrayBuffer.byteLength) {
+            const chunk = arrayBuffer.slice(offset, offset + CHUNK_SIZE);
+            dataChannel.send(chunk);
+            offset += CHUNK_SIZE;
+          }
+          console.log("File sent successfully!");
+        } else {
+          console.error("Error reading file!");
+        }
       };
       reader.readAsArrayBuffer(selectedFile);
     };
 
-    const offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-
-    await fetch(`/api/signal?roomId=${roomId}`, {
-      method: 'POST',
-      body: JSON.stringify({ message: offer }),
-    });
+    const offer = await localConnection.createOffer();
+    await localConnection.setLocalDescription(offer);
 
     try {
       await axios.post("/api/socket/notifications", {
@@ -125,35 +153,33 @@ export default function SendToFriend({friendUserId} : Props) {
         type : "fileLink",
         content : `${window.location.origin}/file-transfer/receiver/${roomId}`,
         friendUserId
+      }).then(() => {
+        toast("Linked Send Successfully..!", {
+          description : "Link is only valid for less than 5 min.",
+          action: {
+            label: "ok",
+            onClick: () => {},
+          },
+        })
       })
     } catch (error) {
       console.log(error);
     }
 
     const interval = setInterval(async () => {
-      const response = await fetch(`/api/signal?roomId=${roomId}`);
-      if(!response.ok) {
-        setError("Error While Fetching Signal, Please Try again");
-        clearInterval(interval)
-        return;
-      }
-      const text = await response.text();
-      if(!text) return;
-
-      try {
-        const answer = JSON.parse(text);
-        if (answer.type === 'answer') {
-          await peerConnection.setRemoteDescription(answer);
-          clearInterval(interval);
-          intervalRef.current = null;
-        }
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-        setError("Error processing signal data. Please try again.");
+      const response = await fetch(`/api/signal?roomId=${roomId}&type=answer`, {
+        method : "GET",
+      });
+      const answer = await response?.json();
+      console.log(answer);
+      if (answer.type === 'answer') {
+        await localConnection.setRemoteDescription(answer);
         clearInterval(interval);
+        intervalRef.current = null;
+        console.log(localConnection)
       }
     }, 1000);
-    
+    setAnimate(true);
     setIsLoading(false);
   };
 

@@ -10,3 +10,4 @@ import "./directMessage.model";
 import "./friendConversation.model";
 import "./friendMessage.model";
 import "./inbox.model";
+import "./ttl.model";

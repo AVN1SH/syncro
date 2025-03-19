@@ -126,7 +126,7 @@ const ChatInput = ({apiUrl, query, name, type, friendUserId, friendId} : Props) 
                     minRows={1}
                     maxRows={6}
                     onKeyDown={handleKeyDown}
-                    className="pl-8 md:pl-14 pr-10 md:pr-24 py-3 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-bisible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 resize-none w-full rounded-lg flex scrollbar-hide focus:outline-none !h-12 text-xs md:text-[16px]"
+                    className="pl-8 md:pl-14 pr-10 md:pr-24 py-3 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-bisible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 resize-none w-full rounded-lg flex scrollbar-hide focus:outline-none !h-12 text-[12px] md:text-[16px]"
                     placeholder={`Message ${type === "conversation" ? name : "#" + name}`}
                     {...field}
                   />

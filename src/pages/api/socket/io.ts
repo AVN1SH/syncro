@@ -71,6 +71,10 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
         }
       });
 
+      socket.on("answer", (data) => {
+        io.emit("answer", data);
+      })
+
       // socket.on("disconnect", () => {
       //   console.log("disconnect\n\n\n")
       //   const pageKey = Array.from(socket.rooms);

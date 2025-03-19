@@ -22,6 +22,9 @@ const iconMap = {
   default : File,
   none : '',
 }
+function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export default function Sender() {
   const [file, setFile] = useState<File | null>(null);
@@ -102,31 +105,66 @@ export default function Sender() {
     const roomId = generateRoomId();
     setLink(`${window.location.origin}/file-transfer/receiver/${roomId}`);
 
-    const peerConnection = new RTCPeerConnection();
-    setPeerConnection(peerConnection);
+    const configuration = {
+      iceServers: [
+          { urls: "stun:stun.l.google.com:19302" }
+      ]
+  };
 
-    const dataChannel = peerConnection.createDataChannel('fileTransfer');
+    const localConnection = new RTCPeerConnection(configuration);
+    setPeerConnection(localConnection);
+
+    localConnection.onicecandidate = (async (event) => {
+      if (!event.candidate) {
+        await fetch(`/api/signal?roomId=${roomId}`, {
+          method: 'POST',
+          body: JSON.stringify({ message: localConnection.localDescription, type : "offer" }),
+        });
+      }
+    });
+
+    const dataChannel = localConnection.createDataChannel('fileTransfer');
+
     dataChannel.onopen = () => {
+      console.log('Data channel opened');
+      
+      const fileMetadata = {
+        name: selectedFile.name,
+        type: selectedFile.type,
+        size: selectedFile.size,
+      };
+
+      dataChannel.send(JSON.stringify({ metadata: fileMetadata }));
+      
+      const CHUNK_SIZE = 16 * 1024;
       const reader = new FileReader();
-      reader.onload = () => {
-        dataChannel.send(reader.result as ArrayBuffer);
+      let offset = 0;
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const arrayBuffer = reader.result as ArrayBuffer;
+          while (offset < arrayBuffer.byteLength) {
+            const chunk = arrayBuffer.slice(offset, offset + CHUNK_SIZE);
+            dataChannel.send(chunk);
+            offset += CHUNK_SIZE;
+          }
+          console.log("File sent successfully!");
+        } else {
+          console.error("Error reading file!");
+        }
       };
       reader.readAsArrayBuffer(selectedFile);
     };
 
-    const offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-
-    await fetch(`/api/signal?roomId=${roomId}`, {
-      method: 'POST',
-      body: JSON.stringify({ message: offer }),
-    });
+    const offer = await localConnection.createOffer();
+    await localConnection.setLocalDescription(offer);
 
     const interval = setInterval(async () => {
-      const response = await fetch(`/api/signal?roomId=${roomId}`);
+      const response = await fetch(`/api/signal?roomId=${roomId}&type=answer`, {
+        method : "GET",
+      });
       const answer = await response?.json();
       if (answer.type === 'answer') {
-        await peerConnection.setRemoteDescription(answer);
+        await localConnection.setRemoteDescription(answer);
         clearInterval(interval);
         intervalRef.current = null;
       }
@@ -198,11 +236,11 @@ export default function Sender() {
               disabled={isLoading} 
               onClick={onCopy} 
               size="icon" 
-              className="bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 size-[30px]">
+              className="bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 size-[30px] sm:size-[40px]">
                 {copied ? (
-                  <Check className="w-3 sm:w-4 h-3 sm:h-4" />
+                  <Check className="init:w-3 sm:w-4 init:h-3 sm:h-4" />
                 ) : (
-                  <Copy className="w-3 sm:w-4 h-3 sm:h-4" />
+                  <Copy className="init:w-3 sm:w-4 init:h-3 sm:h-4" />
                 )}
               </Button>
             </div>
