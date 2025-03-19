@@ -22,9 +22,6 @@ const iconMap = {
   default : File,
   none : '',
 }
-function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export default function Sender() {
   const [file, setFile] = useState<File | null>(null);
