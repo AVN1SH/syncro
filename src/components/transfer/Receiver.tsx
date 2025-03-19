@@ -19,7 +19,7 @@ export default function Receiver({ roomId }: ReceiverProps) {
         iceServers: [
             { urls: "stun:stun.l.google.com:19302" }
         ]
-    };
+      };
       peerConnection.current = new RTCPeerConnection(configuration);
 
       peerConnection.current.onicecandidate = (async(event) => {

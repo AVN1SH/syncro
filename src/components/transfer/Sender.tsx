@@ -136,13 +136,14 @@ export default function Sender() {
       const CHUNK_SIZE = 16 * 1024;
       const reader = new FileReader();
       let offset = 0;
-      reader.onload = (event) => {
+      reader.onload = async (event) => {
         if (event.target?.result) {
           const arrayBuffer = reader.result as ArrayBuffer;
           while (offset < arrayBuffer.byteLength) {
             const chunk = arrayBuffer.slice(offset, offset + CHUNK_SIZE);
             dataChannel.send(chunk);
             offset += CHUNK_SIZE;
+            await new Promise((resolve) => setTimeout(resolve, 0.5));
           }
           console.log("File sent successfully!");
         } else {
@@ -184,7 +185,7 @@ export default function Sender() {
         <div className={`flex flex-col items-center justify-center gap-2 relative rounded-lg bg-white text-black dark:bg-neutral-900 dark:text-white before:contents-[''] size-[450px] before:size-[750px] before:absolute before:bg-gradient-to-r before:from-yellow-500 before:via-purple-500 before:to-red-500 before:rounded-full before:-z-10 before:animate-[spin_6s_linear_infinite] transition-all duration-300 ${!animate && "overflow-hidden"}`}>
           <div className="flex flex-col">
             <h3 className="text-xl sm:text-3xl text-center font-bold">Transfer Files</h3>
-            <h2 className="text-zinc-400 text-xs text-[16px] text-center" >{"You Can Share Your File's Without Uploading It"}<span className="text-yellow-500">.</span></h2>
+            <h2 className="text-zinc-400 text-xs text-[16px] text-center" >{"No data required to transfer files if sender and receiver are on same network"}<span className="text-yellow-500">.</span></h2>
           </div>
 
           <div className="flex flex-col w-full px-2 sm:px-6 gap-1 sm:gap-4">
