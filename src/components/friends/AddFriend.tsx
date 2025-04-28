@@ -61,7 +61,7 @@ const AddFriend = () => {
             className="bg-amber-500 md:px-3 px-1 py-1 rounded duration-300 w-[100px] md:w-fit"
             type="submit"
             onClick={handleOnSubmit}
-          >{isLoading ? <span className='flex gap-1 items-center'>Send <Loader2 className="animate-spin size-4" /></span> : <span>Send <span className="init:hidden md:block">Request</span></span>}</button>
+          >{isLoading ? <span className='flex gap-1 items-center'>Sending <Loader2 className="animate-spin size-4" /></span> : <span className='flex flex-nowrap gap-1'>Send <span className="init:hidden md:block">Request</span></span>}</button>
         </div>
         {error && <p className="text-xs text-rose-500 font-semibold mt-1 ml-2">{error}</p>}
       </form>
